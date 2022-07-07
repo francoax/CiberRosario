@@ -49,7 +49,7 @@ public class PersonasDao {
 	
 	public void addUser(Persona per) {
 		
-		Persona p = null;
+		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
