@@ -1,14 +1,15 @@
 package servlet;
 
 import jakarta.servlet.ServletException;
-import entities.Persona;
-//import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import logic.Login;
 
 import java.io.IOException;
+
+import entities.Persona;
 
 /**
  * Servlet implementation class Signin
