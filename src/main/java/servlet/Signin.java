@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import logic.Login;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import entities.Persona;
 
@@ -49,8 +50,12 @@ public class Signin extends HttpServlet {
 		
 		p=ctrlLogin.validarPersona(p);
 		
+		if(Objects.isNull(p)){
+			response.getWriter().append("No existe el usuario");
+		}
+		else {
 		response.getWriter().append("Bienvenido ").append(p.getNombre()).append(" ").append(p.getApellido());
-		
+		}
 		
 		
 	}

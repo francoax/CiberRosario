@@ -1,5 +1,7 @@
 package entities;
 
+import java.sql.Date;
+
 public class Persona {
 	
 	private String dni;
@@ -7,9 +9,11 @@ public class Persona {
 	private String apellido;
 	private String email;
 	private String telefono;
-	private int edad;
+	private String fechanac;
+	private Roles rol;
 	private String username;
 	private String password;
+	private int idUsuario;
 	
 	public String getDni() {
 		return dni;
@@ -41,11 +45,17 @@ public class Persona {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	public int getEdad() {
-		return edad;
+	public String getFechanac() {
+		return fechanac;
 	}
-	public void setEdad(int edad) {
-		this.edad = edad;
+	public void setFechanac(String fechanac) {
+		this.fechanac = fechanac;
+	}
+	public Roles getRol() {
+		return rol;
+	}
+	public void setRol(Roles rol) {
+		this.rol = rol;
 	}
 	public String getUsername() {
 		return username;
@@ -59,5 +69,13 @@ public class Persona {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+	
+	
 
 }

@@ -2,30 +2,39 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta name="author" content="CiberRosario">
+<meta name="description" content="CiberRosario es una empresa dedicada a brindar el servicio de computadoras para jugar, desarrollar y stremear.">
+<meta name="keywords" content="ciber, rosario ciber, computadora ciber, ciber computadora, ciber torneo">
+<meta name="copyright" content="CiberRosario inc.">
+<title>CiberRosario</title>
+<link rel="stylesheet" type="text/css" href="styles/style.css">
+<link rel="stylesheet" type="text/css" href="styles/normalize.css">
 </head>
 <body>
 	<div>
 		<div>
-			<form action="" title="hola">
-				<label>DNI: </label>
-				<input type="text">
-				<label>Nombre: </label>
-				<input type="text">
-				<label>Apellido: </label>
-				<input type="text">
-				<label>Email: </label>
-				<input type="email">
-				<label>Telefono: </label>
-				<input type="tel">
-				<label>Fecha de nacimiento: </label>
-				<input type="date">
-				<label>Usuario: </label>
-				<input type="text">
-				<label>Contraseña: </label>
-				<input type="password">
+			<h1>Datos personales</h1>
+			<form action="signup" method="post" >
+				<label for="inputDNI">DNI: </label>
+				<input id="inputDNI" name="dni" type="text" required> <br>
+				<label for= "inputNombre">Nombre: </label>
+				<input id="inputNombre" name="nombre" type="text" required> <br>
+				<label for="inputApelldo" >Apellido: </label>
+				<input id="inputApellido" name="apellido" type="text" required> <br>
+				<label for="inputEmail">Email: </label>
+				<input id="inputEmail" name="email" type="email" required> <br>
+				<label for="inputTel">Telefono: </label>
+				<input id="inputTel" name="tel" type="tel" required> <br>
+				<label for="inputFnac">Fecha de nacimiento: </label>
+				<input id="inputFnac" name="fechanac" type="date" required> <br>
+				<p>Mediante este nombre vas a ser reconocido. (Tambien para los torneos)</p>
+				<label for="inputUser">Usuario: </label>
+				<input id="inputUser" name="user" type="text" required> <br>
+				<label for="inputPass">Contraseña: </label>
+				<input id="inputpass" name="password" type="password" required> <br>
 				<label>Repetir contraseña: </label>
-				<input type="password">
+				<input type="password" required> <br>
+				<input type="submit" value="Registrarse">
 			</form>
 		</div>
 	</div>

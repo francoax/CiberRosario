@@ -26,7 +26,7 @@ public class PersonasDao {
 				per.setApellido(rs.getString("apellido"));
 				per.setEmail(rs.getString("email"));
 				per.setTelefono(rs.getString("telefono"));
-				per.setEdad(rs.getInt("edad"));
+				
 			}
 			
 			
@@ -55,14 +55,14 @@ public class PersonasDao {
 		
 		try {
 			
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO personas (dni, nombre, apellido, email, telefono, edad, username, password) VALUES (?,?,?,?,?,?,?,?)");
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO personas (dni, nombre, apellido, email, telefono, fecha_de_nacimiento, username, password) VALUES (?,?,?,?,?,?,?,?)");
 			stmt.setString(1, per.getDni());
 			stmt.setString(2, per.getNombre());
 			stmt.setString(3, per.getApellido());
 			stmt.setString(3, per.getEmail());
 			stmt.setString(4, per.getEmail());
 			stmt.setString(5, per.getTelefono());
-			stmt.setInt(6, per.getEdad());
+			stmt.setString(6, per.getFechanac());
 			stmt.setString(7, per.getUsername());
 			stmt.setString(8, per.getPassword());
 			stmt.executeQuery();

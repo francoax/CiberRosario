@@ -6,6 +6,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+
+import data.PersonasDao;
+import entities.Persona;
 
 /**
  * Servlet implementation class Signup
@@ -34,7 +38,31 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		Persona per = new Persona();
+		PersonasDao pdao = new PersonasDao();
+		
+		String dni = request.getParameter("dni");
+		String nombre = request.getParameter("nombre");
+		String apellido = request.getParameter("apellido");
+		String email = request.getParameter("email");
+		String tel = request.getParameter("fechanac");
+		String fechanac = request.getParameter("fechanac");
+		String user = request.getParameter("user");
+		String password = request.getParameter("password");
+		
+		per.setDni(dni);
+		per.setNombre(nombre);
+		per.setApellido(apellido);
+		per.setEmail(email);
+		per.setTelefono(tel);
+		per.setFechanac(fechanac);
+		per.setUsername(user);
+		per.setPassword(password);
+		
+		pdao.addUser(per);
+		
+		response.getWriter().append("Registro completo ").append(per.getNombre()).append(". Bienvenido");
 	}
 
 }
