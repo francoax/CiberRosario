@@ -10,7 +10,7 @@ import logic.Login;
 import java.io.IOException;
 import java.util.Objects;
 
-import entities.Persona;
+import entities.Usuario;
 
 /**
  * Servlet implementation class Signin
@@ -40,7 +40,7 @@ public class Signin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		Persona p = new Persona();
+		Usuario p = new Usuario();
 		Login ctrlLogin = new Login();
 		String user = request.getParameter("user");
 		String password = request.getParameter("password");
@@ -49,13 +49,9 @@ public class Signin extends HttpServlet {
 		p.setPassword(password);
 		
 		p=ctrlLogin.validarPersona(p);
+		request.getSession().setAttribute("usuario", p);
 		
-		if(Objects.isNull(p)){
-			response.getWriter().append("No existe el usuario");
-		}
-		else {
-		response.getWriter().append("Bienvenido ").append(p.getNombre()).append(" ").append(p.getApellido());
-		}
+//		request.getRequestDispatcher("WEB-INF/UserManagment.jsp");
 		
 		
 	}

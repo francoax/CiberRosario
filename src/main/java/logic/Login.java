@@ -1,7 +1,7 @@
 package logic;
 
 import data.PersonasDao;
-import entities.Persona;
+import entities.Usuario;
 
 public class Login {
 	
@@ -12,7 +12,7 @@ public class Login {
 		pdao = new PersonasDao();
 	}
 	
-	public Persona validarPersona(Persona p) {
+	public Usuario validarPersona(Usuario p) {
 		
 		return pdao.getUser(p);
 		

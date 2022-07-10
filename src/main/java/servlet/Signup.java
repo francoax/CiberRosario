@@ -5,11 +5,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import logic.Register;
+
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import data.PersonasDao;
-import entities.Persona;
+import javax.swing.text.DateFormatter;
+
+import entities.Usuario;
 
 /**
  * Servlet implementation class Signup
@@ -39,30 +44,31 @@ public class Signup extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		Persona per = new Persona();
-		PersonasDao pdao = new PersonasDao();
 		
-		String dni = request.getParameter("dni");
+		Usuario newUser = new Usuario();
+		Register ctrl = new Register();
+		
 		String nombre = request.getParameter("nombre");
 		String apellido = request.getParameter("apellido");
+		LocalDate fechanac = LocalDate.parse(request.getParameter("fechanac"));
+		String dni = request.getParameter("dni");
 		String email = request.getParameter("email");
-		String tel = request.getParameter("fechanac");
-		String fechanac = request.getParameter("fechanac");
-		String user = request.getParameter("user");
+		String tel = request.getParameter("tel");
+		String username = request.getParameter("user");
 		String password = request.getParameter("password");
 		
-		per.setDni(dni);
-		per.setNombre(nombre);
-		per.setApellido(apellido);
-		per.setEmail(email);
-		per.setTelefono(tel);
-		per.setFechanac(fechanac);
-		per.setUsername(user);
-		per.setPassword(password);
+		newUser.setNombre(nombre);
+		newUser.setApellido(apellido);
+		newUser.setFecha_nacimiento(fechanac);
+		newUser.setDni(dni);
+		newUser.setEmail(email);
+		newUser.setTelefono(tel);
+		newUser.setUsername(username);
+		newUser.setPassword(password);
 		
-		pdao.addUser(per);
+		ctrl.registerUser(newUser);
 		
-		response.getWriter().append("Registro completo ").append(per.getNombre()).append(". Bienvenido");
+		response.sendRedirect("index.html");
+		
 	}
-
 }

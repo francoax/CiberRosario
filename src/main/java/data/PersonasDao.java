@@ -4,23 +4,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import entities.Persona;
+import entities.Usuario;
 public class PersonasDao {
 	
-	public Persona getUser(Persona p) {
+	public Usuario getUser(Usuario user) {
 		
-		Persona per = null;
+		Usuario per = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			
 			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM personas WHERE username=? and password=?");
-			stmt.setString(1, p.getUsername());
-			stmt.setString(2, p.getPassword());
+			stmt.setString(1, user.getUsername());
+			stmt.setString(2, user.getPassword());
 			rs = stmt.executeQuery();
+			
 			if(rs!=null && rs.next()) {
-				per = new Persona();
+				per = new Usuario();
 				per.setDni(rs.getString("dni"));
 				per.setNombre(rs.getString("nombre"));
 				per.setApellido(rs.getString("apellido"));
@@ -47,7 +48,7 @@ public class PersonasDao {
 	}
 	
 	
-	public void addUser(Persona per) {
+	public void addUser(Usuario newUser) {
 		
 		
 		PreparedStatement stmt = null;
@@ -55,17 +56,18 @@ public class PersonasDao {
 		
 		try {
 			
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO personas (dni, nombre, apellido, email, telefono, fecha_de_nacimiento, username, password) VALUES (?,?,?,?,?,?,?,?)");
-			stmt.setString(1, per.getDni());
-			stmt.setString(2, per.getNombre());
-			stmt.setString(3, per.getApellido());
-			stmt.setString(3, per.getEmail());
-			stmt.setString(4, per.getEmail());
-			stmt.setString(5, per.getTelefono());
-			stmt.setString(6, per.getFechanac());
-			stmt.setString(7, per.getUsername());
-			stmt.setString(8, per.getPassword());
-			stmt.executeQuery();
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO personas (username, password, dni, nombre, apellido, email, telefono, fecha_de_nacimiento) values (?,?,?,?,?,?,?,?)");
+			
+			stmt.setString(1, newUser.getUsername());
+			stmt.setString(2, newUser.getPassword());
+			stmt.setString(3, newUser.getNombre());
+			stmt.setString(4, newUser.getApellido());
+			stmt.setString(5, newUser.getDni());
+			stmt.setString(6, newUser.getEmail());
+			stmt.setString(7, newUser.getTelefono());
+			stmt.setObject(8, newUser.getFecha_nacimiento());
+			
+			stmt.executeUpdate();
 			
 			
 		} catch (SQLException e) {
