@@ -5,15 +5,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logic.Register;
+import jakarta.servlet.http.HttpSession;
+import logic.Rollogic;
+import logic.Userlogic;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
-import javax.swing.text.DateFormatter;
-
+import entities.Rol;
 import entities.Usuario;
 
 /**
@@ -35,7 +34,9 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+//		request.getSession().getAttribute("user");
+		request.getRequestDispatcher("./signup.jsp").forward(request, response);
 	}
 
 	/**
@@ -43,32 +44,49 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		
-		Usuario newUser = new Usuario();
-		Register ctrl = new Register();
-		
-		String nombre = request.getParameter("nombre");
-		String apellido = request.getParameter("apellido");
-		LocalDate fechanac = LocalDate.parse(request.getParameter("fechanac"));
-		String dni = request.getParameter("dni");
-		String email = request.getParameter("email");
-		String tel = request.getParameter("tel");
-		String username = request.getParameter("user");
-		String password = request.getParameter("password");
-		
-		newUser.setNombre(nombre);
-		newUser.setApellido(apellido);
-		newUser.setFecha_nacimiento(fechanac);
-		newUser.setDni(dni);
-		newUser.setEmail(email);
-		newUser.setTelefono(tel);
-		newUser.setUsername(username);
-		newUser.setPassword(password);
-		
-		ctrl.registerUser(newUser);
-		
-		response.sendRedirect("index.html");
-		
+		// Casteo todos los parametros
+			
+			Usuario u = new Usuario();
+			Userlogic uctrl = new Userlogic();
+			String email = request.getParameter("email");
+			u.setEmail(email);
+			//Verifico si ese usuario ya existe. Si no es nulo, mando mensaje y redirijo. Si es nulo, quiere decir que no existe, entonces registro.
+			if(uctrl.validateExist(u)!=null) {
+				request.setAttribute("msg", "Este usuario ya existe.");
+				request.getRequestDispatcher("signup.jsp").forward(request, response);
+			} else {
+				String password = request.getParameter("password");
+				String nombre = request.getParameter("nombre");
+				String apellido = request.getParameter("apellido");
+				String dni = request.getParameter("dni");
+				LocalDate fechanac = LocalDate.parse(request.getParameter("fechanac"));
+				String tel = request.getParameter("tel");
+				String user = request.getParameter("user");
+				String typeuser = request.getParameter("typeuser");
+					
+				Rol r = new Rol();
+				Rollogic rctrl = new Rollogic();
+				// Mapeo los parametros
+				u.setPassword(password);
+				u.setNombre(nombre);
+				u.setApellido(apellido);
+				u.setDni(dni);
+				u.setFecha_nacimiento(fechanac);
+				u.setTelefono(tel);
+				u.setUsername(user);
+				// En caso de que sea el administrador quien defina el usuario, verifico.
+				if(typeuser!=null) {
+					r = rctrl.getRol(typeuser);
+					u.setRol(r);
+				} else { // Si quien esta creando una cuenta es alguien completamente nuevo.
+					r = rctrl.getRol("user");
+					u.setRol(r);
+				}
+				// Agrego al usuario con todos los datos.
+				uctrl.adduser(u);
+				request.setAttribute("msg", "Registro completado");
+				request.getRequestDispatcher("signup.jsp").forward(request, response);
+			}
 	}
+
 }

@@ -1,6 +1,6 @@
 package entities;
 
-public class Tipo_Computadora {
+public class TypePc {
 	
 	private String idTipoComputadora;
 	private String descripcion;

@@ -1,11 +1,12 @@
 package entities;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+
 public class Usuario {
 	
+	private int id;
 	private LocalDate fecha_nacimiento;
 	private String dni;
 	private String nombre;
@@ -16,6 +17,12 @@ public class Usuario {
 	private String username;
 	private String password;	
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public LocalDate getFecha_nacimiento() {
 		return fecha_nacimiento;
 	}
@@ -52,12 +59,6 @@ public class Usuario {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	public Rol getRol() {
-		return rol;
-	}
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -70,6 +71,12 @@ public class Usuario {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public Rol getRol() {
+		return rol;
+	}
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
 
 }

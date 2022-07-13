@@ -1,6 +1,5 @@
-<%@page import="entities.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,10 +14,26 @@
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
 	<link rel="stylesheet" type="text/css" href="styles/normalize.css">
 	
-	<%
-		Usuario p = (Usuario) session.getAttribute("usuario");
-		%>
+	
 </head>
 <body>
+	<div>
+		<h1>Iniciar sesion</h1>
+		<h2>Completa los campos.</h2>
+		<form id="form-login" action="login" method="post">
+				<p class="error">${error}</p>
+				<label for="username" class="labels">Email: </label>
+				<input id="username" type="text" name="email" placeholder="example@example.com" required> <br>
+
+
+				<label for="password" class="labels">Password: </label>
+				<input id="password" type="password" name="password" placeholder="password" required>
+
+				<input id="btn form-login" type="submit" value="Enviar">
+				<p>No estas registrado? <a href="signup.jsp">Registrarse</a></p>
+		</form>
+	</div>
+	<a href="index.jsp">Volver</a>
+	
 </body>
 </html>

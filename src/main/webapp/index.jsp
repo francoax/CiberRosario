@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,25 +11,21 @@
 	<meta name="keywords" content="ciber, rosario ciber, computadora ciber, ciber computadora, ciber torneo">
 	<meta name="copyright" content="CiberRosario inc.">
 	<title>CiberRosario</title>
+	<link rel="icon" href="images/pc.gif">
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
 	<link rel="stylesheet" type="text/css" href="styles/normalize.css">
 </head>
 <body>
-
-	<div>
-		<form id="form-login" action="signin" method="post">
-				<input type="date" name="fecha">
-			<div class="form-section">
-				<label for="username" class="labels">Username: </label>
-				<input id="username" type="text" name="user" placeholder="username" required> <br>
-			</div>
-			<div class="form-section">
-				<label for="password" class="labels">Password: </label>
-				<input id="password" type="password" name="password" placeholder="password" required>
-			</div>
-				<input id="btn form-login" type="submit" value="Enviar">
-				<p>Deseas registrarte? <a href="signup.html">Registrarse</a></p>
-		</form>
-	</div>
+	<header>
+		<nav>
+			<ul>
+				<li><a href="index.html"><img alt="Logo CiberRosario" src="images/ordenador.png"></a></li>
+				<li><a href="index.html">Inicio</a></li>
+				<li><a href="reservation.html">Realizar reserva</a></li>
+				<li><a href="torneos.html">Torneos</a></li>
+				<li><a href="login.jsp"><img id="userlogo" alt="logo usuario" src="images/carne-de-identidad.gif">Iniciar sesion</a></li>
+			</ul>
+		</nav>
+	</header>
 </body>
 </html>
