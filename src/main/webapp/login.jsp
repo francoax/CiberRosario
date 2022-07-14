@@ -11,29 +11,41 @@
 	<meta name="keywords" content="ciber, rosario ciber, computadora ciber, ciber computadora, ciber torneo">
 	<meta name="copyright" content="CiberRosario inc.">
 	<title>CiberRosario</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
-	<link rel="stylesheet" type="text/css" href="styles/normalize.css">
+	<!-- <link rel="stylesheet" type="text/css" href="styles/normalize.css">-->
 	
 	
 </head>
 <body>
-	<div>
-		<h1>Iniciar sesion</h1>
-		<h2>Completa los campos.</h2>
-		<form id="form-login" action="login" method="post">
-				<p class="error">${error}</p>
-				<label for="username" class="labels">Email: </label>
-				<input id="username" type="text" name="email" placeholder="example@example.com" required> <br>
-
-
-				<label for="password" class="labels">Password: </label>
-				<input id="password" type="password" name="password" placeholder="password" required>
-
-				<input id="btn form-login" type="submit" value="Enviar">
-				<p>No estas registrado? <a href="signup.jsp">Registrarse</a></p>
+	<div class="container">
+		<form class="box" action="login" method="post">
+			<div class="field">
+				<label class="label">Email</label>
+				<div class="control has-icons-left">
+					<input class="input" type="email" required="required" placeholder="tuemail@example.com" name="email">
+					<span class="icon is-small is-left">
+						<i class="fas fa-envelope"></i>
+					</span>
+				</div>
+				<p class="help">Ingresa tu correo</p>
+			</div>
+			<div class="field">
+				<label class="label">Password</label>
+				<div class="control has-icons-left">
+					<input class="input" type="password" required="required" placeholder="password" name="password">
+					<span class="icon is-small is-left">
+						<i class="fas fa-user"></i>
+					</span>
+				</div>
+				<p class="help">Ingresa tu contraseña</p>
+			<div class="field">
+				<div class="control">
+					<input class="button" type="submit" value="Ingresar">
+				</div>
+			</div>
+			</div>
 		</form>
 	</div>
-	<a href="index.jsp">Volver</a>
-	
 </body>
 </html>

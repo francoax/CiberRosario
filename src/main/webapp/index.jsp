@@ -12,17 +12,23 @@
 	<meta name="copyright" content="CiberRosario inc.">
 	<title>CiberRosario</title>
 	<link rel="icon" href="images/pc.gif">
+	<link rel="stylesheet" type="text/css" href="styles/bulma.min.css">
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
 	<link rel="stylesheet" type="text/css" href="styles/normalize.css">
 </head>
 <body>
+	<section class="">
+		<div class="container">
+			<h1 class="title">Hello world</h1>
+		</div>
+	</section>
 	<header>
 		<nav>
 			<ul>
-				<li><a href="index.html"><img alt="Logo CiberRosario" src="images/ordenador.png"></a></li>
-				<li><a href="index.html">Inicio</a></li>
-				<li><a href="reservation.html">Realizar reserva</a></li>
-				<li><a href="torneos.html">Torneos</a></li>
+				<li><a href="index.jsp"><img alt="Logo CiberRosario" src="images/ordenador.png"></a></li>
+				<li><a href="index.jsp">Inicio</a></li>
+				<li><a href="index.jsp">Realizar reserva</a></li>
+				<li><a href="index.jsp">Torneos</a></li>
 				<li><a href="login.jsp"><img id="userlogo" alt="logo usuario" src="images/carne-de-identidad.gif">Iniciar sesion</a></li>
 			</ul>
 		</nav>
