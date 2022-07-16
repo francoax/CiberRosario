@@ -8,7 +8,7 @@ public class Computadora {
 	private String ram;
 	private String procesador;
 	private String storage;
-	private String idTipoComputadora;
+	private TypePc tipo;
 	private String estado;
 	
 	public int getIdComputadora() {
@@ -47,11 +47,11 @@ public class Computadora {
 	public void setStorage(String storage) {
 		this.storage = storage;
 	}
-	public String getIdTipoComputadora() {
-		return idTipoComputadora;
+	public TypePc getTipo() {
+		return tipo;
 	}
-	public void setIdTipoComputadora(String idTipoComputadora) {
-		this.idTipoComputadora = idTipoComputadora;
+	public void setTipo(TypePc tipo) {
+		this.tipo = tipo;
 	}
 	public String getEstado() {
 		return estado;

@@ -1,6 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="ISO-8859-1"%>
+<%@page import="entities.Usuario"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+	<%
+		Usuario user = (Usuario) session.getAttribute("user");
+	%>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -11,11 +15,9 @@
 	<meta name="keywords" content="ciber, rosario ciber, computadora ciber, ciber computadora, ciber torneo">
 	<meta name="copyright" content="CiberRosario inc.">
 	<title>CiberRosario</title>
+	<link rel="icon" href="images/pc.gif">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-	<link rel="stylesheet" type="text/css" href="styles/style.css">
-	<!-- <link rel="stylesheet" type="text/css" href="styles/normalize.css">-->
-	
-	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
 	<header class="container" style="margin-top: 20px; border-bottom: 2px solid black;">
@@ -39,6 +41,25 @@
 				</div>
 				<div class="navbar-end">
 					<div class="navbar-item">
+					<%if(user!=null&&user.getRol().getIdRol()==1) { %>
+						<div class="buttons">
+							<a class="button is-warning" href="">
+								<strong>Mi perfil</strong>
+							</a>
+							<a class="button" href="logout">
+								Cerrar sesion
+							</a>
+						</div>
+					<%} else if(user!=null&&user.getRol().getIdRol()==2){ %>
+						<div class="buttons">
+							<a class="button is-warning" href="signup.jsp">
+								<strong>options in comming</strong>
+							</a>
+							<a class="button" href="logout">
+								Cerrar sesion
+							</a>
+						</div>
+					<%} else {%>
 						<div class="buttons">
 							<a class="button is-warning" href="signup.jsp">
 								<strong>Registrarse</strong>
@@ -47,39 +68,11 @@
 								Iniciar Sesion<img alt="logologin" src="images/loginlogo.gif">
 							</a>
 						</div>
+					<%} %>
 					</div>
 				</div>
 			</div>
 		</nav>
 	</header>
-	<div class="container">
-		<form class="box" action="login" method="post">
-			<div class="field">
-				<label class="label">Email</label>
-				<div class="control has-icons-left">
-					<input class="input" type="email" required="required" placeholder="tuemail@example.com" name="email">
-					<span class="icon is-small is-left">
-						<i class="fas fa-envelope"></i>
-					</span>
-				</div>
-				<p class="help">Ingresa tu correo</p>
-			</div>
-			<div class="field">
-				<label class="label">Password</label>
-				<div class="control has-icons-left">
-					<input class="input" type="password" required="required" placeholder="password" name="password">
-					<span class="icon is-small is-left">
-						<i class="fas fa-user"></i>
-					</span>
-				</div>
-				<p class="help">Ingresa tu contraseña</p>
-			<div class="field">
-				<div class="control">
-					<input class="button" type="submit" value="Ingresar">
-				</div>
-			</div>
-			</div>
-		</form>
-	</div>
 </body>
 </html>
