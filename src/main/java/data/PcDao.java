@@ -19,8 +19,16 @@ public class PcDao {
 		Computadora pc = null;
 		try {
 			
+		} catch (Exception e) {
+			// TODO: handle exception
 		} finally {
-			// TODO: handle finally clause
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		
@@ -77,7 +85,7 @@ public class PcDao {
 		
 		try {
 			
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT count(c.idComputadora) FROM computadoras c INNER JOIN pcs_tipos tpc ON c.idComputadora = tpc.idComputadora WHERE tpc.idTipoComputadora = ?");
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM computadoras WHERE idTipoComputadora = ? and estado = ?");
 			stmt.setString(1, tpc.getIdTipoComputadora());
 			rs = stmt.executeQuery();
 			if(rs!=null&&rs.next()) {
@@ -88,7 +96,72 @@ public class PcDao {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return cant;
+	}
+	
+	public Computadora findOneavailable(TypePc tpc) {
+		
+		Computadora pc = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		try {
+			
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM computadoras WHERE idTipoComputadora = ? and estado = ?");
+			stmt.setString(1, tpc.getIdTipoComputadora());
+			stmt.setString(2, "disponible");
+			rs = stmt.executeQuery();
+			if(rs!=null&&rs.next()) {
+				pc = new Computadora();
+				pc.setIdComputadora(rs.getInt("idComputadora"));
+				pc.setPlaca_de_video(rs.getString("placa_de_video"));
+				pc.setPlaca_madre(rs.getString("placa_madre"));
+				pc.setRam(rs.getString("ram"));
+				pc.setStorage(rs.getString("storage"));
+				pc.setProcesador(rs.getString("procesador"));
+				pc.setEstado(rs.getString("estado"));
+				pc.setTipo(tpc);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return pc;
+	}
+	
+	public void setEstado(Computadora pc, String estado) {
+		
+		PreparedStatement stmt = null;
+		try {
+			
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("UPDATE computadoras SET estado = ? WHERE idComputadora = ?");
+			stmt.setString(1, estado);
+			stmt.setInt(2, pc.getIdComputadora());
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

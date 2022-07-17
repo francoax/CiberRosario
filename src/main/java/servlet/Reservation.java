@@ -62,7 +62,13 @@ public class Reservation extends HttpServlet {
 		
 		
 		String tipo = request.getParameter("tipo");
-		
+		Pclogic pctrl = new Pclogic();
+		Tpclogic tpctrl = new Tpclogic();
+		Computadora pc = new Computadora();
+		pc = pctrl.selectForreserve(tpctrl.getOne(tipo));
+		pctrl.changeMood(pc, "seleccionada");
+		request.setAttribute("pc", pc);
+		request.getRequestDispatcher("saving.jsp").forward(request, response);
 	}
 
 }

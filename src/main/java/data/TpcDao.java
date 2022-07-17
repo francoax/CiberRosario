@@ -2,6 +2,7 @@ package data;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import entities.Computadora;
 import entities.TypePc;
@@ -24,7 +25,7 @@ public class TpcDao {
 //		return tpc;
 //	}
 	
-	public TypePc getByDesc (String desc) {
+	public TypePc getByDesc(String desc) {
 		
 		TypePc tpc = null;
 		ResultSet rs = null;
@@ -40,6 +41,14 @@ public class TpcDao {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return tpc;
 	}
@@ -60,6 +69,14 @@ public class TpcDao {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return tpc;
 	}

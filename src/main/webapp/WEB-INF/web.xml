@@ -49,4 +49,24 @@
     <servlet-name>Login</servlet-name>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CancelReserve</display-name>
+    <servlet-name>CancelReserve</servlet-name>
+    <servlet-class>servlet.CancelReserve</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CancelReserve</servlet-name>
+    <url-pattern>/cancel</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SaveReserve</display-name>
+    <servlet-name>SaveReserve</servlet-name>
+    <servlet-class>servlet.SaveReserve</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SaveReserve</servlet-name>
+    <url-pattern>/save</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -25,4 +25,13 @@ public class Pclogic {
 		return pcdao.countAvailable(tpc);
 	}
 	
+	public Computadora selectForreserve (TypePc tpc) {
+		
+		return pcdao.findOneavailable(tpc);
+	}
+	
+	public void changeMood(Computadora pc, String estado) {
+		
+		pcdao.setEstado(pc,estado);
+	}
 }
