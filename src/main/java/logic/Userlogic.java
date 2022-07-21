@@ -27,7 +27,7 @@ public class Userlogic {
 	
 	public Usuario validateExist (Usuario u) {
 		
-		return udao.getByEmail(u);
+		return udao.exist(u);
 	}
 		
 	

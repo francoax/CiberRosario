@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalTime;
 
 /**
  * Servlet implementation class SaveReserve
@@ -34,7 +35,16 @@ public class SaveReserve extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		LocalTime horadesde = LocalTime.parse(request.getParameter("horadesde"));
+		LocalTime horahasta = LocalTime.parse(request.getParameter("horahasta"));
+		if(horadesde.getHour()-horahasta.getHour()<=8) {
+			request.setAttribute("msgerror", "El rango de horas no debe superar las 8 horas.");
+			request.getRequestDispatcher("saving.jsp").forward(request, response);
+		}
+		System.out.println(horadesde+" "+horahasta);
+		
+		
 	}
 
 }

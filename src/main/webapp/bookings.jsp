@@ -37,7 +37,7 @@
 			<h1 class="title is-5">Por cuantas horas puedo reservar una computadora?</h1>
 			<p class="pb pb-5">Podes reservarla por hasta un maximo de 8 horas en el dia dentro de nuestro horario de apertura y clausura del local.</p>
 			<h1 class="title is-5">Entre que horarios puedo reservar?</h1>
-			<p class="pb pb-5">Podes reservar entre las 8:00am hasta las 00:00pm de lunes a viernes.</p>
+			<p class="pb pb-5">Podes reservar de 8:00am a 23:00pm de lunes a viernes.</p>
 			<div class="buttons">
 			<%if(user!=null) {%>
 			<form action="reservation" method="get">

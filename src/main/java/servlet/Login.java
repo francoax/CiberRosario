@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
 		user = uctrl.validateuser(user);
 		// Valido si existe el usuario. Si no es nulo, guardo session y redirijo.
 		if(user!=null) {
-			request.getSession().setAttribute("user", user);
+			request.getSession(true).setAttribute("user", user);
 			response.sendRedirect("index.jsp");
 		} else {
 			request.setAttribute("error", "Usuario y/o contraseña incorrectos.");

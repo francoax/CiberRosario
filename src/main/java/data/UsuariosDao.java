@@ -49,7 +49,7 @@ public class UsuariosDao {
 		return u;
 	}
 	
-	public Usuario getByEmail(Usuario user) {
+	public Usuario exist(Usuario user) {
 		
 		Usuario u = null;
 		ResultSet rs = null;
@@ -81,15 +81,13 @@ public class UsuariosDao {
 	// Agrega a la db nuevo usuario.
 	public void add(Usuario newUser) {
 
-		RolesDao rd = new RolesDao();
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
 		
 		try {
 			
 			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO usuarios "
-					+ "(username, password, nombre, apellido, dni, email, fecha_de_nacimiento, telefono)"
-					+ " values (?,?,?,?,?,?,?,?)",
+					+ "(username, password, nombre, apellido, dni, email, fecha_de_nacimiento, telefono, idRol)"
+					+ " values (?,?,?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, newUser.getUsername());
 			stmt.setString(2, newUser.getPassword());
@@ -99,12 +97,8 @@ public class UsuariosDao {
 			stmt.setString(6, newUser.getEmail());
 			stmt.setObject(7, newUser.getFecha_nacimiento());
 			stmt.setString(8, newUser.getTelefono());
+			stmt.setInt(9, newUser.getRol().getIdRol());
 			stmt.executeUpdate();
-			rs = stmt.getGeneratedKeys();
-			if(rs!=null&&rs.next()) {
-				newUser.setId(rs.getInt(1));
-				rd.addRol(newUser);
-			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

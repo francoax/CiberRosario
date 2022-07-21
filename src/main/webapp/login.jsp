@@ -12,46 +12,13 @@
 	<meta name="copyright" content="CiberRosario inc.">
 	<title>CiberRosario</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-	<link rel="stylesheet" type="text/css" href="styles/style.css">
-	<!-- <link rel="stylesheet" type="text/css" href="styles/normalize.css">-->
-	
-	
+	<script src="https://www.w3schools.com/lib/w3.js"></script>
 </head>
 <body>
-	<header class="container" style="margin-top: 20px; border-bottom: 2px solid black;">
-		<nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
-			<div class="navbar-brand">
-				<a href="index.jsp" class="navbar-item">
-					<img alt="logociberrosario" src="images/ordenador.png">
-				</a>
-			</div>
-			<div class="navbar-menu">
-				<div class="navbar-start">
-					<a href="index.jsp" class="navbar-item">
-						Inicio
-					</a>
-					<a href="bookings.jsp" class="navbar-item">
-						Reservas
-					</a>
-					<a href="torneos.jsp" class="navbar-item">
-						Torneos
-					</a>
-				</div>
-				<div class="navbar-end">
-					<div class="navbar-item">
-						<div class="buttons">
-							<a class="button is-warning" href="signup.jsp">
-								<strong>Registrarse</strong>
-							</a>
-							<a class="button" href="login.jsp">
-								Iniciar Sesion<img alt="logologin" src="images/loginlogo.gif">
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</nav>
-	</header>
+	<div w3-include-html="menu.jsp"></div>
+	<script type="text/javascript">
+		w3.includeHTML();
+	</script>
 	<div class="container">
 		<form class="box" action="login" method="post">
 			<div class="field">

@@ -12,13 +12,28 @@ import entities.TypePc;
 
 public class PcDao {
 	
-	public Computadora getOne() {
+	public Computadora getById(int id) {
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Computadora pc = null;
+		TpcDao tdao = new TpcDao();
 		try {
 			
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM computadoras WHERE idComputadora = ?");
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			if(rs!=null&&rs.next()) {
+				pc = new Computadora();
+				pc.setIdComputadora(rs.getInt("idComputadora"));
+				pc.setPlaca_madre(rs.getString("placa_madre"));
+				pc.setPlaca_de_video(rs.getString("placa_de_video"));
+				pc.setRam(rs.getString("ram"));
+				pc.setStorage(rs.getString("storage"));
+				pc.setProcesador(rs.getString("procesador"));
+				pc.setEstado(rs.getString("estado"));
+				pc.setTipo(tdao.findType(pc));
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		} finally {
@@ -30,39 +45,30 @@ public class PcDao {
 				e.printStackTrace();
 			}
 		}
-		
-		
 		return pc;
 	}
 	
-	public LinkedList<Computadora> findAllavailable(TypePc tpc) {
+	public Computadora getOne(TypePc tpc) {
 		
-		LinkedList<Computadora> pcs = null;
-		TpcDao tpcdao;
-		Computadora pc = null;
-		ResultSet rs = null;
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Computadora pc = null;
 		try {
 			
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM computadoras WHERE idTipoComputadora = ? and estado = ?");
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM computadoras WHERE idTipoComputadora LIKE ?");
 			stmt.setString(1, tpc.getIdTipoComputadora());
-			stmt.setString(2, "disponible");
 			rs = stmt.executeQuery();
 			if(rs!=null&&rs.next()) {
-				pcs = new LinkedList<Computadora>();
 				pc = new Computadora();
-				tpcdao = new TpcDao();
 				pc.setIdComputadora(rs.getInt("idComputadora"));
-				pc.setPlaca_de_video(rs.getString("placa_madre"));
+				pc.setPlaca_madre(rs.getString("placa_madre"));
 				pc.setPlaca_de_video(rs.getString("placa_de_video"));
 				pc.setRam(rs.getString("ram"));
-				pc.setProcesador(rs.getString("procesador"));
 				pc.setStorage(rs.getString("storage"));
-				//pc.setTipo(tpcdao.findType(pc));
+				pc.setProcesador(rs.getString("procesador"));
 				pc.setEstado(rs.getString("estado"));
-				pcs.add(pc);
+				pc.setTipo(tpc);
 			}
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 		} finally {
@@ -74,7 +80,7 @@ public class PcDao {
 				e.printStackTrace();
 			}
 		}
-		return pcs;
+		return pc;
 	}
 
 	public int countAvailable(TypePc tpc) {
@@ -87,9 +93,9 @@ public class PcDao {
 			
 			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM computadoras WHERE idTipoComputadora = ? and estado = ?");
 			stmt.setString(1, tpc.getIdTipoComputadora());
+			stmt.setString(2, "disponible");
 			rs = stmt.executeQuery();
-			if(rs!=null&&rs.next()) {
-				rs.first();
+			if(rs!=null) {
 				while(rs.next()) {
 					cant++;
 				}

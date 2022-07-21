@@ -1,3 +1,5 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="java.time.LocalTime"%>
 <%@page import="entities.Computadora"%>
 <%@page import="entities.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -9,6 +11,10 @@
 			response.sendRedirect("login.jsp");
 		} else {
 		Computadora pc = (Computadora) request.getAttribute("pc");
+		String para = (String) request.getAttribute("for");
+		LocalTime actual = LocalTime.now();
+		int hactual = actual.getHour();
+		int[] horas = {8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
 	%>
 <html>
 <head>
@@ -25,13 +31,80 @@
     <script src="https://www.w3schools.com/lib/w3.js"></script>
 </head>
 <body>
-	<div w3-include-html="menu.jsp"></div>
-	<script type="text/javascript">
-		w3.includeHTML();
-	</script>
-	<form action="cancel" method="get">
-		
-	</form>
+	<div class="container">
+		<h1 class="title is-5">Reserva por computadora <%=pc.getTipo().getDescripcion().toUpperCase() %> para HOY</h1>
+		<div class="container">
+			<%if(para.contains("hoy")){%>
+			<form action="save" method="post">
+				<label class="label">Indique hora desde y hora hasta</label>
+				<p style="color: red;" >${msgerror}</p>
+				<div class="field">
+					<div class="select">
+						<select name="horadesde">
+							<option selected>Desde</option>
+							<%
+							for (int i : horas) {
+								if(hactual<=i&&i!=23) {
+									LocalTime hdesde = LocalTime.of(i, 0);
+									%> <option value="<%=hdesde %>"><%=hdesde %></option> <%
+								}
+							}%>
+						</select>
+					</div>
+					<div class="select">
+						<select name="horahasta">
+							<option selected>Hasta</option>
+							<%
+							for (int j : horas){
+								if(hactual<j){
+									LocalTime hhasta = LocalTime.of(j, 0);
+									%> <option value="<%=hhasta %>" ><%=hhasta %></option> <%
+								}
+							}
+							%>
+						</select>
+					</div>
+				</div>
+				<input type="submit" value="Reservar">
+				<input type="hidden" name="reserve" value="today">
+			</form>
+			<%} else { %>
+			<form action="save" method="post">
+				<label class="label">Indique hora desde y hora hasta</label>
+				<p style="color: red;" >${msgerror}</p>
+				<div class="field">
+					<div class="select">
+						<select name="horadesde">
+							<option selected>Desde</option>
+							<%
+							for (int i : horas) {
+								LocalTime hdesde = LocalTime.of(i, 0);
+								%> <option value="<%=hdesde %>"><%=hdesde %></option> <%
+							}%>
+						</select>
+					</div>
+					<div class="select">
+						<select name="horahasta">
+							<option selected>Hasta</option>
+							<%
+							for (int j : horas){
+								LocalTime hhasta = LocalTime.of(j, 0);
+								%> <option value="<%=hhasta %>" ><%=hhasta %></option> <%
+							}
+							%>
+						</select>
+					</div>
+				</div>
+				<input type="submit" value="Reservar">
+				<input type="hidden" name="reserve" value="tomorrow">
+			</form>
+			<%} %>
+		</div>
+		<form action="cancel" method="get">
+			<input type="submit" value="Cancelar">
+			<input type="hidden" name="pc" value="<%=pc.getIdComputadora() %>">
+		</form>
+	</div>
 </body>
 </html>
 <%}%>

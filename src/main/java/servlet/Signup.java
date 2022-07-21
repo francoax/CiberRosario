@@ -52,7 +52,7 @@ public class Signup extends HttpServlet {
 			u.setEmail(email);
 			//Verifico si ese usuario ya existe. Si no es nulo, mando mensaje y redirijo. Si es nulo, quiere decir que no existe, entonces registro.
 			if(uctrl.validateExist(u)!=null) {
-				request.setAttribute("msg", "Este usuario ya existe.");
+				request.setAttribute("msg", "El mail ingresado ya esta asociado a una cuenta.");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			} else {
 				String password = request.getParameter("password");
