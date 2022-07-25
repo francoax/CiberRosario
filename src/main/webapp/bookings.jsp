@@ -35,7 +35,7 @@
 			<h1 class="title is-5">Como se abona una reserva?</h1>
 			<p class="pb pb-5">Las reservas son abonadas en efectivo en el local, aun si realizaste la reserva de manera online.</p>
 			<h1 class="title is-5">Por cuantas horas puedo reservar una computadora?</h1>
-			<p class="pb pb-5">Podes reservarla por hasta un maximo de 8 horas en el dia dentro de nuestro horario de apertura y clausura del local.</p>
+			<p class="pb pb-5">Podes reservarla por las horas que quieras, no hay un limite, eso si, si excede las 8 horas, se te cobrara un porcentaje de mas.</p>
 			<h1 class="title is-5">Entre que horarios puedo reservar?</h1>
 			<p class="pb pb-5">Podes reservar de 8:00am a 23:00pm de lunes a viernes.</p>
 			<div class="buttons">

@@ -83,9 +83,9 @@ public class Reservation extends HttpServlet {
 			String para = request.getParameter("for");
 			pc = pctrl.selectToReserve(tpctrl.getOne(tipo));
 			pctrl.changeMood(pc, "seleccionada");
-			request.setAttribute("pc", pc);
-			request.setAttribute("para", para);
-			request.getRequestDispatcher("saving.jsp").forward(request, response);
+			request.getSession().setAttribute("pc", pc);
+			request.getSession().setAttribute("para", para);
+			request.getRequestDispatcher("/servlet/SaveReserve").include(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", "Ya no existen computadoras disponibles de este tipo. Disculpe las molestias.");
 			response.sendRedirect("bookings.jsp");

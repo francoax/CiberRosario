@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalTime;
 
+import entities.Computadora;
+
 /**
  * Servlet implementation class SaveReserve
  */
@@ -38,11 +40,12 @@ public class SaveReserve extends HttpServlet {
 		
 		LocalTime horadesde = LocalTime.parse(request.getParameter("horadesde"));
 		LocalTime horahasta = LocalTime.parse(request.getParameter("horahasta"));
-		if(horadesde.getHour()-horahasta.getHour()<=8) {
-			request.setAttribute("msgerror", "El rango de horas no debe superar las 8 horas.");
+		String type = request.getParameter("reserve");
+		request.getRequestDispatcher("saving.jsp").forward(request, response);
+		if(horadesde.getHour()>=horahasta.getHour()) {
+			request.setAttribute("msgerror", "Establezca un rango horario valido.");
 			request.getRequestDispatcher("saving.jsp").forward(request, response);
 		}
-		System.out.println(horadesde+" "+horahasta);
 		
 		
 	}

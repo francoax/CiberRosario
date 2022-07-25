@@ -1,7 +1,6 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
-<%@page import="java.time.LocalTime"%>
-<%@page import="entities.Computadora"%>
 <%@page import="entities.Usuario"%>
+<%@page import="entities.Computadora"%>
+<%@page import="java.time.LocalTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,35 +30,7 @@
     <script src="https://www.w3schools.com/lib/w3.js"></script>
 </head>
 <body>
-	<div class="container">
-		<form action="save" method="post">
-			<div w3-include-html="rangohoras.jsp"></div>
-			<script type="text/javascript">
-				w3.includeHTML();
-			</script>
-			<%if(pc.getTipo().getDescripcion().equals("gamer")) {
-				%> <div w3-include-html="formGamer.jsp"></div>
-					<script type="text/javascript">
-						w3.includeHTML().
-					</script> <%
-			} else if(pc.getTipo().getDescripcion().equals("streamer")) {
-				%> <div w3-include-html="formStreamer.jsp"></div>
-					<script type="text/javascript">
-						w3.includeHTML();
-					</script> <%
-			} else { 
-				%> <div w3-include-html="formWork.jsp"></div> 
-					<script type="text/javascript">
-						w3.includeHTML();
-					</script>
-				<%
-			}%>
-			<div class="buttons">
-				<input type="submit" class="button is-success is-rounded" value="Reservar">
-				<input type="submit" class="button is-danger is-rounded" value="Cancelar">
-			</div>
-		</form>	
-	</div>
+	<h1>gamer</h1>
 </body>
 </html>
 <%}%>

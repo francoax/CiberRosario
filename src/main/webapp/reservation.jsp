@@ -58,8 +58,8 @@
 							<%if(amountg!=0){ %>
 							<div class="mt mt-5">
 								<form action="reservation" method="post">
-									<input type="submit" class="button has-text-white is-rounded" style="background-color: #2E4053; " value="Reservar para hoy">	
-									<input type="submit" class="button has-text-white is-rounded" style="background-color: #4D5656 ;" value="Reservar para mañana">	
+									<input type="submit" class="button has-text-white is-rounded" name="for" style="background-color: #2E4053; " value="Reservar para hoy">	
+									<input type="submit" class="button has-text-white is-rounded" name="for" style="background-color: #4D5656 ;" value="Reservar para mañana">	
 									<input type="hidden" name="tipo" value="gamer">
 								</form>
 							</div>
@@ -93,8 +93,8 @@
 							<%if(amounts!=0){ %>
 							<div class="mt mt-5">
 								<form action="reservation" method="post">
-									<input type="submit" class="button has-text-white is-rounded" style="background-color: #2E4053; " value="Reservar para hoy">	
-									<input type="submit" class="button has-text-white is-rounded" style="background-color: #4D5656 ;" value="Reservar para mañana">	
+									<input type="submit" class="button has-text-white is-rounded" name="for" style="background-color: #2E4053; " value="Reservar para hoy">	
+									<input type="submit" class="button has-text-white is-rounded" name="for" style="background-color: #4D5656 ;" value="Reservar para mañana">	
 									<input type="hidden" name="tipo" value="streamer">
 								</form>
 							</div>

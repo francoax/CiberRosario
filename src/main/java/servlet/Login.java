@@ -5,9 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import logic.Userlogic;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import entities.Usuario;
 
@@ -39,22 +41,27 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		Usuario user = new Usuario();
-		Userlogic uctrl = new Userlogic();
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		
-		user.setEmail(email);
-		user.setPassword(password);
-		
-		user = uctrl.validateuser(user);
-		// Valido si existe el usuario. Si no es nulo, guardo session y redirijo.
-		if(user!=null) {
-			request.getSession(true).setAttribute("user", user);
-			response.sendRedirect("index.jsp");
-		} else {
-			request.setAttribute("error", "Usuario y/o contraseña incorrectos.");
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+		try {
+			Usuario user = new Usuario();
+			Userlogic uctrl = new Userlogic();
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			
+			user.setEmail(email);
+			user.setPassword(password);
+			
+			user = uctrl.validateuser(user);
+			// Valido si existe el usuario. Si no es nulo, guardo session y redirijo.
+			if(user!=null) {
+				request.getSession(true).setAttribute("user", user);
+				request.getSession().setMaxInactiveInterval(300);
+				response.sendRedirect("index.jsp");
+			} else {
+				request.setAttribute("error", "Usuario y/o contraseña incorrectos.");
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		
 	}

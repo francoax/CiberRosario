@@ -33,13 +33,9 @@ public class CancelReserve extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String id = request.getParameter("pc");
-		Computadora pc = new Computadora();
+		Computadora pc = (Computadora) request.getSession().getAttribute("pc");
 		Pclogic pctrl = new Pclogic();
-		pc = pctrl.getById(Integer.parseInt(id));
-		System.out.println(pc.getEstado()+"cancela");
 		pctrl.changeMood(pc, "disponible");
-		System.out.println(pc.getEstado()+"cancela");
 		request.getSession().removeAttribute("pc");
 		response.sendRedirect("bookings.jsp");
 		
