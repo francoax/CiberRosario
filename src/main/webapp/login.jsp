@@ -2,29 +2,17 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="author" content="CiberRosario">
-	<meta name="description" content="CiberRosario es una empresa dedicada a brindar el servicio de computadoras para jugar, desarrollar y stremear.">
-	<meta name="keywords" content="ciber, rosario ciber, computadora ciber, ciber computadora, ciber torneo">
-	<meta name="copyright" content="CiberRosario inc.">
-	<title>CiberRosario</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-	<script src="https://www.w3schools.com/lib/w3.js"></script>
-</head>
+<jsp:include page="include/head.html"></jsp:include>
 <body>
-	<div w3-include-html="menu.jsp"></div>
-	<script type="text/javascript">
-		w3.includeHTML();
-	</script>
-	<div class="container">
-		<form class="box" action="login" method="post">
+	<div class="container ">
+		<form class="box m-6 p-6 has-background-grey-lighter" action="login" method="post">
+		<h1 class="title is-3">Iniciar sesion.</h1>
+		<h2 class="subtitle is-5">Complete los campos necesarios.</h2>
+		<p class="help is-danger">${error}</p>
 			<div class="field">
 				<label class="label">Email</label>
 				<div class="control has-icons-left">
-					<input class="input" type="email" required="required" placeholder="tuemail@example.com" name="email">
+					<input class="input" type="email" required="required" placeholder="alguien@example.com" name="email">
 					<span class="icon is-small is-left">
 						<i class="fas fa-envelope"></i>
 					</span>
@@ -34,19 +22,21 @@
 			<div class="field">
 				<label class="label">Password</label>
 				<div class="control has-icons-left">
-					<input class="input" type="password" required="required" placeholder="password" name="password">
+					<input class="input" type="password" required="required" placeholder="************" name="password">
 					<span class="icon is-small is-left">
 						<i class="fas fa-user"></i>
 					</span>
 				</div>
-				<p class="help">Ingresa tu contraseña</p>
+				<p class="help mb-4">Ingresa tu contraseña</p>
 			<div class="field">
 				<div class="control">
 					<input class="button" type="submit" value="Ingresar">
+					<a href="index.jsp" class="button is-warning">Volver al inicio</a>
 				</div>
 			</div>
 			</div>
 		</form>
 	</div>
+	<jsp:include page="include/footer.html"></jsp:include>
 </body>
 </html>

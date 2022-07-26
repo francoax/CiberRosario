@@ -3,11 +3,11 @@ package logic;
 import data.TpcDao;
 import entities.TypePc;
 
-public class Tpclogic {
+public class LogicTpc {
 	
 		TpcDao tpcdao;
 	
-		public Tpclogic() {
+		public LogicTpc() {
 			
 			tpcdao = new TpcDao();
 		}

@@ -4,11 +4,11 @@ import data.PcDao;
 import entities.Computadora;
 import entities.TypePc;
 
-public class Pclogic {
+public class LogicPc {
 
 	PcDao pcdao;
 	
-	public Pclogic() {
+	public LogicPc() {
 		
 		pcdao = new PcDao();
 	}

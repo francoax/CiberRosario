@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import logic.Rollogic;
-import logic.Userlogic;
+import logic.LogicRol;
+import logic.LogicUser;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -47,7 +47,7 @@ public class Signup extends HttpServlet {
 		// Casteo todos los parametros
 			
 			Usuario u = new Usuario();
-			Userlogic uctrl = new Userlogic();
+			LogicUser uctrl = new LogicUser();
 			String email = request.getParameter("email");
 			u.setEmail(email);
 			//Verifico si ese usuario ya existe. Si no es nulo, mando mensaje y redirijo. Si es nulo, quiere decir que no existe, entonces registro.
@@ -65,7 +65,7 @@ public class Signup extends HttpServlet {
 				String typeuser = request.getParameter("typeuser");
 					
 				Rol r = new Rol();
-				Rollogic rctrl = new Rollogic();
+				LogicRol rctrl = new LogicRol();
 				// Mapeo los parametros
 				u.setPassword(password);
 				u.setNombre(nombre);

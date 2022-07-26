@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 import entities.Computadora;
 
@@ -38,15 +39,16 @@ public class SaveReserve extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		LocalTime horadesde = LocalTime.parse(request.getParameter("horadesde"));
-		LocalTime horahasta = LocalTime.parse(request.getParameter("horahasta"));
-		String type = request.getParameter("reserve");
-		request.getRequestDispatcher("saving.jsp").forward(request, response);
-		if(horadesde.getHour()>=horahasta.getHour()) {
-			request.setAttribute("msgerror", "Establezca un rango horario valido.");
-			request.getRequestDispatcher("saving.jsp").forward(request, response);
-		}
-		
+			try {
+				LocalTime horadesde = LocalTime.parse(request.getParameter("horadesde"));
+				LocalTime horahasta = LocalTime.parse(request.getParameter("horahasta"));
+				request.setAttribute("finish", "include/finishreserve.jsp");
+				request.getRequestDispatcher("saving.jsp").include(request, response);
+		} catch (DateTimeParseException e) {
+				request.setAttribute("msghour", "Defina los horarios");
+				request.getRequestDispatcher("saving.jsp").forward(request, response);
+			}	
+			
 		
 	}
 

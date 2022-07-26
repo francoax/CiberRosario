@@ -16,29 +16,15 @@
 		Computadora w = (Computadora) request.getAttribute("wpc");
 	%>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="author" content="CiberRosario">
-	<meta name="description" content="CiberRosario es una empresa dedicada a brindar el servicio de computadoras para jugar, desarrollar y stremear.">
-	<meta name="keywords" content="ciber, rosario ciber, computadora ciber, ciber computadora, ciber torneo">
-	<meta name="copyright" content="CiberRosario inc.">
-	<title>CiberRosario</title>
-	<link rel="icon" href="images/pc.gif">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <script src="https://www.w3schools.com/lib/w3.js"></script>
-</head>
+<jsp:include page="include/head.html"></jsp:include>
 <body>
-	<div w3-include-html="menu.jsp"></div>
-	<script type="text/javascript">
-		w3.includeHTML();
-	</script>
+	<jsp:include page="include/header.jsp"></jsp:include>
 	<div class="container mt mt-4">
+		<h1 class="title is-5">Seleccione el tipo de computadora.</h1>
 		<div class="columns ">
 			<div class="column">
 				<div class="container m m-2 p p-2" style="border: 2px solid black; border-radius: 10px;">
-					<h1 class="title is-5 has-text-centered">GAMER</h1>
+					<h1 class="title is-5 has-text-centered"><%=g.getTipo().getDescripcion().toUpperCase() %></h1>
 						<div class="is-family-code has-text-centered">
 							<p > <strong>Procesador</strong> </p>
 							<p class="pb pb-5"><%=g.getProcesador().toUpperCase() %></p>
@@ -73,7 +59,7 @@
 			</div>
 			<div class="column">
 				<div class="container m m-2 p p-2" style="border: 2px solid black; border-radius: 10px;">
-					<h1 class="title is-5 has-text-centered">STREAMER</h1>
+					<h1 class="title is-5 has-text-centered"><%=s.getTipo().getDescripcion().toUpperCase() %></h1>
 						<div class="is-family-code has-text-centered">
 							<p > <strong>Procesador</strong> </p>
 							<p class="pb pb-5"><%=s.getProcesador().toUpperCase() %></p>
@@ -108,7 +94,7 @@
 			</div>
 			<div class="column">
 				<div class="container m m-2 p p-2" style="border: 2px solid black; border-radius: 10px;">
-					<h1 class="title is-5 has-text-centered">WORKSTATION</h1>
+					<h1 class="title is-5 has-text-centered"><%=w.getTipo().getDescripcion().toUpperCase() %></h1>
 						<div class="is-family-code has-text-centered">
 							<p > <strong>Procesador</strong> </p>
 							<p class="pb pb-5"><%=w.getProcesador().toUpperCase() %></p>

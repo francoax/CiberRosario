@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import logic.Userlogic;
+import logic.LogicUser;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
 		
 		try {
 			Usuario user = new Usuario();
-			Userlogic uctrl = new Userlogic();
+			LogicUser uctrl = new LogicUser();
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 			
@@ -54,7 +54,7 @@ public class Login extends HttpServlet {
 			// Valido si existe el usuario. Si no es nulo, guardo session y redirijo.
 			if(user!=null) {
 				request.getSession(true).setAttribute("user", user);
-				request.getSession().setMaxInactiveInterval(300);
+				request.getSession().setMaxInactiveInterval(120);
 				response.sendRedirect("index.jsp");
 			} else {
 				request.setAttribute("error", "Usuario y/o contraseña incorrectos.");

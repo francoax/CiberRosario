@@ -5,7 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logic.Pclogic;
+import logic.LogicPc;
 
 import java.io.IOException;
 
@@ -34,9 +34,10 @@ public class CancelReserve extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		Computadora pc = (Computadora) request.getSession().getAttribute("pc");
-		Pclogic pctrl = new Pclogic();
+		LogicPc pctrl = new LogicPc();
 		pctrl.changeMood(pc, "disponible");
 		request.getSession().removeAttribute("pc");
+		request.getSession().removeAttribute("para");
 		response.sendRedirect("bookings.jsp");
 		
 	}

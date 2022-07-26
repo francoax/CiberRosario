@@ -3,11 +3,11 @@ package logic;
 import data.UsuariosDao;
 import entities.Usuario;
 
-public class Userlogic {
+public class LogicUser {
 
 	UsuariosDao udao;
 	
-	public Userlogic() {
+	public LogicUser() {
 		
 		udao = new UsuariosDao();
 	}

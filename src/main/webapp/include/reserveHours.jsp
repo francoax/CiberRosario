@@ -1,15 +1,8 @@
-<%@page import="entities.Usuario"%>
-<%@page import="entities.Computadora"%>
 <%@page import="java.time.LocalTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 	<%
-		Usuario user = (Usuario) session.getAttribute("user");
-		if(user==null) {
-			response.sendRedirect("login.jsp");
-		} else {
-		Computadora pc = (Computadora) session.getAttribute("pc");
 		String para = (String) session.getAttribute("para");
 		LocalTime actual = LocalTime.now();
 		int hactual = actual.getHour();
@@ -17,13 +10,10 @@
 	%>
 <html>
 <body>
-	<div class="container">
 		<%if(para.contains("hoy")){%>
-		<h1 class="title is-5">Reserva por computadora <%=pc.getTipo().getDescripcion().toUpperCase() %> para HOY</h1>
-		<div class="container">
 				<label class="label">Indique hora desde y hora hasta</label>
-				<%if(request.getAttribute("msgerror")!=null){ %>
-				<p style="color: red;" >${msgerror}</p>
+				<%if(request.getAttribute("msghour")!=null){ %>
+				<p style="color: red;" >${msghour}</p>
 				<%} %>
 				<div class="field">
 					<div class="select">
@@ -53,17 +43,20 @@
 					</div>
 				</div>
 			<%} else { %>
-			<h1 class="title is-5">Reserva por computadora <%=pc.getTipo().getDescripcion().toUpperCase() %> para MAÑANA</h1>
 				<label class="label">Indique hora desde y hora hasta</label>
-				<p style="color: red;" >${msgerror}</p>
+				<%if(request.getAttribute("msghour")!=null){ %>
+				<p style="color: red;" >${msghour}</p>
+				<%} %>
 				<div class="field">
 					<div class="select">
 						<select name="horadesde">
 							<option selected>Desde</option>
 							<%
 							for (int i : horas) {
-								LocalTime hdesde = LocalTime.of(i, 0);
-								%> <option value="<%=hdesde %>"><%=hdesde %></option> <%
+								if(i<23) {
+									LocalTime hdesde = LocalTime.of(i, 0);
+									%> <option value="<%=hdesde %>"><%=hdesde %></option> <%
+								}
 							}%>
 						</select>
 					</div>
@@ -72,16 +65,14 @@
 							<option selected>Hasta</option>
 							<%
 							for (int j : horas){
-								LocalTime hhasta = LocalTime.of(j, 0);
-								%> <option value="<%=hhasta %>" ><%=hhasta %></option> <%
-							}
-							%>
+								if(j>8) {
+									LocalTime hhasta = LocalTime.of(j, 0);
+									%> <option value="<%=hhasta %>" ><%=hhasta %></option> <%
+								}
+							}%>
 						</select>
 					</div>
 				</div>
 			<%} %>
-		</div>
-	</div>
 </body>
 </html>
-<%}%>

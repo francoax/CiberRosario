@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import logic.Pclogic;
-import logic.Tpclogic;
+import logic.LogicPc;
+import logic.LogicTpc;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -17,6 +17,7 @@ import com.mysql.cj.Session;
 
 import data.TpcDao;
 import entities.Computadora;
+import entities.TypePc;
 import entities.Usuario;
 
 /**
@@ -40,8 +41,8 @@ public class Reservation extends HttpServlet {
 		// TODO Auto-generated method stub
 		// Intencion: Conseguir la cantidad de computadoras disponibles de cada tipo.
 		try {
-			Pclogic pctrl = new Pclogic();
-			Tpclogic tctrl = new Tpclogic();
+			LogicPc pctrl = new LogicPc();
+			LogicTpc tctrl = new LogicTpc();
 			Computadora g = new Computadora();
 			Computadora s = new Computadora();
 			Computadora w = new Computadora();
@@ -51,7 +52,6 @@ public class Reservation extends HttpServlet {
 			int amountg = pctrl.getAmountavailable(tctrl.getOne("gamer"));
 			int amounts = pctrl.getAmountavailable(tctrl.getOne("streamer"));
 			int amountw = pctrl.getAmountavailable(tctrl.getOne("workstation"));
-			System.out.println("g: "+amountg+" "+"s: "+amounts+" "+" w: "+amountw+"gamer: "+g.getProcesador()+" "+"streamer: "+s.getProcesador()+" "+"workstation: "+w.getProcesador());
 			request.setAttribute("gpc", g);
 			request.setAttribute("spc", s);
 			request.setAttribute("wpc", w);
@@ -76,19 +76,19 @@ public class Reservation extends HttpServlet {
 		Usuario user = (Usuario) request.getSession().getAttribute("user");
 		if(user!=null) {
 		try {
-			Pclogic pctrl = new Pclogic();
-			Tpclogic tpctrl = new Tpclogic();
+			LogicPc pctrl = new LogicPc();
+			LogicTpc tpctrl = new LogicTpc();
 			Computadora pc = new Computadora();
 			String tipo = request.getParameter("tipo");
 			String para = request.getParameter("for");
 			pc = pctrl.selectToReserve(tpctrl.getOne(tipo));
 			pctrl.changeMood(pc, "seleccionada");
-			request.getSession().setAttribute("pc", pc);
 			request.getSession().setAttribute("para", para);
-			request.getRequestDispatcher("/servlet/SaveReserve").include(request, response);
+			request.getSession().setAttribute("pc", pc);
+			response.sendRedirect("saving.jsp");
 		} catch (Exception e) {
 			request.setAttribute("error", "Ya no existen computadoras disponibles de este tipo. Disculpe las molestias.");
-			response.sendRedirect("bookings.jsp");
+			request.getRequestDispatcher("bookings.jsp").forward(request, response);
 		}
 		}else {
 			response.sendRedirect("login.jsp");

@@ -3,11 +3,11 @@ package logic;
 import data.RolesDao;
 import entities.Rol;
 
-public class Rollogic {
+public class LogicRol {
 	
 	RolesDao rdao = null;
 	
-	public Rollogic() {
+	public LogicRol() {
 		rdao = new RolesDao();
 	}
 	
