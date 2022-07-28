@@ -8,15 +8,15 @@ import entities.Descuento;
 
 public class DataDescuentos {
 
-	public Descuento getOne(int d, int h) {
+	public Descuento getOne(int cantHoras) {
 
 		Descuento desc = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM descuentos WHERE horaMin AND horaMax BETWEEN ? AND ? ORDER BY horaMin DESC LIMIT 1;");
-			stmt.setInt(1, d);
-			stmt.setInt(2, h);
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM descuentos WHERE horaMin<= ? AND horaMax> ?;");
+			stmt.setInt(1, cantHoras);
+			stmt.setInt(2, cantHoras);
 			rs = stmt.executeQuery();
 			if(rs!=null&&rs.next()) {
 				desc = new Descuento();

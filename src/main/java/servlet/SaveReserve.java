@@ -77,9 +77,10 @@ public class SaveReserve extends HttpServlet {
 					break;
 				}
 				request.getSession().setAttribute("reserva", r);
+				response.sendRedirect("finishreserve.jsp");
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 	}

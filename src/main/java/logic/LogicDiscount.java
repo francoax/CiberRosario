@@ -12,9 +12,9 @@ public class LogicDiscount {
 		ddao = new DataDescuentos();
 	}
 	
-	public Descuento obtenerDescuento(int d, int h) {
+	public Descuento obtenerDescuento(int cantHoras) {
 		
-		return ddao.getOne(d, h);
+		return ddao.getOne(cantHoras);
 	}
 	
 	

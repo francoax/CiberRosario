@@ -24,7 +24,7 @@ public class LogicReserve {
 		int submonto = 0;
 		if(cantHoras>=4) {
 			LogicDiscount dctrl = new LogicDiscount();
-			Descuento desc = dctrl.obtenerDescuento(d.getHour(), h.getHour());
+			Descuento desc = dctrl.obtenerDescuento(cantHoras);
 			double porcentaje = desc.getPorcentaje();
 			submonto = cantHoras * precio;
 			monto = (int) (submonto - submonto*porcentaje);
