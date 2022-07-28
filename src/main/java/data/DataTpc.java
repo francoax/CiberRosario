@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import entities.Computadora;
 import entities.TypePc;
 
-public class TpcDao {
+public class DataTpc {
 
 	
 	public TypePc findType(Computadora pc) {

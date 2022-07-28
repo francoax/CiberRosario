@@ -18,7 +18,7 @@
 		<div class="container is-max-desktop mt-6">
 			<h1 class="title is-4 has-text-centered"><%=para.toUpperCase() %> computadora <%=pc.getTipo().getDescripcion().toUpperCase() %>.</h1>
 			<h2 class="subtitle is-6 has-text-centered">Completa los campos necesarios para poder realizar la reserva.</h2>
-			<form action="save" method="post" class="box">
+			<form action="save" method="get" class="box">
 				<jsp:include page="include/reserveHours.jsp"></jsp:include>
 				<%if(pc.getTipo().getDescripcion().equals("gamer")) { %>
 				<jsp:include page="include/formgamer.jsp"></jsp:include>
@@ -27,17 +27,11 @@
 				<%} else if(pc.getTipo().getDescripcion().equals("workstation")) { %>
 				<jsp:include page="include/formwork.jsp"></jsp:include>
 				<%} %>
-				<%if(request.getAttribute("finish")==null){ %>
 				<div class="buttons is-right">
 					<a href="cancel" class="button is-danger">Cancelar</a>
 					<button class="button is-success" type="submit">Siguiente</button>
 				</div>
-				<%} else {}%>
 			</form>
-			<%if(request.getAttribute("finish")!=null){
-					String url = (String) request.getAttribute("finish");
-				%> <jsp:include page="<%=url%>"></jsp:include> <%
-			}%>
 		</div>
 		<jsp:include page="include/footer.html"></jsp:include>
 </body>

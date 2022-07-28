@@ -11,7 +11,7 @@ import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 import entities.Rol;
 import entities.Usuario;
 
-	public class RolesDao {
+	public class DataRoles {
 
 		
 		// Obtengo el rol por su ID

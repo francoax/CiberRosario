@@ -36,6 +36,9 @@ public class CancelReserve extends HttpServlet {
 		Computadora pc = (Computadora) request.getSession().getAttribute("pc");
 		LogicPc pctrl = new LogicPc();
 		pctrl.changeMood(pc, "disponible");
+		if (request.getSession().getAttribute("reserva")!=null) {
+			request.getSession().removeAttribute("reserve");
+		}
 		request.getSession().removeAttribute("pc");
 		request.getSession().removeAttribute("para");
 		response.sendRedirect("bookings.jsp");

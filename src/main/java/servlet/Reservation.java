@@ -15,7 +15,7 @@ import java.util.LinkedList;
 
 import com.mysql.cj.Session;
 
-import data.TpcDao;
+import data.DataTpc;
 import entities.Computadora;
 import entities.TypePc;
 import entities.Usuario;

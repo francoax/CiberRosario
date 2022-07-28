@@ -6,12 +6,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import entities.Usuario;
-public class UsuariosDao {
+public class DataUsuarios {
 	
 	// Busca usuario.
 	public Usuario getOne(Usuario user) {
 		
-		RolesDao rd = null;
+		DataRoles rd = null;
 		Usuario u = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -22,7 +22,7 @@ public class UsuariosDao {
 			stmt.setString(2, user.getPassword());
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()) {
-				rd = new RolesDao();
+				rd = new DataRoles();
 				u = new Usuario();
 				u.setId(rs.getInt("idUsuario"));
 				u.setUsername(rs.getString("username"));

@@ -10,14 +10,14 @@ import com.mysql.cj.PreparedQuery;
 import entities.Computadora;
 import entities.TypePc;
 
-public class PcDao {
+public class DataPc {
 	
 	public Computadora getById(int id) {
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Computadora pc = null;
-		TpcDao tdao = new TpcDao();
+		DataTpc tdao = new DataTpc();
 		try {
 			
 			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM computadoras WHERE idComputadora = ?");

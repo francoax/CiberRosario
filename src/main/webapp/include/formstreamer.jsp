@@ -4,7 +4,7 @@
 <html>
 <body>
 	<div class="field">
-		<p style="color: red;">${msgplat}</p>
+		<p class="error">${msgplat}</p>
 		<label class="label">Seleccione la plataforma en la que stremea.</label>
 		<div class="select">
 		  <select name="platform">
@@ -16,9 +16,18 @@
 		</div>
 	</div>
 	<div class="field">
+		<p class="error">${msgnames}</p>
 		<label class="label">Su nombre de streamer: </label>
 		<div class="control">
-			<input class="input" style="width: 350px" type="text" maxlength="10">
+			<input class="input" style="width: 350px" type="text" name="sname" maxlength="10">
+		</div>
+	</div>
+	<div class="field">
+		<p class="error">${msglink}</p>
+		<label class="label">Inserta el link hacia tu stream</label>
+		<div class="control">
+			<input class="input" style="width: 500px" type="url" name="links">
 		</div>
 	</div>
 </body>
+</html>

@@ -1,15 +1,15 @@
 package logic;
 
-import data.TpcDao;
+import data.DataTpc;
 import entities.TypePc;
 
 public class LogicTpc {
 	
-		TpcDao tpcdao;
+		DataTpc tpcdao;
 	
 		public LogicTpc() {
 			
-			tpcdao = new TpcDao();
+			tpcdao = new DataTpc();
 		}
 		
 		// Busca y devuelve el objeto del tipo de computadora por descripcion

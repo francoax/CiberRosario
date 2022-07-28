@@ -1,14 +1,14 @@
 package logic;
 
-import data.RolesDao;
+import data.DataRoles;
 import entities.Rol;
 
 public class LogicRol {
 	
-	RolesDao rdao = null;
+	DataRoles rdao = null;
 	
 	public LogicRol() {
-		rdao = new RolesDao();
+		rdao = new DataRoles();
 	}
 	
 	public Rol getRol(String desc) {

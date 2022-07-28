@@ -1,16 +1,16 @@
 package logic;
 
-import data.PcDao;
+import data.DataPc;
 import entities.Computadora;
 import entities.TypePc;
 
 public class LogicPc {
 
-	PcDao pcdao;
+	DataPc pcdao;
 	
 	public LogicPc() {
 		
-		pcdao = new PcDao();
+		pcdao = new DataPc();
 	}
 
 	public Computadora getById (int id) {

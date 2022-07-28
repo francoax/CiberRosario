@@ -1,15 +1,15 @@
 package logic;
 
-import data.UsuariosDao;
+import data.DataUsuarios;
 import entities.Usuario;
 
 public class LogicUser {
 
-	UsuariosDao udao;
+	DataUsuarios udao;
 	
 	public LogicUser() {
 		
-		udao = new UsuariosDao();
+		udao = new DataUsuarios();
 	}
 	
 	public Usuario adduser(Usuario u) {
