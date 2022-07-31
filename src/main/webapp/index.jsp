@@ -3,9 +3,9 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
-<jsp:include page="include/head.html"></jsp:include>
+<jsp:include page="includes/head.html"></jsp:include>
 <body>
-	<jsp:include page="include/header.jsp"></jsp:include>
+	<jsp:include page="includes/header.jsp"></jsp:include>
 	<div class="container">
 		<section class="section is-small">
 			<h1 class="title">Nosotros</h1>
@@ -13,6 +13,6 @@
 			Con nuestros equipos vas a poder cumplir lo que deseas. Acercate a nuestro local y pedi la computadora o tambien podes hacerlo desde la pagina y reclamarla en el local. </h2>
 		</section>
 	</div>
-	<jsp:include page="include/footer.html"></jsp:include>
+	<jsp:include page="includes/footer.html"></jsp:include>
 </body>
 </html>

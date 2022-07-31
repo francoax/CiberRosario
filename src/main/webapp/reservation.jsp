@@ -16,9 +16,9 @@
 		Computadora w = (Computadora) request.getAttribute("wpc");
 	%>
 <html>
-<jsp:include page="include/head.html"></jsp:include>
+<jsp:include page="includes/head.html"></jsp:include>
 <body>
-	<jsp:include page="include/header.jsp"></jsp:include>
+	<jsp:include page="includes/header.jsp"></jsp:include>
 	<div class="container mt mt-4">
 		<h1 class="title is-5">Seleccione el tipo de computadora.</h1>
 		<div class="columns ">

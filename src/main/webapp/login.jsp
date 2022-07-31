@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
-<jsp:include page="include/head.html"></jsp:include>
+<jsp:include page="includes/head.html"></jsp:include>
 <body>
 	<div class="container ">
 		<form class="box m-6 p-6 has-background-grey-lighter" action="login" method="post">
@@ -37,6 +37,6 @@
 			</div>
 		</form>
 	</div>
-	<jsp:include page="include/footer.html"></jsp:include>
+	<jsp:include page="includes/footer.html"></jsp:include>
 </body>
 </html>

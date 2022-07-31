@@ -35,54 +35,53 @@ public class SaveReserve extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		try {	
-				Reserva r = new Reserva();
-				LogicReserve rctrl = new LogicReserve();
-				LogicPrice pctrl = new LogicPrice();
-				Precio precioActual = new Precio();
-				Computadora pc = (Computadora) request.getSession().getAttribute("pc");
-				LocalTime horadesde = (LocalTime) LocalTime.parse(request.getParameter("horadesde"));
-				LocalTime horahasta = (LocalTime) LocalTime.parse(request.getParameter("horahasta"));
-				precioActual = pctrl.obtenerPrecioAlDia(pc.getTipo());
-				int monto = rctrl.calcularMonto(horadesde, horahasta, precioActual);
-				r.setFecha_de_reserva(LocalDate.now());
-				String para = (String) request.getSession().getAttribute("para");
-				if(para.contains("mañana")&&LocalTime.now().getHour()!=0) {
-					r.setFecha_a_reservar(LocalDate.now().plusDays(1));
-				} else {
-					r.setFecha_a_reservar(LocalDate.now());
-				}
-				r.setHoraDesde(horadesde);
-				r.setHoraHasta(horahasta);
-				r.setImporte(monto);
-				Usuario user = (Usuario) request.getSession().getAttribute("user");
-				r.setIdUsuario(user.getId());
-				r.setIdComputadora(pc.getIdComputadora());
-				switch (pc.getTipo().getDescripcion()) {
-				case "gamer":
-					
-					break;
-				case "streamer":
-						r.setName_stream(request.getParameter("sname"));
-						r.setPlataforma_stream(request.getParameter("platform"));
-						r.setLink_stream(request.getParameter("links"));
-					break;
-				case "workstation":
-						r.setRubro_work(request.getParameter("rubro"));
-						r.setEmpresa_work(request.getParameter("emp"));
-						r.setDescripcion_work(request.getParameter("descwork"));
-					break;
-				default:
-					break;
-				}
-				request.getSession().setAttribute("reserva", r);
-				response.sendRedirect("finishreserve.jsp");
-			
+			Reserva r = new Reserva();
+			LogicReserve rctrl = new LogicReserve();
+			LogicPrice pctrl = new LogicPrice();
+			Precio precioActual = new Precio();
+			Computadora pc = (Computadora) request.getSession().getAttribute("pc");
+			LocalTime horadesde = (LocalTime) LocalTime.parse(request.getParameter("horadesde"));
+			LocalTime horahasta = (LocalTime) LocalTime.parse(request.getParameter("horahasta"));
+			precioActual = pctrl.obtenerPrecioAlDia(pc.getTipo());
+			int monto = rctrl.calcularMonto(horadesde, horahasta, precioActual);
+			r.setFecha_de_reserva(LocalDate.now());
+			String para = (String) request.getSession().getAttribute("para");
+			if(para.contains("mañana")&&LocalTime.now().getHour()!=0) {
+				r.setFecha_a_reservar(LocalDate.now().plusDays(1));
+			} else {
+				r.setFecha_a_reservar(LocalDate.now());
+			}
+			r.setHoraDesde(horadesde);
+			r.setHoraHasta(horahasta);
+			r.setImporte(monto);
+			Usuario user = (Usuario) request.getSession().getAttribute("user");
+			r.setIdUsuario(user.getId());
+			r.setIdComputadora(pc.getIdComputadora());
+			switch (pc.getTipo().getDescripcion()) {
+			case "gamer":
+				
+				break;
+			case "streamer":
+					r.setName_stream(request.getParameter("sname"));
+					r.setPlataforma_stream(request.getParameter("platform"));
+					r.setLink_stream(request.getParameter("links"));
+				break;
+			case "workstation":
+					r.setRubro_work(request.getParameter("rubro"));
+					r.setEmpresa_work(request.getParameter("emp"));
+					r.setDescripcion_work(request.getParameter("descwork"));
+				break;
+			default:
+				break;
+			}
+			request.setAttribute("precio", precioActual.getPrecio());
+			request.setAttribute("reserva", r);
+			request.getRequestDispatcher("finishreserve.jsp").forward(request, response);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -90,7 +89,7 @@ public class SaveReserve extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-			
+		
 			
 		
 	}

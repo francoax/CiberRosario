@@ -7,9 +7,9 @@
     %>
 <!DOCTYPE html>
 <html>
-<jsp:include page="include/head.html"></jsp:include>
+<jsp:include page="includes/head.html"></jsp:include>
 <body>
-	<jsp:include page="include/header.jsp"></jsp:include>
+	<jsp:include page="includes/header.jsp"></jsp:include>
 	<div class="container">
 		<section class="section is-small">
 			<h1 class="title is-5">Como reservo ?</h1>
@@ -20,7 +20,10 @@
 			<h1 class="title is-5">Como se abona una reserva?</h1>
 			<p class="pb pb-5">Las reservas son abonadas en efectivo en el local, aun si realizaste la reserva de manera online.</p>
 			<h1 class="title is-5">Por cuantas horas puedo reservar una computadora?</h1>
-			<p class="pb pb-5">Podes reservarla por las horas que quieras, no hay un limite, eso si, si excede las 8 horas, se te cobrara un porcentaje de mas.</p>
+			<p class="pb pb-5">Podes reservarla la cantidad de horas que quieras, dentro de nuestros horarios de atencion.</p>
+			<h1 class="title is-5">Hay descuentos por reservar varias horas? </h1>
+			<p class="pb pb-5">Si. Si reservas entre 2 a 4 horas, recibis un 5% de descuento sobre el total. Si reservas de 4 a 6 horas, un 10% de descuento. De 6 a 8 horas, un 15% de descuento
+			y de 8 a 15 horas un 25% de descuento.</p>
 			<h1 class="title is-5">Entre que horarios puedo reservar?</h1>
 			<p class="pb pb-5">Podes reservar de 8:00am a 23:00pm de lunes a viernes.</p>
 			<div class="buttons">
@@ -35,6 +38,6 @@
 		</div>
 		</section>
 	</div>
-	<jsp:include page="include/footer.html"></jsp:include>
+	<jsp:include page="includes/footer.html"></jsp:include>
 </body>
 </html>

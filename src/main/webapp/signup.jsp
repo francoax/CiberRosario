@@ -12,7 +12,7 @@
 	}
 %>
 <html>
-<jsp:include page="include/head.html"></jsp:include>
+<jsp:include page="includes/head.html"></jsp:include>
 <body>
 			<form action="signup" method="post" >
 				
