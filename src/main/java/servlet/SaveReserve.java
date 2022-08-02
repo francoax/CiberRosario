@@ -64,13 +64,24 @@ public class SaveReserve extends HttpServlet {
 				break;
 			case "streamer":
 					r.setName_stream(request.getParameter("sname"));
-					r.setPlataforma_stream(request.getParameter("platform"));
+					String platform = request.getParameter("platform");
+					if(platform.equals("yt")) {
+						r.setPlataforma_stream("Youtube");
+					} else if (platform.equals("tw")) {
+						r.setPlataforma_stream("Twitch");
+					} else if (platform.equals("fb")) {
+						r.setPlataforma_stream("Facebook");
+					}
 					r.setLink_stream(request.getParameter("links"));
 				break;
 			case "workstation":
 					r.setRubro_work(request.getParameter("rubro"));
-					r.setEmpresa_work(request.getParameter("emp"));
-					r.setDescripcion_work(request.getParameter("descwork"));
+					if(request.getParameter("emp")==null) {
+						r.setEmpresa_work("No especificado");
+					} else {
+						r.setEmpresa_work(request.getParameter("emp"));
+					}
+					r.setDescripcion_work(request.getParameter("desc"));
 				break;
 			default:
 				break;
