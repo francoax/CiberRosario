@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import logic.ControladorReservarPC;
 import logic.LogicPc;
 import logic.LogicTpc;
 
@@ -41,6 +42,7 @@ public class Reservation extends HttpServlet {
 		// TODO Auto-generated method stub
 		// Intencion: Conseguir la cantidad de computadoras disponibles de cada tipo.
 		try {
+			ControladorReservarPC ctrlrpc = new ControladorReservarPC();
 			LogicPc pctrl = new LogicPc();
 			LogicTpc tctrl = new LogicTpc();
 			Computadora g = new Computadora();
@@ -76,6 +78,7 @@ public class Reservation extends HttpServlet {
 		Usuario user = (Usuario) request.getSession().getAttribute("user");
 		if(user!=null) {
 		try {
+			ControladorReservarPC ctrlrpc = new ControladorReservarPC();
 			LogicPc pctrl = new LogicPc();
 			LogicTpc tpctrl = new LogicTpc();
 			Computadora pc = new Computadora();

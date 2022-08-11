@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import logic.ControladorReservarPC;
 import logic.LogicPrice;
 import logic.LogicReserve;
 
@@ -37,8 +38,7 @@ public class SaveReserve extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {	
 			Reserva r = new Reserva();
-			LogicReserve rctrl = new LogicReserve();
-			LogicPrice pctrl = new LogicPrice();
+			ControladorReservarPC ctrlrpc = new ControladorReservarPC();
 			Precio precioActual = new Precio();
 			Computadora pc = (Computadora) request.getSession().getAttribute("pc");
 			LocalTime horadesde = (LocalTime) LocalTime.parse(request.getParameter("horadesde"));
@@ -54,7 +54,6 @@ public class SaveReserve extends HttpServlet {
 			}
 			r.setHoraDesde(horadesde);
 			r.setHoraHasta(horahasta);
-			r.setImporte(monto);
 			Usuario user = (Usuario) request.getSession().getAttribute("user");
 			r.setIdUsuario(user.getId());
 			r.setIdComputadora(pc.getIdComputadora());
@@ -87,7 +86,7 @@ public class SaveReserve extends HttpServlet {
 				break;
 			}
 			request.setAttribute("precio", precioActual.getPrecio());
-			request.setAttribute("reserva", r);
+			request.getSession().setAttribute("reserva", r);
 			request.getRequestDispatcher("finishreserve.jsp").forward(request, response);
 		
 		} catch (Exception e) {
@@ -101,7 +100,8 @@ public class SaveReserve extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		
-			
+		Reserva r = (Reserva) request.getSession().getAttribute("reserva");
+		
 		
 	}
 	

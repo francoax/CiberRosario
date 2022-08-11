@@ -12,7 +12,7 @@
 		} else {
 		Computadora pc = (Computadora) session.getAttribute("pc");
 		String para = (String) session.getAttribute("para");
-		Reserva r = (Reserva) request.getAttribute("reserva");
+		Reserva r = (Reserva) session.getAttribute("reserva");
 		int precioPc = (int) request.getAttribute("precio");
 		String dateFormat="dd/MM/yyyy";
 		DateTimeFormatter format = DateTimeFormatter.ofPattern(dateFormat);
