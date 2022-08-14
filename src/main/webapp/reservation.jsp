@@ -11,9 +11,9 @@
 		int amountg = (int) request.getAttribute("amountg");
 		int amounts = (int) request.getAttribute("amounts");
 		int amountw = (int) request.getAttribute("amountw");
-		Computadora g = (Computadora) request.getAttribute("gpc");
-		Computadora s = (Computadora) request.getAttribute("spc");
-		Computadora w = (Computadora) request.getAttribute("wpc");
+		Computadora g = (Computadora) request.getAttribute("g");
+		Computadora s = (Computadora) request.getAttribute("s");
+		Computadora w = (Computadora) request.getAttribute("w");
 	%>
 <html>
 <jsp:include page="includes/head.html"></jsp:include>
@@ -31,7 +31,7 @@
 							<p > <strong>Placa de video</strong> </p>
 							<p class="pb pb-5"><%=g.getPlaca_de_video().toUpperCase() %></p>
 							<p > <strong>Placa madre</strong> </p>
-							<p class="pb pb-5""><%=g.getPlaca_madre().toUpperCase() %></p>
+							<p class="pb pb-5"><%=g.getPlaca_madre().toUpperCase() %></p>
 							<p > <strong>RAM</strong> </p>
 							<p class="pb pb-5"><%=g.getRam().toUpperCase() %></p>
 							<p > <strong>Almacenamiento</strong> </p>

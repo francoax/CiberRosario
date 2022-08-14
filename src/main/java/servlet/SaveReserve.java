@@ -5,8 +5,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import logic.ControladorReservarPC;
-import logic.LogicPrice;
-import logic.LogicReserve;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -38,13 +36,15 @@ public class SaveReserve extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {	
 			Reserva r = new Reserva();
-			ControladorReservarPC ctrlrpc = new ControladorReservarPC();
+			ControladorReservarPC reserve = new ControladorReservarPC();
 			Precio precioActual = new Precio();
+			
 			Computadora pc = (Computadora) request.getSession().getAttribute("pc");
 			LocalTime horadesde = (LocalTime) LocalTime.parse(request.getParameter("horadesde"));
 			LocalTime horahasta = (LocalTime) LocalTime.parse(request.getParameter("horahasta"));
-			precioActual = pctrl.obtenerPrecioAlDia(pc.getTipo());
-			int monto = rctrl.calcularMonto(horadesde, horahasta, precioActual);
+			precioActual = reserve.obtenerPrecioAlDia(pc.getTipo());
+			int monto = reserve.calcularMonto(horadesde, horahasta, precioActual);
+			r.setImporte(monto);
 			r.setFecha_de_reserva(LocalDate.now());
 			String para = (String) request.getSession().getAttribute("para");
 			if(para.contains("mañana")&&LocalTime.now().getHour()!=0) {
@@ -99,8 +99,19 @@ public class SaveReserve extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		// Requerimientos de esta seccion:
+//			- Registrar la reserva en la db.
+//			- Generar un mail con la informacion de la reserva mas un codigo que identifica a la Reserva.
+//			- Enviar mail al email del cliente.
+			
 		
+		ControladorReservarPC reserve = new ControladorReservarPC();
 		Reserva r = (Reserva) request.getSession().getAttribute("reserva");
+		
+		reserve.registrar(r);
+		
+		response.getWriter().append(r.getCod_reserva());
+		
 		
 		
 	}

@@ -10,6 +10,7 @@
 <jsp:include page="includes/head.html"></jsp:include>
 <body>
 	<jsp:include page="includes/header.jsp"></jsp:include>
+	<p class="title is-5 is-danger">${error}</p>
 	<div class="container">
 		<section class="section is-small">
 			<h1 class="title is-5">Como reservo ?</h1>

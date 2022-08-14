@@ -28,27 +28,31 @@ public class ControladorReservarPC {
 		pdao = new DataPrecios();
 		ddao = new DataDescuentos();
 	}
-	public Reserva reservar(Reserva r) {
-		
-		return r;
-	}
-	public Computadora getById (int id) {
+
+	public Computadora pcById (int id) {
 		
 		return pcdao.getById(id);
 	}
-	public Computadora getOne(TypePc tpc) {
+	public Computadora pcByType(TypePc tpc) {
 		
 		return pcdao.getOne(tpc);
 	}
 	
-	public int getAmountavailable (TypePc tpc) {
+	public int cantidadDisponible (TypePc tpc) {
 		
 		return pcdao.countAvailable(tpc);
 	}
 	
 	public Computadora selectToReserve (TypePc tpc) {
 		
-		return pcdao.findOneavailable(tpc);
+		Computadora pc = new Computadora();
+		pc = pcdao.findOneavailable(tpc);
+		if(pc==null) {
+			// Preguntar sobre throws.
+			throw new RuntimeException("No hay mas computadoras disponibles de este tipo. Disculpe las molestias.");
+		}
+		changeMood(pc, "seleccionada");
+		return pc;
 	}
 	
 	public void changeMood(Computadora pc, String estado) {
@@ -56,12 +60,12 @@ public class ControladorReservarPC {
 		pcdao.setEstado(pc,estado);
 	}
 	// Busca y devuelve el objeto del tipo de computadora por descripcion
-	public TypePc getOne(String desc) {
+	public TypePc getType(String desc) {
 				
 		return tpcdao.getByDesc(desc);
 	}		
 	// Busca y devuelve el objeto del tipo de computadora por id.
-	public TypePc getOne(int id) {
+	public TypePc getType(int id) {
 				
 		return tpcdao.getById(id);
 	}
@@ -92,6 +96,7 @@ public class ControladorReservarPC {
 		
 		rdao.save(r);
 	}
+	
 	public Precio obtenerPrecioAlDia(TypePc tpc) {
 		
 		return pdao.getLastPriceFor(tpc);

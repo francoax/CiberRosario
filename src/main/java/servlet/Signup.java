@@ -1,18 +1,14 @@
 package servlet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import logic.LogicRol;
-import logic.LogicUser;
+import logic.ControladorSignup;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
-import entities.Rol;
 import entities.Usuario;
 
 /**
@@ -47,11 +43,11 @@ public class Signup extends HttpServlet {
 		// Casteo todos los parametros
 			
 			Usuario u = new Usuario();
-			LogicUser uctrl = new LogicUser();
+			ControladorSignup signup = new ControladorSignup();
 			String email = request.getParameter("email");
 			u.setEmail(email);
 			//Verifico si ese usuario ya existe. Si no es nulo, mando mensaje y redirijo. Si es nulo, quiere decir que no existe, entonces registro.
-			if(uctrl.validateExist(u)!=null) {
+			if(signup.exist(u)!=null) {
 				request.setAttribute("msg", "El mail ingresado ya esta asociado a una cuenta.");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			} else {
@@ -63,9 +59,6 @@ public class Signup extends HttpServlet {
 				String tel = request.getParameter("tel");
 				String user = request.getParameter("user");
 				String typeuser = request.getParameter("typeuser");
-					
-				Rol r = new Rol();
-				LogicRol rctrl = new LogicRol();
 				// Mapeo los parametros
 				u.setPassword(password);
 				u.setNombre(nombre);
@@ -76,14 +69,12 @@ public class Signup extends HttpServlet {
 				u.setUsername(user);
 				// En caso de que sea el administrador quien defina el usuario, verifico.
 				if(typeuser!=null) {
-					r = rctrl.getRol(typeuser);
-					u.setRol(r);
+					u.setRol(signup.getRol(typeuser));
 				} else { // Si quien esta creando una cuenta es alguien completamente nuevo.
-					r = rctrl.getRol("user");
-					u.setRol(r);
+					u.setRol(signup.getRol("user"));
 				}
 				// Agrego al usuario con todos los datos.
-				uctrl.adduser(u);
+				signup.adduser(u);
 				request.setAttribute("msg", "Registro completado");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			}

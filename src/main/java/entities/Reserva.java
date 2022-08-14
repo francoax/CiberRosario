@@ -6,7 +6,7 @@ import java.time.LocalTime;
 public class Reserva {
 
 	
-	private int idReserva;
+	private String cod_reserva;
 	private LocalDate fecha_de_reserva;
 	private LocalDate fecha_a_reservar;
 	private LocalTime horaDesde;
@@ -21,11 +21,12 @@ public class Reserva {
 	private int idComputadora;
 	private int importe;
 	
-	public int getIdReserva() {
-		return idReserva;
+	
+	public String getCod_reserva() {
+		return cod_reserva;
 	}
-	public void setIdReserva(int idReserva) {
-		this.idReserva = idReserva;
+	public void setCod_reserva(String cod_reserva) {
+		this.cod_reserva = cod_reserva;
 	}
 	public int getIdComputadora() {
 		return idComputadora;

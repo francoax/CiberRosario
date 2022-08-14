@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import logic.ControladorReservarPC;
-import logic.LogicPc;
-import logic.LogicTpc;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -42,29 +40,27 @@ public class Reservation extends HttpServlet {
 		// TODO Auto-generated method stub
 		// Intencion: Conseguir la cantidad de computadoras disponibles de cada tipo.
 		try {
-			ControladorReservarPC ctrlrpc = new ControladorReservarPC();
-			LogicPc pctrl = new LogicPc();
-			LogicTpc tctrl = new LogicTpc();
-			Computadora g = new Computadora();
-			Computadora s = new Computadora();
-			Computadora w = new Computadora();
-			g = pctrl.getOne(tctrl.getOne("gamer"));
-			s = pctrl.getOne(tctrl.getOne("streamer"));
-			w = pctrl.getOne(tctrl.getOne("workstation"));
-			int amountg = pctrl.getAmountavailable(tctrl.getOne("gamer"));
-			int amounts = pctrl.getAmountavailable(tctrl.getOne("streamer"));
-			int amountw = pctrl.getAmountavailable(tctrl.getOne("workstation"));
-			request.setAttribute("gpc", g);
-			request.setAttribute("spc", s);
-			request.setAttribute("wpc", w);
-			request.setAttribute("amountg", amountg);
-			request.setAttribute("amounts", amounts);
-			request.setAttribute("amountw", amountw);
+			ControladorReservarPC reserve = new ControladorReservarPC();
+			Computadora g, s, w;
+			int gq, sq, wq = 0;
+			// Obtengo computadoras y sus cantidades disponibles para mostrar.
+			g = reserve.pcByType(reserve.getType("gamer"));
+			s = reserve.pcByType(reserve.getType("streamer"));
+			w = reserve.pcByType(reserve.getType("workstation"));
+			gq = reserve.cantidadDisponible(reserve.getType("gamer"));
+			sq = reserve.cantidadDisponible(reserve.getType("streamer"));
+			wq = reserve.cantidadDisponible(reserve.getType("workstation"));
+			// Seteo parametros para enviar.
+			request.setAttribute("g", g);
+			request.setAttribute("s", s);
+			request.setAttribute("w", w);
+			request.setAttribute("amountg", gq);
+			request.setAttribute("amounts", sq);
+			request.setAttribute("amountw", wq);
+			// Redirijo con parametros.
 			request.getRequestDispatcher("reservation.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("nulo", 0);
-			response.sendRedirect("index.jsp");
 		}
 		
 	}
@@ -78,19 +74,18 @@ public class Reservation extends HttpServlet {
 		Usuario user = (Usuario) request.getSession().getAttribute("user");
 		if(user!=null) {
 		try {
-			ControladorReservarPC ctrlrpc = new ControladorReservarPC();
-			LogicPc pctrl = new LogicPc();
-			LogicTpc tpctrl = new LogicTpc();
+			ControladorReservarPC reserve = new ControladorReservarPC();
 			Computadora pc = new Computadora();
 			String tipo = request.getParameter("tipo");
 			String para = request.getParameter("for");
-			pc = pctrl.selectToReserve(tpctrl.getOne(tipo));
-			pctrl.changeMood(pc, "seleccionada");
+
+			pc = reserve.selectToReserve(reserve.getType(tipo));
+			
 			request.getSession().setAttribute("para", para);
 			request.getSession().setAttribute("pc", pc);
 			response.sendRedirect("saving.jsp");
 		} catch (Exception e) {
-			request.setAttribute("error", "Ya no existen computadoras disponibles de este tipo. Disculpe las molestias.");
+			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("bookings.jsp").forward(request, response);
 		}
 		}else {
