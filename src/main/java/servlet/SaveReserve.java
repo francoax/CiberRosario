@@ -38,12 +38,13 @@ public class SaveReserve extends HttpServlet {
 			Reserva r = new Reserva();
 			ControladorReservarPC reserve = new ControladorReservarPC();
 			Precio precioActual = new Precio();
-			
+			Usuario user = (Usuario) request.getSession().getAttribute("user");
 			Computadora pc = (Computadora) request.getSession().getAttribute("pc");
 			LocalTime horadesde = (LocalTime) LocalTime.parse(request.getParameter("horadesde"));
 			LocalTime horahasta = (LocalTime) LocalTime.parse(request.getParameter("horahasta"));
 			precioActual = reserve.obtenerPrecioAlDia(pc.getTipo());
 			int monto = reserve.calcularMonto(horadesde, horahasta, precioActual);
+			
 			r.setImporte(monto);
 			r.setFecha_de_reserva(LocalDate.now());
 			String para = (String) request.getSession().getAttribute("para");
@@ -54,7 +55,6 @@ public class SaveReserve extends HttpServlet {
 			}
 			r.setHoraDesde(horadesde);
 			r.setHoraHasta(horahasta);
-			Usuario user = (Usuario) request.getSession().getAttribute("user");
 			r.setIdUsuario(user.getId());
 			r.setIdComputadora(pc.getIdComputadora());
 			switch (pc.getTipo().getDescripcion()) {
@@ -107,12 +107,15 @@ public class SaveReserve extends HttpServlet {
 		
 		ControladorReservarPC reserve = new ControladorReservarPC();
 		Reserva r = (Reserva) request.getSession().getAttribute("reserva");
+		Usuario u = (Usuario) request.getSession().getAttribute("user");
 		
-		reserve.registrar(r);
-		
-		response.getWriter().append(r.getCod_reserva());
-		
-		
+		try {
+			r = reserve.registrar(r);
+			reserve.sendMail(u, r);
+			response.sendRedirect("bookings.jsp");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 	}
 	

@@ -1,6 +1,13 @@
 package logic;
 
 import java.time.LocalTime;
+import java.util.Date;
+
+import javax.mail.Message;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.security.auth.Subject;
 
 import data.DataDescuentos;
 import data.DataPc;
@@ -12,6 +19,7 @@ import entities.Descuento;
 import entities.Precio;
 import entities.Reserva;
 import entities.TypePc;
+import entities.Usuario;
 
 public class ControladorReservarPC {
 	
@@ -92,13 +100,38 @@ public class ControladorReservarPC {
 		return ddao.getOne(cantHoras);
 	}
 	
-	public void registrar(Reserva r) {
+	public Reserva registrar(Reserva r) {
 		
-		rdao.save(r);
+		return rdao.save(r);
 	}
 	
 	public Precio obtenerPrecioAlDia(TypePc tpc) {
 		
 		return pdao.getLastPriceFor(tpc);
+	}
+	
+	public void sendMail(Usuario u, Reserva r) {
+		
+		MimeMessage msg = new MimeMessage(session);
+	      //set message headers
+	      msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+	      msg.addHeader("format", "flowed");
+	      msg.addHeader("Content-Transfer-Encoding", "8bit");
+
+	      msg.setFrom(new InternetAddress("no_reply@example.com", "NoReply-JD"));
+
+	      msg.setReplyTo(InternetAddress.parse("no_reply@example.com", false));
+
+	      msg.setSubject(Subject, "UTF-8");
+
+	      msg.setText(body, "UTF-8");
+
+	      msg.setSentDate(new Date());
+
+	      msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
+	      System.out.println("Message is ready");
+  	  Transport.send(msg);  
+
+	      System.out.println("EMail Sent Successfully!!");
 	}
 }

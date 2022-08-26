@@ -1,22 +1,19 @@
 package servlet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
+
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+
 import logic.ControladorReservarPC;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.LinkedList;
 
-import com.mysql.cj.Session;
 
-import data.DataTpc;
+
 import entities.Computadora;
-import entities.TypePc;
+
 import entities.Usuario;
 
 /**
