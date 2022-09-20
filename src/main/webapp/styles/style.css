@@ -3,3 +3,11 @@
 .error {
 	color: red;
 }
+
+.adminoption {
+	border-radius: 2px ;
+	border-color: black;
+	background-color: red;
+	width: 200px;
+	height: 200px;
+}

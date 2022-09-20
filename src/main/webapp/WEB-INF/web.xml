@@ -69,4 +69,15 @@
     <servlet-name>SaveReserve</servlet-name>
     <url-pattern>/save</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AdminConnect</display-name>
+    <servlet-name>AdminConnect</servlet-name>
+    <servlet-class>servlet.AdminConnect</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminConnect</servlet-name>
+    <url-pattern>/administration</url-pattern>
+    <url-pattern>/recepcionist</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -108,10 +108,11 @@ public class SaveReserve extends HttpServlet {
 		ControladorReservarPC reserve = new ControladorReservarPC();
 		Reserva r = (Reserva) request.getSession().getAttribute("reserva");
 		Usuario u = (Usuario) request.getSession().getAttribute("user");
+		Computadora pc = (Computadora) request.getSession().getAttribute("pc");
 		
 		try {
 			r = reserve.registrar(r);
-			reserve.sendMail(u, r);
+			reserve.enviarMail(u, r, pc);
 			response.sendRedirect("bookings.jsp");
 		} catch (Exception e) {
 			// TODO: handle exception

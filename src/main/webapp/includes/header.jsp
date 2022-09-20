@@ -22,9 +22,6 @@
 					<a href="bookings.jsp" class="navbar-item">
 						Reservas
 					</a>
-					<a href="torneos.jsp" class="navbar-item">
-						Torneos
-					</a>
 					<a href="streamers.jsp" class="navbar-item">
 						Streamers<img alt="" src="images/vivir.png">
 					</a>
@@ -42,8 +39,8 @@
 						</div>
 					<%} else if(user!=null&&user.getRol().getIdRol()==2){ %>
 						<div class="buttons">
-							<a class="button is-warning" href="signup.jsp">
-								<strong>options in comming</strong>
+							<a class="button is-warning" href="administration">
+								<strong>ADMINISTRACION</strong>
 							</a>
 							<a class="button" href="logout">
 								Cerrar sesion
