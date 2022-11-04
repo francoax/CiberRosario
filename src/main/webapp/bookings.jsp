@@ -29,7 +29,7 @@
 			<p class="pb pb-5">Podes reservar de 8:00am a 23:00pm de lunes a viernes.</p>
 			<div class="buttons">
 			<%if(user!=null) {%>
-			<form action="reservation" method="get">
+			<form action="reserve/start" method="get">
 				<input type="submit" class="button is-success is-medium" value="Reservar">
 			</form>
 			<%} else { %>

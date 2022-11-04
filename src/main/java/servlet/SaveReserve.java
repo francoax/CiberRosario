@@ -1,10 +1,12 @@
 package servlet;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logic.ControladorReservarPC;
+import logic.ControladorReserva;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -36,7 +38,7 @@ public class SaveReserve extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {	
 			Reserva r = new Reserva();
-			ControladorReservarPC reserve = new ControladorReservarPC();
+			ControladorReserva reserve = new ControladorReserva();
 			Precio precioActual = new Precio();
 			Usuario user = (Usuario) request.getSession().getAttribute("user");
 			Computadora pc = (Computadora) request.getSession().getAttribute("pc");
@@ -58,9 +60,6 @@ public class SaveReserve extends HttpServlet {
 			r.setIdUsuario(user.getId());
 			r.setIdComputadora(pc.getIdComputadora());
 			switch (pc.getTipo().getDescripcion()) {
-			case "gamer":
-				
-				break;
 			case "streamer":
 					r.setName_stream(request.getParameter("sname"));
 					String platform = request.getParameter("platform");
@@ -87,7 +86,7 @@ public class SaveReserve extends HttpServlet {
 			}
 			request.setAttribute("precio", precioActual.getPrecio());
 			request.getSession().setAttribute("reserva", r);
-			request.getRequestDispatcher("finishreserve.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/finishreserve.jsp").forward(request, response);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,26 +96,23 @@ public class SaveReserve extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubs
 		
-		// Requerimientos de esta seccion:
-//			- Registrar la reserva en la db.
-//			- Generar un mail con la informacion de la reserva mas un codigo que identifica a la Reserva.
-//			- Enviar mail al email del cliente.
-			
-		
-		ControladorReservarPC reserve = new ControladorReservarPC();
+		ControladorReserva reserve = new ControladorReserva();
 		Reserva r = (Reserva) request.getSession().getAttribute("reserva");
 		Usuario u = (Usuario) request.getSession().getAttribute("user");
 		Computadora pc = (Computadora) request.getSession().getAttribute("pc");
-		
+		r = reserve.save(r);
 		try {
-			r = reserve.registrar(r);
 			reserve.enviarMail(u, r, pc);
-			response.sendRedirect("bookings.jsp");
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		request.getRequestDispatcher("WEB-INF/success.jsp").forward(request, response);
 		
 	}
 	

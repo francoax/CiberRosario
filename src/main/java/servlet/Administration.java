@@ -1,24 +1,27 @@
 package servlet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import logic.ControladorReserva;
+
 import java.io.IOException;
 
+import entities.Reserva;
 import entities.Usuario;
 
 /**
  * Servlet implementation class AdminConnect
  */
-public class AdminConnect extends HttpServlet {
+public class Administration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final ControladorReserva rsva = new ControladorReserva(); 
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminConnect() {
+    public Administration() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -50,9 +53,13 @@ public class AdminConnect extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	
-		System.out.println("hi");
 		
+		String code = (String) request.getAttribute("code");
+		Reserva reserved;
+		if(true) {;
+			request.setAttribute("success", 1);
+			doGet(request, response);
+		}
 	}
 
 }

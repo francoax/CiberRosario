@@ -4,9 +4,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logic.ControladorLogin;
+import logic.ControladorUser;
 
 import java.io.IOException;
+
+import data.DataRoles;
+import data.DataUsuarios;
 import entities.Usuario;
 
 /**
@@ -14,12 +17,13 @@ import entities.Usuario;
  */
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final ControladorUser ctrluser = new ControladorUser(new DataUsuarios(), new DataRoles());
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Login() {
-        super();
+    	super();
         // TODO Auto-generated constructor stub
     }
 
@@ -39,15 +43,13 @@ public class Login extends HttpServlet {
 		
 		try {
 			Usuario user = new Usuario();
-			ControladorLogin login = new ControladorLogin();
-			
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
 			
 			user.setEmail(email);
 			user.setPassword(password);
 			
-			user = login.validate(user);
+			user = this.ctrluser.validate(user);
 			// Valido si existe el usuario. Si no es nulo, guardo session y redirijo.
 			if(user!=null) {
 				request.getSession(true).setAttribute("user", user);

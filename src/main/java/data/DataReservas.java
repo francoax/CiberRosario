@@ -56,4 +56,11 @@ public class DataReservas {
 		return r;
 		
 	}
+	
+	public Reserva find(String cod) {
+		
+		Reserva r = null;
+		
+		return r;
+	}
 }

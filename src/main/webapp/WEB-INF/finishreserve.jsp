@@ -19,7 +19,7 @@
 		
 	%>
 <html>
-<jsp:include page="includes/head.html"></jsp:include>
+<jsp:include page="../includes/head.html"></jsp:include>
 <body>
 	<div class="container is-max-desktop mt-6">
 		<h1 class="title is-4 has-text-centered"><%=para.toUpperCase() %> computadora <%=pc.getTipo().getDescripcion().toUpperCase() %>.</h1>

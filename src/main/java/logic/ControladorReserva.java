@@ -1,6 +1,8 @@
 package logic;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Properties;
 
 import data.DataDescuentos;
@@ -10,6 +12,7 @@ import data.DataReservas;
 import data.DataTpc;
 import entities.Computadora;
 import entities.Descuento;
+import entities.PCDto;
 import entities.Precio;
 import entities.Reserva;
 import entities.TypePc;
@@ -24,34 +27,30 @@ import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
-public class ControladorReservarPC {
+public class ControladorReserva {
 	
-		DataPc pcdao;
-		DataTpc tpcdao;
-		DataReservas rdao;
-		DataPrecios pdao;
-		DataDescuentos ddao;
+		private DataPc pcdao;
+		private DataTpc tpcdao;
+		private DataReservas rdao;
+		private DataPrecios pdao;
+		private DataDescuentos ddao;
 	
-	public ControladorReservarPC() {
-		pcdao = new DataPc();
-		tpcdao = new DataTpc();
-		rdao = new DataReservas();
-		pdao = new DataPrecios();
-		ddao = new DataDescuentos();
+	public ControladorReserva() {
+		this.pcdao = new DataPc();
+		this.tpcdao = new DataTpc();
+		this.rdao = new DataReservas();
+		this.pdao = new DataPrecios();
+		this.ddao = new DataDescuentos();
 	}
 
 	public Computadora pcById (int id) {
 		
 		return pcdao.getById(id);
 	}
-	public Computadora pcByType(TypePc tpc) {
-		 
-		return pcdao.getOne(tpc);
-	}
 	
-	public int cantidadDisponible (TypePc tpc) {
+	public LinkedList<PCDto> GetPcsAvailable () {
 		
-		return pcdao.countAvailable(tpc);
+		return pcdao.GetPcsAvailable();
 	}
 	
 	public Computadora selectToReserve (TypePc tpc) {
@@ -70,16 +69,7 @@ public class ControladorReservarPC {
 		
 		pcdao.setEstado(pc,estado);
 	}
-	// Busca y devuelve el objeto del tipo de computadora por descripcion
-	public TypePc getType(String desc) {
-				
-		return tpcdao.getByDesc(desc);
-	}		
-	// Busca y devuelve el objeto del tipo de computadora por id.
-	public TypePc getType(int id) {
-				
-		return tpcdao.getById(id);
-	}
+	
 	public int calcularMonto(LocalTime d, LocalTime h, Precio precioActual) {
 
 		int monto = 0;
@@ -103,7 +93,7 @@ public class ControladorReservarPC {
 		return ddao.getOne(cantHoras);
 	}
 	
-	public Reserva registrar(Reserva r) {
+	public Reserva save(Reserva r) {
 		
 		return rdao.save(r);
 	}

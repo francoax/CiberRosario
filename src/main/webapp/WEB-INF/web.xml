@@ -71,13 +71,33 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>AdminConnect</display-name>
-    <servlet-name>AdminConnect</servlet-name>
-    <servlet-class>servlet.AdminConnect</servlet-class>
+    <display-name>Administration</display-name>
+    <servlet-name>Administration</servlet-name>
+    <servlet-class>servlet.Administration</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>AdminConnect</servlet-name>
+    <servlet-name>Administration</servlet-name>
     <url-pattern>/administration</url-pattern>
     <url-pattern>/recepcionist</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ValidarReserva</display-name>
+    <servlet-name>ValidarReserva</servlet-name>
+    <servlet-class>servlet.ValidarReserva</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ValidarReserva</servlet-name>
+    <url-pattern>/validate</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Reserve</display-name>
+    <servlet-name>Reserve</servlet-name>
+    <servlet-class>servlet.Reserve</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Reserve</servlet-name>
+    <url-pattern>/reserve/*</url-pattern>
   </servlet-mapping>
 </web-app>

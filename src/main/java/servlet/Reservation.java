@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import logic.ControladorReservarPC;
+import logic.ControladorReserva;
 
 import java.io.IOException;
 
@@ -37,16 +37,13 @@ public class Reservation extends HttpServlet {
 		// TODO Auto-generated method stub
 		// Intencion: Conseguir la cantidad de computadoras disponibles de cada tipo.
 		try {
-			ControladorReservarPC reserve = new ControladorReservarPC();
+			ControladorReserva reserve = new ControladorReserva();
 			Computadora g, s, w;
 			int gq, sq, wq = 0;
 			// Obtengo computadoras y sus cantidades disponibles para mostrar.
 			g = reserve.pcByType(reserve.getType("gamer"));
 			s = reserve.pcByType(reserve.getType("streamer"));
 			w = reserve.pcByType(reserve.getType("workstation"));
-			gq = reserve.cantidadDisponible(reserve.getType("gamer"));
-			sq = reserve.cantidadDisponible(reserve.getType("streamer"));
-			wq = reserve.cantidadDisponible(reserve.getType("workstation"));
 			// Seteo parametros para enviar.
 			request.setAttribute("g", g);
 			request.setAttribute("s", s);
@@ -71,7 +68,7 @@ public class Reservation extends HttpServlet {
 		Usuario user = (Usuario) request.getSession().getAttribute("user");
 		if(user!=null) {
 		try {
-			ControladorReservarPC reserve = new ControladorReservarPC();
+			ControladorReserva reserve = new ControladorReserva();
 			Computadora pc = new Computadora();
 			String tipo = request.getParameter("tipo");
 			String para = request.getParameter("for");
@@ -80,7 +77,8 @@ public class Reservation extends HttpServlet {
 			
 			request.getSession().setAttribute("para", para);
 			request.getSession().setAttribute("pc", pc);
-			response.sendRedirect("saving.jsp");
+			request.getRequestDispatcher("WEB-INF/saving.jsp").forward(request, response);
+			
 		} catch (Exception e) {
 			request.setAttribute("error", e.getMessage());
 			request.getRequestDispatcher("bookings.jsp").forward(request, response);

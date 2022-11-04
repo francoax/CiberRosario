@@ -40,7 +40,7 @@
 					<%} else if(user!=null&&user.getRol().getIdRol()==2){ %>
 						<div class="buttons">
 							<a class="button is-warning" href="administration">
-								<strong>ADMINISTRACION</strong>
+								<strong>Panel de Control</strong>
 							</a>
 							<a class="button" href="logout">
 								Cerrar sesion

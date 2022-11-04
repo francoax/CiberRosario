@@ -4,7 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logic.ControladorSignup;
+import logic.ControladorUser;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -16,12 +16,14 @@ import entities.Usuario;
  */
 public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final ControladorUser ctrluser;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Signup() {
+    public Signup( final ControladorUser ctrluser ) {
         super();
+        this.ctrluser = ctrluser;
         // TODO Auto-generated constructor stub
     }
 
@@ -43,11 +45,10 @@ public class Signup extends HttpServlet {
 		// Casteo todos los parametros
 			
 			Usuario u = new Usuario();
-			ControladorSignup signup = new ControladorSignup();
 			String email = request.getParameter("email");
 			u.setEmail(email);
 			//Verifico si ese usuario ya existe. Si no es nulo, mando mensaje y redirijo. Si es nulo, quiere decir que no existe, entonces registro.
-			if(signup.exist(u)!=null) {
+			if(ctrluser.exist(u)!=null) {
 				request.setAttribute("msg", "El mail ingresado ya esta asociado a una cuenta.");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			} else {
@@ -60,21 +61,21 @@ public class Signup extends HttpServlet {
 				String user = request.getParameter("user");
 				String typeuser = request.getParameter("typeuser");
 				// Mapeo los parametros
-				u.setPassword(password);
-				u.setNombre(nombre);
-				u.setApellido(apellido);
-				u.setDni(dni);
+				u.setPassword(request.getParameter("password"));
+				u.setNombre(request.getParameter("nombre"));
+				u.setApellido(request.getParameter("apellido"));
+				u.setDni(request.getParameter("dni"));
 				u.setFecha_nacimiento(fechanac);
 				u.setTelefono(tel);
 				u.setUsername(user);
 				// En caso de que sea el administrador quien defina el usuario, verifico.
 				if(typeuser!=null) {
-					u.setRol(signup.getRol(typeuser));
+					u.setRol(ctrluser.getRol(typeuser));
 				} else { // Si quien esta creando una cuenta es alguien completamente nuevo.
-					u.setRol(signup.getRol("user"));
+					u.setRol(ctrluser.getRol("user"));
 				}
 				// Agrego al usuario con todos los datos.
-				signup.adduser(u);
+				ctrluser.add(u);
 				request.setAttribute("msg", "Registro completado");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
 			}
