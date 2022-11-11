@@ -13,8 +13,6 @@
 			Con nuestros equipos vas a poder cumplir lo que deseas. Acercate a nuestro local y pedi la computadora o tambien podes hacerlo desde la pagina y reclamarla en el local. </h2>
 		</section>
 	</div>
-	
-	<a href="reserve/add">Aasd</a>
 	<jsp:include page="includes/footer.html"></jsp:include>
 </body>
 </html>

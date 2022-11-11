@@ -7,6 +7,6 @@
 	<h1>Perfecto, reserva completada.</h1>
 	<p>Revisa tu email para mas informacion.
 	Muchas gracias por reserver en CiberRosario</p>
-	<a href="index.jsp">Volver al inicio</a>
+	<a href="../index.jsp">Volver al inicio</a>
 </body>
 </html>

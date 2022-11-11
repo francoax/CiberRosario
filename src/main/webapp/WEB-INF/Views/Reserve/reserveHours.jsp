@@ -11,9 +11,9 @@
 <html>
 <body>
 		<%if(para.contains("hoy")){%>
-				<label class="label">Indique hora desde y hora hasta</label>
-				<%if(request.getAttribute("msghour")!=null){ %>
-				<p style="color: red;" >${msghour}</p>
+				<label class="label">Indique el rango horario que desea reservar</label>
+				<%if(request.getAttribute("error")!=null){ %>
+				<p style="color: red;" >${error}</p>
 				<%} %>
 				<div class="field">
 					<div class="select">

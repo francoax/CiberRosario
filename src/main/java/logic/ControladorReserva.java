@@ -10,9 +10,10 @@ import data.DataPc;
 import data.DataPrecios;
 import data.DataReservas;
 import data.DataTpc;
+import dto.ComputersSpecification;
+import dto.ReserveSpecification;
 import entities.Computadora;
 import entities.Descuento;
-import entities.PCDto;
 import entities.Precio;
 import entities.Reserva;
 import entities.TypePc;
@@ -42,40 +43,42 @@ public class ControladorReserva {
 		this.pdao = new DataPrecios();
 		this.ddao = new DataDescuentos();
 	}
-
-	public Computadora pcById (int id) {
-		
-		return pcdao.getById(id);
-	}
 	
-	public LinkedList<PCDto> GetPcsAvailable () {
+	public LinkedList<ComputersSpecification> GetPcsAvailable () {
 		
 		return pcdao.GetPcsAvailable();
 	}
 	
-	public Computadora selectToReserve (TypePc tpc) {
+	public int selectToReserve(String tpc) {
 		
-		Computadora pc = new Computadora();
-		pc = pcdao.findOneavailable(tpc);
-		if(pc==null) {
-			// Preguntar sobre throws.
-			throw new RuntimeException("No hay mas computadoras disponibles de este tipo. Disculpe las molestias.");
-		}
-		changeMood(pc, "seleccionada");
-		return pc;
+		int id = pcdao.getIdAvailable(tpc);
+		changeState(id, "seleccionada");
+		return id;
 	}
 	
-	public void changeMood(Computadora pc, String estado) {
+	public void changeState(int id, String estado) {
 		
-		pcdao.setEstado(pc,estado);
+		pcdao.setEstado(id, estado);
 	}
-	
-	public int calcularMonto(LocalTime d, LocalTime h, Precio precioActual) {
 
+	
+	public int obtenerPrecioAlDia(String tpc) {
+		
+		return pdao.getPrice(tpc);
+		
+	}
+	
+	public Descuento obtenerDescuento(int cantHoras) {
+		
+		return ddao.getOne(cantHoras);
+	}
+	
+	public int calcularMonto(LocalTime d, LocalTime h, int price) {
+		
+		int precio = price;
 		int monto = 0;
-		int precio = precioActual.getPrecio();
-		int cantHoras = h.getHour() - d.getHour();
 		int submonto = 0;
+		int cantHoras = h.getHour() - d.getHour();
 		if(cantHoras>=4) {
 			Descuento desc = obtenerDescuento(cantHoras);
 			double porcentaje = desc.getPorcentaje();
@@ -88,22 +91,22 @@ public class ControladorReserva {
 		return monto;
 	}
 	
-	public Descuento obtenerDescuento(int cantHoras) {
-		
-		return ddao.getOne(cantHoras);
-	}
-	
 	public Reserva save(Reserva r) {
 		
 		return rdao.save(r);
 	}
 	
-	public Precio obtenerPrecioAlDia(TypePc tpc) {
+	public ReserveSpecification validate(String code) {
 		
-		return pdao.getLastPriceFor(tpc);
+		return rdao.validate(code);
 	}
 	
-	public void enviarMail(Usuario u, Reserva r, Computadora pc) throws AddressException, MessagingException {
+	public void confirm(String code) {
+		
+		rdao.confirm(code);
+	}
+	
+	public void sendMail(Usuario u, Reserva r, String pc) throws AddressException, MessagingException {
 		
 		try {
 		 final Properties props;
@@ -113,7 +116,7 @@ public class ControladorReserva {
 		 String content = 
 				 "Hola"+" "+u.getNombre().toUpperCase()+", "+"su reserva se ha realizado con éxito."
 				+ "\nLe adjuntamos la informacion de su reserva: "
-				+ "\n\t>> Computadora: "+pc.getTipo().getDescripcion().toUpperCase()+" ."
+				+ "\n\t>> Computadora: "+pc.toUpperCase()+" ."
 				+ "\n\t>> Reserva hecha el: "+r.getFecha_de_reserva()+" ."
 				+ "\n\t>> Para el dia: "+r.getFecha_a_reservar()+" ."
 				+ "\n\t>> Desde las "+r.getHoraDesde()+", "+"hasta las "+r.getHoraHasta()+" ."

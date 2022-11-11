@@ -1,43 +1,32 @@
 package data;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
-
-import entities.Precio;
-import entities.TypePc;
+import java.sql.Types;
 
 public class DataPrecios {
 
-	public Precio getLastPriceFor(TypePc tpc) {
+	public int getPrice(String type) {
 		
-		Precio p = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
+		CallableStatement cstmt = null;
+		int p = 0 ;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM precios WHERE idTipoComputadora = ? order by fecha_precio DESC LIMIT 1");
-			stmt.setString(1, tpc.getIdTipoComputadora());
-			rs = stmt.executeQuery();
-			if(rs!=null&&rs.next()) {
-				p = new Precio();
-				p.setPrecio(rs.getInt("precio"));
-				p.setFecha_precio(LocalDate.parse(rs.getString("fecha_precio")));
-				p.setIdTipoComputadora(rs.getString("idTipoComputadora"));
-			}
+			cstmt = DbConnector.getInstancia().getConn().prepareCall("{CALL get_last_price_for_pc(?, ?)}");
+			cstmt.setString(1, type);
+			cstmt.registerOutParameter(2, Types.INTEGER);
+			cstmt.execute();
+			p = cstmt.getInt(2);
+			return p;
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null) {rs.close();}
-				if(stmt!=null) {stmt.close();}
+				if(cstmt!=null) {cstmt.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
 		return p;
 	}
 	

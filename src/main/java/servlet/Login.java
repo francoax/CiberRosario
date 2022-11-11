@@ -57,7 +57,7 @@ public class Login extends HttpServlet {
 				response.sendRedirect("index.jsp");
 			} else {
 				request.setAttribute("error", "Usuario y/o contraseña incorrectos.");
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				request.getRequestDispatcher("login.jsp").include(request, response);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

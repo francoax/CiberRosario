@@ -1,9 +1,13 @@
 package data;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
+import dto.ReserveSpecification;
 import entities.Reserva;
 
 public class DataReservas {
@@ -57,10 +61,65 @@ public class DataReservas {
 		
 	}
 	
-	public Reserva find(String cod) {
+	public ReserveSpecification validate(String code) {
 		
-		Reserva r = null;
-		
+		ReserveSpecification r = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar , r.horaDesde, r.horaHasta, r.idComputadora, r.importe, u.dni, u.nombre, u.apellido "
+					+ "from reservas r "
+					+ "inner join usuarios u "
+					+ "on r.idUsuario = u.idUsuario "
+					+ "where r.cod_reserva = ? ");
+			stmt.setString(1, code);
+			rs = stmt.executeQuery();
+			if(rs!=null&&rs.next()) {
+				r = new ReserveSpecification();
+				r.setCode(rs.getString("cod_reserva"));
+				r.setFecha_de_reserva(rs.getObject("fecha_de_reserva", LocalDate.class));
+				r.setFecha_a_reservar(rs.getObject("fecha_a_reservar", LocalDate.class));
+				r.setHoraDesde(rs.getObject("horaDesde", LocalTime.class));
+				r.setHoraHasta(rs.getObject("horaHasta", LocalTime.class));
+				r.setIdPc(rs.getInt("idComputadora"));
+				r.setImporte(rs.getInt("importe"));
+				r.setUser_dni(rs.getString("dni"));
+				r.setUser_nombre(rs.getString("nombre"));
+				r.setUser_apellido(rs.getString("apellido"));
+				
+				return r;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return r;
+	}
+	
+	public void confirm(String code) {
+		
+		PreparedStatement stmt = null;
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("update computadoras pc inner join reservas r on pc.idComputadora = r.idComputadora set pc.estado = ? where r.cod_reserva = ?");
+			stmt.setString(1, "ocupada");
+			stmt.setString(2, code);
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

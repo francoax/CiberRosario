@@ -21,6 +21,9 @@ public class Reserva {
 	private int idComputadora;
 	private int importe;
 	
+	public Reserva() {
+		
+	}
 	
 	public String getCod_reserva() {
 		return cod_reserva;

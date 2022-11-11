@@ -1,6 +1,8 @@
-package entities;
+package dto;
 
-public class PCDto {
+import entities.TypePc;
+
+public class ComputersSpecification {
 
 	private String motherboard;
 	private String videocard;

@@ -9,9 +9,9 @@
 		<div class="select">
 		  <select name="platform">
 		  	<option selected>Plataforma</option>
-		    <option value="tw">Twitch</option>
-		    <option value="yt">Youtube</option>
-		    <option value="fb">Facebook</option>
+		    <option value="Twitch">Twitch</option>
+		    <option value="Youtube">Youtube</option>
+		    <option value="Facebook">Facebook</option>
 		  </select>
 		</div>
 	</div>

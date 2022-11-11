@@ -10,10 +10,11 @@
 		if(user==null) {
 			response.sendRedirect("login.jsp");
 		} else {
-		Computadora pc = (Computadora) session.getAttribute("pc");
-		String para = (String) session.getAttribute("para");
-		Reserva r = (Reserva) session.getAttribute("reserva");
-		int precioPc = (int) request.getAttribute("precio");
+			String para = (String) session.getAttribute("para");
+			String pc = (String) session.getAttribute("pc");
+			Reserva r = (Reserva) session.getAttribute("reserva");
+			int precioPc = (int) request.getAttribute("precio");
+		
 		String dateFormat="dd/MM/yyyy";
 		DateTimeFormatter format = DateTimeFormatter.ofPattern(dateFormat);
 		
@@ -22,10 +23,11 @@
 <jsp:include page="../includes/head.html"></jsp:include>
 <body>
 	<div class="container is-max-desktop mt-6">
-		<h1 class="title is-4 has-text-centered"><%=para.toUpperCase() %> computadora <%=pc.getTipo().getDescripcion().toUpperCase() %>.</h1>
+		<h1 class="title is-4 has-text-centered"><%=para.toUpperCase() %> computadora <%=pc.toUpperCase() %>.</h1>
 		<h2 class="subtitle is-6 has-text-centered">Fijate si los datos son correctos. Una vez visto, confirma la reserva.</h2>
-		<p class="has-background-danger-dark has-text-info-light has-text-centered">ATENCION: <br>Una vez confirmada la reserva, te enviaremos un <strong class="has-text-warning">mail</strong> al correo con el que te 
-		<strong class="has-text-warning">registraste</strong>, el <strong class="has-text-warning">codigo</strong> necesario para reclamar tu reserva en el local. </p>
+		<p class="has-background-danger-dark has-text-info-light has-text-centered">ATENCION: <br>Una vez confirmada la reserva, te enviaremos al correo un <strong class="has-text-warning">codigo</strong>
+		 que es necesario para reclamar la reserva
+		<br></p>
 		<br>
 		<p class="title is-5 has-text-centered">RESUMEN DE RESERVA</p>
 		<table class="table is-fullwidth">
@@ -44,7 +46,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><%=pc.getTipo().getDescripcion().toUpperCase() %></td>
+					<td><%=pc.toUpperCase() %></td>
 					<%if(para.contains("mañana")){%>
 					<td><%=r.getFecha_a_reservar().format(format) %></td>
 					<%} %>
@@ -65,17 +67,16 @@
 			</tbody>
 		</table>
 		<p class="title is-5 has-text-centered">INFORMACIÓN ADICIONAL</p>
-		<%if(pc.getTipo().getDescripcion().equals("streamer")) { %>
+		<%if(pc.equals("streamer")) { %>
 			<div class="has-text-centered is-size-5">	
 				<p>Streamer <strong><%=r.getName_stream() %></strong> en plataforma <strong><%=r.getPlataforma_stream() %></strong> con su stream link <strong><%=r.getLink_stream() %></strong> </p>
 			</div>
 			
-		<%} else if(pc.getTipo().getDescripcion().equals("workstation")) { %>
+		<%} else if(pc.equals("workstation")) { %>
 			<div class="is-size-5">
 				<p>Rubro <strong><%=r.getRubro_work() %> </strong> en Empresa <strong><%=r.getEmpresa_work()%></strong> </p>
 				<p>Descripcion de trabajo: <strong><%=r.getDescripcion_work() %></strong> </p>
 			</div>
-			
 		<%} %>
 		<br>
 		<br>

@@ -26,7 +26,6 @@ public class DataUsuarios {
 				u = new Usuario();
 				u.setId(rs.getInt("idUsuario"));
 				u.setUsername(rs.getString("username"));
-				u.setPassword(rs.getString("password"));
 				u.setNombre(rs.getString("nombre"));
 				u.setApellido(rs.getString("apellido"));
 				u.setDni(rs.getString("dni"));

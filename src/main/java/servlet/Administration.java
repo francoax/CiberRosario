@@ -8,6 +8,7 @@ import logic.ControladorReserva;
 
 import java.io.IOException;
 
+import dto.ReserveSpecification;
 import entities.Reserva;
 import entities.Usuario;
 
@@ -16,7 +17,7 @@ import entities.Usuario;
  */
 public class Administration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final ControladorReserva rsva = new ControladorReserva(); 
+	private final ControladorReserva ctrl = new ControladorReserva(); 
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,14 +38,14 @@ public class Administration extends HttpServlet {
 			Usuario user = (Usuario) request.getSession(false).getAttribute("user");
 			
 			if(user == null) {
-				response.sendRedirect("login.jsp");
+				response.sendRedirect("./login.jsp");
 			} else if (user.getRol().getIdRol()==2) {
-				request.getRequestDispatcher("WEB-INF/admin.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/Views/Administration/admin.jsp").forward(request, response);
 			} else {
-				response.sendRedirect("pages/autherror.jsp");
+				request.getRequestDispatcher("/WEB-INF/Views/Errors/autherror.jsp");
 			}
 		} else {
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("./login.jsp");
 		}
 	}
 
@@ -54,11 +55,46 @@ public class Administration extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String code = (String) request.getAttribute("code");
-		Reserva reserved;
-		if(true) {;
-			request.setAttribute("success", 1);
-			doGet(request, response);
+		String path = (String) request.getPathInfo().substring(1);
+		Usuario user = (Usuario) request.getSession().getAttribute("user");
+		try {
+			switch(path) {
+			case "validate" : {
+				
+				String code = (String) request.getParameter("code");
+				System.out.println("codigo: "+code);
+				
+				if(code.equals("")) {
+					request.setAttribute("error", "Por favor, especifique el codigo");
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/admin.jsp").include(request, response);
+				}
+				
+				ReserveSpecification rs = this.ctrl.validate(code);
+				
+				if(rs==null) {
+					request.setAttribute("error", "Reserva no encontrada");
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/info.jsp").include(request, response);
+				} else {
+				
+				request.getSession().setAttribute("reservespec", rs);
+				
+				request.getRequestDispatcher("/WEB-INF/Views/Administration/info.jsp").forward(request, response);
+				}
+			
+				break;
+			}
+			case "confirm" : {
+				
+				ReserveSpecification rs = (ReserveSpecification) request.getSession().getAttribute("reservespec");
+				this.ctrl.confirm(rs.getCode());
+				request.getSession().removeAttribute("reservespec");
+				request.setAttribute("reservespec", rs);	
+				request.getRequestDispatcher("/WEB-INF/Views/Administration/confirmed.jsp").forward(request, response);
+				break;
+			}
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
 		}
 	}
 
