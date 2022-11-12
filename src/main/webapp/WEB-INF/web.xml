@@ -69,4 +69,14 @@
     <servlet-name>User</servlet-name>
     <url-pattern>/user/*</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Redirect</display-name>
+    <servlet-name>Redirect</servlet-name>
+    <servlet-class>servlet.Redirect</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Redirect</servlet-name>
+    <url-pattern>/redirect</url-pattern>
+  </servlet-mapping>
 </web-app>

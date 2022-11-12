@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import entities.Usuario;
 public class DataUsuarios {
 	
-	// Busca usuario.
 	public Usuario getOne(Usuario user) {
 		
 		DataRoles rd = null;
@@ -77,7 +76,6 @@ public class DataUsuarios {
 		return u;
 	}
 	
-	// Agrega a la db nuevo usuario.
 	public void add(Usuario newUser) {
 
 		PreparedStatement stmt = null;
@@ -110,6 +108,40 @@ public class DataUsuarios {
 				e.printStackTrace();
 			}
 		}
+		
+	}
+	
+	public Usuario getByUsername(String username) {
+		
+		Usuario user = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("select idUsuario, username, nombre, apellido, dni, email, telefono from usuarios where username = ?");
+			stmt.setString(1, username);
+			rs = stmt.executeQuery();
+			if(rs!=null&&rs.next()) {
+				user = new Usuario();
+				user.setId(rs.getInt("idUsuario"));
+				user.setUsername(rs.getString("username"));
+				user.setNombre(rs.getString("nombre"));
+				user.setApellido(rs.getString("apellido"));
+				user.setDni(rs.getString("dni"));
+				user.setEmail(rs.getString("email"));
+				user.setTelefono(rs.getString("telefono"));
+				return user;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
 		
 	}
 }

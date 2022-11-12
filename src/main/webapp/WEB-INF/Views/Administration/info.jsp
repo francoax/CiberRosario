@@ -8,9 +8,12 @@
 	<jsp:include page="/includes/head.html"></jsp:include>
 <body>
 	<%if(reserve==null){
-		%> <p>${error}</p>
-		<div class="buttons">
-			<a href="../admin" class="button is-warning is-rounded">Volver a administracion</a>
+		%> 
+		<div class="container">
+			<p>${error}</p>
+			<div class="buttons">
+						<a href="../admin" type="submit" class="button is-warning">Volver</a>
+			</div>
 		</div> <%
 	} else {%>
 	<table>

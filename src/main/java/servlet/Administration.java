@@ -9,7 +9,6 @@ import logic.ControladorReserva;
 import java.io.IOException;
 
 import dto.ReserveSpecification;
-import entities.Reserva;
 import entities.Usuario;
 
 /**
@@ -40,12 +39,10 @@ public class Administration extends HttpServlet {
 			if(user == null) {
 				response.sendRedirect("./login.jsp");
 			} else if (user.getRol().getIdRol()==2) {
-				if(request.getSession().getAttribute("reservespec")!=null) {
-					request.getSession().removeAttribute("reservespec");
-				}
 				request.getRequestDispatcher("/WEB-INF/Views/Administration/admin.jsp").forward(request, response);
 			} else {
-				request.getRequestDispatcher("/WEB-INF/Views/Errors/autherror.jsp");
+				request.setAttribute("path", request.getPathInfo());
+				request.getRequestDispatcher("/WEB-INF/Views/Errors/autherror.jsp").forward(request, response);
 			}
 		} else {
 			response.sendRedirect("./login.jsp");
@@ -59,10 +56,11 @@ public class Administration extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String path = (String) request.getPathInfo().substring(1);
-		Usuario user = (Usuario) request.getSession().getAttribute("user");
 		try {
 			switch(path) {
 			case "validate" : {
+				
+				request.getSession().removeAttribute("reservespec");
 				
 				String code = (String) request.getParameter("code");
 				
@@ -75,7 +73,7 @@ public class Administration extends HttpServlet {
 				
 				if(rs==null) {
 					request.setAttribute("error", "Reserva no encontrada");
-					request.getRequestDispatcher("/WEB-INF/Views/Administration/info.jsp").include(request, response);
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/info.jsp").forward(request, response);
 				} else {
 				
 				request.getSession().setAttribute("reservespec", rs);
@@ -94,9 +92,12 @@ public class Administration extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/Views/Administration/confirmed.jsp").forward(request, response);
 				break;
 			}
+			default: {
+				break;
+			}
 			}
 		} catch (IllegalStateException e) {
-			e.printStackTrace();
+			response.sendRedirect("../login.jsp");
 		}
 	}
 

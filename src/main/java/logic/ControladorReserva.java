@@ -1,7 +1,6 @@
 package logic;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Properties;
 
@@ -10,13 +9,11 @@ import data.DataPc;
 import data.DataPrecios;
 import data.DataReservas;
 import data.DataTpc;
+import data.DataUsuarios;
 import dto.ComputersSpecification;
 import dto.ReserveSpecification;
-import entities.Computadora;
 import entities.Descuento;
-import entities.Precio;
 import entities.Reserva;
-import entities.TypePc;
 import entities.Usuario;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
@@ -31,17 +28,22 @@ import jakarta.mail.internet.MimeMessage;
 public class ControladorReserva {
 	
 		private DataPc pcdao;
-		private DataTpc tpcdao;
 		private DataReservas rdao;
 		private DataPrecios pdao;
 		private DataDescuentos ddao;
+		private DataUsuarios userdao;
 	
 	public ControladorReserva() {
 		this.pcdao = new DataPc();
-		this.tpcdao = new DataTpc();
 		this.rdao = new DataReservas();
 		this.pdao = new DataPrecios();
 		this.ddao = new DataDescuentos();
+		this.userdao = new DataUsuarios();
+	}
+	
+	public Usuario getUserByUsername(String username) {
+		
+		return userdao.getByUsername(username);
 	}
 	
 	public LinkedList<ComputersSpecification> GetPcsAvailable () {

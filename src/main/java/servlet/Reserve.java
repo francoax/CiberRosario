@@ -51,6 +51,7 @@ public class Reserve extends HttpServlet {
 				}
 				case "cancel": {
 					Reserva r = (Reserva) request.getSession().getAttribute("reserva");
+					request.getSession().removeAttribute("forUser");
 					request.getSession().removeAttribute("reserva");
 					request.getSession().removeAttribute("para");
 					request.getSession().removeAttribute("pc");
@@ -84,11 +85,21 @@ public class Reserve extends HttpServlet {
 					Reserva reserve = new Reserva();
 					String dia = (String) request.getParameter("reserva_para");
 					String type = (String) request.getParameter("tipo");
+					System.out.println(dia);
 					
 					int idpc = this.ctrl.selectToReserve(type);
 					
 					reserve.setIdComputadora(idpc);
-					reserve.setIdUsuario(user.getId());
+					
+					String forUser = (String) request.getParameter("username");
+					if(forUser != null) {
+						Usuario userfor = this.ctrl.getUserByUsername(forUser);
+						System.out.println(userfor.getNombre());
+						request.getSession().setAttribute("forUser", userfor);
+						reserve.setIdUsuario(userfor.getId());
+					} else {
+						reserve.setIdUsuario(user.getId());
+					}
 					
 					reserve.setFecha_de_reserva(LocalDate.now());
 					if(dia.contains("mañana")&&LocalTime.now().getHour()!=0) {
@@ -109,7 +120,7 @@ public class Reserve extends HttpServlet {
 					String hhasta = (String) request.getParameter("horahasta");
 					
 					
-					if(hdesde.equals("Desde") && hhasta.equals("Hasta")) {
+					if(hdesde.equals("Desde") || hhasta.equals("Hasta")) {
 						request.setAttribute("error", "Por favor, especifique las horas");
 						request.getRequestDispatcher("/WEB-INF/Views/Reserve/saving.jsp").include(request, response);
 					}
@@ -136,6 +147,10 @@ public class Reserve extends HttpServlet {
 					this.ctrl.save(reserve);
 					
 					try {
+						if(request.getSession().getAttribute("forUser")!=null) {
+							Usuario forUser = (Usuario) request.getSession().getAttribute("forUser");
+							this.ctrl.sendMail(forUser, reserve, (String)request.getSession().getAttribute("pc"));
+						}
 						this.ctrl.sendMail(user, reserve, (String)request.getSession().getAttribute("pc"));
 					} catch (AddressException e) {
 						System.out.println("address exception");
@@ -147,8 +162,8 @@ public class Reserve extends HttpServlet {
 					request.getRequestDispatcher("/WEB-INF/Views/Reserve/success.jsp").forward(request, response);
 					break;
 				}
-				default:
-					break;
+				default: {
+				}
 				}
 			} catch (IllegalStateException e) {
 				response.sendRedirect("../login.jsp");
