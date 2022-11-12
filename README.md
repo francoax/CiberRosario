@@ -12,7 +12,7 @@ Link documento proyecto : https://docs.google.com/document/d/1GN4Sj4ZSWXC9UEjRwc
 |ABMC simple|1 x integ|1 x integ|Modificacion precio / descuento|
 |ABMC dependiente|1|2|Alta computadora / usuario / reserva|
 |CU NO-ABMC|1|2|Obtener computadoras disponibles|
-|Listado simple|1|3(*)||
+|Listado simple|1|3(*)|Reservas por usuario|
 |Listado complejo|0|1(*)|Sin detalle|
 
 
