@@ -46,7 +46,7 @@ public class Reserve extends HttpServlet {
 				case "start": {
 					LinkedList<ComputersSpecification> pcs = this.ctrl.GetPcsAvailable();
 					request.setAttribute("pcs", pcs);
-					request.getRequestDispatcher("/WEB-INF/reservation.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/Views/Reserve/reservation.jsp").forward(request, response);
 					break;
 				}
 				case "cancel": {
@@ -100,7 +100,7 @@ public class Reserve extends HttpServlet {
 					request.getSession().setAttribute("para", dia);
 					request.getSession().setAttribute("pc", type);
 					request.getSession().setAttribute("reserva", reserve);
-					request.getRequestDispatcher("/WEB-INF/saving.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/Views/Reserve/saving.jsp").forward(request, response);
 					break;
 				}
 				case "resume" : {
@@ -111,7 +111,7 @@ public class Reserve extends HttpServlet {
 					
 					if(hdesde.equals("Desde") && hhasta.equals("Hasta")) {
 						request.setAttribute("error", "Por favor, especifique las horas");
-						request.getRequestDispatcher("/WEB-INF/saving.jsp").forward(request, response);
+						request.getRequestDispatcher("/WEB-INF/Views/Reserve/saving.jsp").include(request, response);
 					}
 					
 					Reserva reserve = (Reserva) request.getSession().getAttribute("reserva");
@@ -127,7 +127,7 @@ public class Reserve extends HttpServlet {
 					
 					completeReserveByType(request, reserve);
 					
-					request.getRequestDispatcher("/WEB-INF/resume.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/Views/Reserve/resume.jsp").forward(request, response);
 					break;
 				}
 				case "save" : {
@@ -144,7 +144,7 @@ public class Reserve extends HttpServlet {
 						System.out.println("messaging excepction");
 						e.printStackTrace();
 					}
-					request.getRequestDispatcher("/WEB-INF/success.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/Views/Reserve/success.jsp").forward(request, response);
 					break;
 				}
 				default:

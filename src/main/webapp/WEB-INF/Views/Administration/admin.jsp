@@ -79,13 +79,13 @@
 		</div>
 		</div>
 		<div id="rr" class="is-sr-only">
-			<jsp:include page="options/doreserve.jsp"></jsp:include>
+			<jsp:include page="doreserve.jsp"></jsp:include>
 		</div>
 		<div id="cr" class="is-sr-only">
-			<jsp:include page="options/cancelreserve.jsp"></jsp:include>
+			<jsp:include page="cancelreserve.jsp"></jsp:include>
 		</div>
 		<div id="pc" class="is-sr-only">
-			<jsp:include page="options/addpc.jsp"></jsp:include>
+			<jsp:include page="addpc.jsp"></jsp:include>
 		</div>
 	</div>
 </body>

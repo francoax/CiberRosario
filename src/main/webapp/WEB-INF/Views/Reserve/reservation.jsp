@@ -16,7 +16,7 @@
 		LinkedList<ComputersSpecification> pcs = (LinkedList<ComputersSpecification>) request.getAttribute("pcs");
 	%>
 <html>
-<jsp:include page="../includes/head.html"></jsp:include>
+<jsp:include page="/includes/head.html"></jsp:include>
 <body>
 	<div class="container mt mt-4">
 		<div class="mt-5 has-text-centered">
@@ -71,7 +71,7 @@
 			<a type="button" class="button is-warning is-rounded" href="../bookings.jsp">Volver al inicio</a>
 		</div>
 	</div>
-	<jsp:include page="../includes/footer.html"></jsp:include>
+	<jsp:include page="/includes/footer.html"></jsp:include>
 </body>
 </html>
 <%}%>

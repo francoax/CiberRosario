@@ -24,6 +24,7 @@
 				<th>Hora Desde</th>
 				<th>Hora Hasta</th>
 				<th>ID Computadora</th>
+				<th>Total</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -36,6 +37,7 @@
 				<td><%=reserve.getHoraDesde() %></td>
 				<td><%=reserve.getHoraHasta() %></td>
 				<td><%=reserve.getIdPc() %></td>
+				<td><%=reserve.getImporte() %></td>
 			</tr>
 		</tbody>
 	</table>

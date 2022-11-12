@@ -40,6 +40,9 @@ public class Administration extends HttpServlet {
 			if(user == null) {
 				response.sendRedirect("./login.jsp");
 			} else if (user.getRol().getIdRol()==2) {
+				if(request.getSession().getAttribute("reservespec")!=null) {
+					request.getSession().removeAttribute("reservespec");
+				}
 				request.getRequestDispatcher("/WEB-INF/Views/Administration/admin.jsp").forward(request, response);
 			} else {
 				request.getRequestDispatcher("/WEB-INF/Views/Errors/autherror.jsp");
@@ -62,7 +65,6 @@ public class Administration extends HttpServlet {
 			case "validate" : {
 				
 				String code = (String) request.getParameter("code");
-				System.out.println("codigo: "+code);
 				
 				if(code.equals("")) {
 					request.setAttribute("error", "Por favor, especifique el codigo");
