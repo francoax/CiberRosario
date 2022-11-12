@@ -15,7 +15,6 @@ Link documento proyecto : https://docs.google.com/document/d/1GN4Sj4ZSWXC9UEjRwc
 |Listado simple|1|3(*)|
 |Listado complejo|0|1(*)|
 
-(\*) los grupos de 3 y 4 integrantes deben elegir entre 1 listado complejo o 3 simlples para regularizar.
 
 
 ##### Aprobación Directa
@@ -29,8 +28,6 @@ Link documento proyecto : https://docs.google.com/document/d/1GN4Sj4ZSWXC9UEjRwc
 |Manejo de errores|obligatorio|obligatorio|no requiere detalle|
 |requerimiento extra obligatorio (**)|0|1|
 |publicar el sitio|olbigatorio|obligatorio|no requiere detalle|
-
-(\*\*) sólo grupos de 3 y 4 integrantes
 
 
 ###### Requerimientos extra - AD
