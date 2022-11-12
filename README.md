@@ -1,6 +1,9 @@
 # CiberRosario
 Proyecto UTN Java
-#### 3.2.1 Checklist
+
+Link documento proyecto : https://docs.google.com/document/d/1GN4Sj4ZSWXC9UEjRwcvyGoUat__PC3ZnQfoWKtnp5OI/edit?usp=sharing
+
+#### Checklist
 
 ##### Regularidad
 
