@@ -6,7 +6,7 @@
 <jsp:include page="includes/head.html"></jsp:include>
 <body>
 	<jsp:include page="includes/header.jsp"></jsp:include>
-	<div class="container">
+	<div class="container is-widescreen">
 		<section class="section is-small">
 			<h1 class="title">Nosotros</h1>
 			<h2 class="has-background-info-light">Queres <strong>jugar</strong> con buenos fps? Queres <strong>stremear</strong> con calidad? Necesitas una buena computadora para poder realizar tu <strong>trabajo</strong> como desarrollador? CiberRosario te brinda la posibilidad de cumplir todas tus necesidades.

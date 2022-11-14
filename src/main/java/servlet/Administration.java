@@ -8,6 +8,8 @@ import logic.ControladorReserva;
 
 import java.io.IOException;
 
+import javax.management.ServiceNotFoundException;
+
 import dto.ReserveSpecification;
 import entities.Usuario;
 
@@ -41,8 +43,7 @@ public class Administration extends HttpServlet {
 			} else if (user.getRol().getIdRol()==2) {
 				request.getRequestDispatcher("/WEB-INF/Views/Administration/admin.jsp").forward(request, response);
 			} else {
-				request.setAttribute("path", request.getPathInfo());
-				request.getRequestDispatcher("/WEB-INF/Views/Errors/autherror.jsp").forward(request, response);
+				response.sendError(403);
 			}
 		} else {
 			response.sendRedirect("./login.jsp");
@@ -66,21 +67,17 @@ public class Administration extends HttpServlet {
 				
 				if(code.equals("")) {
 					request.setAttribute("error", "Por favor, especifique el codigo");
-					request.getRequestDispatcher("/WEB-INF/Views/Administration/admin.jsp").include(request, response);
-				}
-				
-				ReserveSpecification rs = this.ctrl.validate(code);
-				
-				if(rs==null) {
-					request.setAttribute("error", "Reserva no encontrada");
-					request.getRequestDispatcher("/WEB-INF/Views/Administration/info.jsp").forward(request, response);
+					response.sendError(400);
 				} else {
-				
-				request.getSession().setAttribute("reservespec", rs);
-				
-				request.getRequestDispatcher("/WEB-INF/Views/Administration/info.jsp").forward(request, response);
+					ReserveSpecification rs = this.ctrl.validate(code);
+					if(rs==null) {
+						request.setAttribute("error", "Reserva no encontrada");
+						response.sendError(400);
+					} else {
+						request.getSession().setAttribute("reservespec", rs);						
+						request.getRequestDispatcher("/WEB-INF/Views/Administration/info.jsp").forward(request, response);
+					}
 				}
-			
 				break;
 			}
 			case "confirm" : {
@@ -92,12 +89,34 @@ public class Administration extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/Views/Administration/confirmed.jsp").forward(request, response);
 				break;
 			}
+			
+			case "cancel" : {
+				
+				String code = (String) request.getParameter("cancelcode");
+				System.out.println(code);
+				
+				if(code.equals("")){
+					request.setAttribute("error", "Especifique el codigo de reserva a cancelar");
+					response.sendError(400);
+				} else { 
+					ReserveSpecification reserve = this.ctrl.cancelarReserva(code);
+					if(reserve == null) {
+						request.setAttribute("error", "Reserva no encontrada");
+						response.sendError(400);
+					} else {
+						this.ctrl.changeState(reserve.getIdPc(), "disponible");
+						request.setAttribute("reserveCanceled", reserve);
+						request.getRequestDispatcher("/WEB-INF/Views/Administration/reserveCanceled.jsp").forward(request, response);
+					}
+				}
+				break;	
+			}
 			default: {
 				break;
 			}
 			}
 		} catch (IllegalStateException e) {
-			response.sendRedirect("../login.jsp");
+			response.sendError(500);
 		}
 	}
 

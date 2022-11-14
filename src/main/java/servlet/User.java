@@ -4,13 +4,20 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import logic.ControladorUser;
+
 import java.io.IOException;
+
+import data.DataRoles;
+import data.DataUsuarios;
+import entities.Usuario;
 
 /**
  * Servlet implementation class User
  */
 public class User extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final ControladorUser ctrl = new ControladorUser(new DataUsuarios(), new DataRoles());
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,7 +40,35 @@ public class User extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String path = (String) request.getPathInfo().substring(1);
+		
+		switch(path) {
+		case "login" : {
+			try {
+				Usuario user = new Usuario();
+				String email = request.getParameter("email");
+				String password = request.getParameter("password");
+				
+				user.setEmail(email);
+				user.setPassword(password);
+				
+				user = this.ctrl.validate(user);
+				// Valido si existe el usuario. Si no es nulo, guardo session y redirijo.
+				if(user!=null) {
+					request.getSession(true).setAttribute("user", user);
+					//request.getSession().setMaxInactiveInterval(300);
+					response.sendRedirect("index.jsp");
+				} else {
+					request.setAttribute("error", "Usuario y/o contraseña incorrectos.");
+					request.getRequestDispatcher("login.jsp").include(request, response);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		}
+		
 	}
 
 }

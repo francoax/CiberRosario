@@ -41,6 +41,11 @@ public class ControladorReserva {
 		this.userdao = new DataUsuarios();
 	}
 	
+	public ReserveSpecification cancelarReserva(String code) {
+		
+		return rdao.cancel(code);
+	}
+	
 	public Usuario getUserByUsername(String username) {
 		
 		return userdao.getByUsername(username);
@@ -100,7 +105,7 @@ public class ControladorReserva {
 	
 	public ReserveSpecification validate(String code) {
 		
-		return rdao.validate(code);
+		return rdao.get(code);
 	}
 	
 	public void confirm(String code) {

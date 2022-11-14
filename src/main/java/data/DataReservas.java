@@ -61,7 +61,7 @@ public class DataReservas {
 		
 	}
 	
-	public ReserveSpecification validate(String code) {
+	public ReserveSpecification get(String code) {
 		
 		ReserveSpecification r = null;
 		PreparedStatement stmt = null;
@@ -120,6 +120,27 @@ public class DataReservas {
 				e.printStackTrace();
 			}
 		}
+		
+	}
+	
+	public ReserveSpecification cancel(String code) {
+		
+		PreparedStatement stmt = null;
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM reservas WHERE cod_reserva = ?");
+			stmt.setString(1, code);
+			stmt.executeUpdate();
+		}  catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return get(code);
 		
 	}
 }
