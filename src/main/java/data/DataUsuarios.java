@@ -1,16 +1,20 @@
 package data;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import dto.UserModificated;
 import entities.Usuario;
 public class DataUsuarios {
 	
+	private DataRoles rd = new DataRoles();
+	
+	
 	public Usuario getOne(Usuario user) {
 		
-		DataRoles rd = null;
 		Usuario u = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -47,9 +51,8 @@ public class DataUsuarios {
 		return u;
 	}
 	
-	public Usuario exist(Usuario user) {
+	public boolean exist(Usuario user) {
 		
-		Usuario u = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		
@@ -59,8 +62,7 @@ public class DataUsuarios {
 			stmt.setString(1, user.getEmail());
 			rs = stmt.executeQuery();
 			if(rs!=null&&rs.next()) {
-				u = new Usuario();
-				u.setEmail(rs.getString("email"));
+				return true;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -73,7 +75,7 @@ public class DataUsuarios {
 				e.printStackTrace();
 			}
 		}
-		return u;
+		return false;
 	}
 	
 	public void add(Usuario newUser) {
@@ -100,7 +102,7 @@ public class DataUsuarios {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+		}finally {
 			try {
 				if(stmt!=null) {stmt.close();}
 				DbConnector.getInstancia().releaseConn();
@@ -129,6 +131,7 @@ public class DataUsuarios {
 				user.setDni(rs.getString("dni"));
 				user.setEmail(rs.getString("email"));
 				user.setTelefono(rs.getString("telefono"));
+				user.setRol(rd.findRol(user));
 				return user;
 			}
 		} catch (SQLException e) {
@@ -143,5 +146,37 @@ public class DataUsuarios {
 		}
 		return user;
 		
+	}
+	
+	public UserModificated modify(String username, String rol) {
+		
+		UserModificated user = null;
+		CallableStatement cstmt = null;
+		ResultSet rs = null;
+		try {
+			cstmt = DbConnector.getInstancia().getConn().prepareCall("{CALL update_userRol(?,?)}");
+			cstmt.setString(1, username);
+			cstmt.setString(2, rol);
+			cstmt.execute();
+			rs = cstmt.getResultSet();
+			if(rs!=null&&rs.next()) {
+				user = new UserModificated();
+				user.setName(rs.getString("nombre"));
+				user.setLastname(rs.getString("apellido"));
+				user.setUsername(rs.getString("username"));
+				user.setRol(rs.getString("descripcion"));
+				return user;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(cstmt!=null) {cstmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
 	}
 }

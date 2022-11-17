@@ -7,17 +7,17 @@
 	<script type="text/javascript">
 		
 		currentIdVisible = "";
-		currentTab = "";
-		const ids = ['vr', 'rr', 'cr', 'pc'];
+		const ids = ['vr', 'rr', 'cr', 'pc', 'uu', 'ad'];
 		const idstab = ['validate', 'list', 'do', 'cancel'];
 		
-		function showOption(id, idtab) {
+		function showOption(id) {
 			var element = document.getElementById(id);
 			element.classList.remove("is-sr-only");
 			currentIdVisible = id;
 			isVisible();
 		}
-		function isVisible() {
+		
+		function isVisible() {		
 			for (let id of ids) {
 				var element = document.getElementById(id);
 				if(!element.classList.contains("is-sr-only") && currentIdVisible != id) {
@@ -85,16 +85,16 @@
 	<div class="container is-widescreen">
 		<header class="mt-6" style="border-bottom: 25px; border-bottom-color: black;">
 		<h1 class="title has-text-centered m-2"> <a href="admin">CiberRosario - Administración</a> </h1>
-			<p class="help is-danger">${error}</p>
+		<h2 class="subtitle has-text-left is-size-6">${error}</h2>
 			
 			<div class="tabs">
 				<ul>
 					<li><a class="navbar-item">Listar reservas</a></li>
-					<li id="validate" class=""><a class="navbar-item" onclick="showOption('vr', 'validate')">Validar reserva</a></li>
-					<li id="do" class=""><a class="navbar-item" onclick="showOption('rr', 'do')">Realizar reserva</a></li>
-					<li id="cancel" class=""><a class="navbar-item" onclick="showOption('cr', 'cancel')">Cancelar reserva</a></li>
-					<li><a class="navbar-item">Dar de alta usuario</a></li>
-					<li><a class="navbar-item">Actualizar descuentos</a></li>
+					<li id="validate" class=""><a class="navbar-item" onclick="showOption('vr')">Validar reserva</a></li>
+					<li id="do" class=""><a class="navbar-item" onclick="showOption('rr')">Realizar reserva</a></li>
+					<li id="cancel" class=""><a class="navbar-item" onclick="showOption('cr')">Cancelar reserva</a></li>
+					<li><a class="navbar-item" onclick="showOption('uu')">Modificar rol usuario</a></li>
+					<li><a class="navbar-item" onclick="showOption('ad')">Actualizar descuentos</a></li>
 					<li><a class="navbar-item">Actualizar precios</a></li>
 					<li><a class="navbar-item" onclick="showOption('pc')">Registrar nueva PC</a></li>
 					<li><a class="navbar-item" href="./index.jsp"> <strong class="is-danger">SALIR</strong> </a></li>
@@ -118,8 +118,9 @@
 					</form>
 				</div>
 			</div>
+			
 			<div id="rr" class="is-sr-only">
-				<div class="container" style="width: 1000px; height: 800px">
+				<div class="container" style="width: 700px; height: 800px">
 					<form action="reserve/selected" method="post" class="box" autocomplete="off" id="form_reserve" onsubmit="return validateFormReserve()">
 						<h3 class="title is-size-6">Realizar reserva</h3>
 						<div class="field">
@@ -158,8 +159,9 @@
 					</form>
 				</div>
 			</div>
+			
 			<div id="cr" class="is-sr-only">
-				<div class="container" style="width: 800px; height: 400px;">
+				<div class="container" style="width: 500px; height: 400px;">
 					<form action="admin/cancel" method="post" class="box">
 						<h3 class="title is-size-6">Cancelar Reserva</h3>
 						<div class="field">
@@ -175,9 +177,36 @@
 					</form>
 				</div>
 			</div>
-			<div id="pc" class="is-sr-only">
-				
+			
+			<div id="uu" class="is-sr-only">
+				<div class="container" style="width: 620px; height: 400px;">
+					<form action="admin/modify" method="post" class="box">
+						<h3 class="title is-size-6">Modificar rol usuario</h3>
+						<div class="field">
+							<div class="is-sr-only">
+								<p></p>
+							</div>
+							<label class="label">Username</label>
+							<p class="control">
+								<input class="input" type="text" name="username" placeholder="Username">
+							</p>
+						</div>
+						<div class="field">
+							<div></div>
+							<label class="label">Seleccione el rol</label>
+							<div class="select">
+								<select id="rol" name="rol">
+									<option selected>Rol</option>
+									<option value="admin">Admin</option>
+									<option value="user">Usuario</option>
+								</select>
+							</div>
+						</div>
+						<button type="submit" class="button is-success">Modificar</button>
+					</form>
+				</div>
 			</div>
+			
 		</div>
 	</div>
 </body>

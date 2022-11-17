@@ -47,9 +47,8 @@
 							<%} else if(amount<5&&amount>0){ %> <p class="is-5" style="color: red;"><%=amount %> disponibles</p>
 							<%} else { %> <p style="color:red; font-size: 12px;"> No hay disponibles</p>
 							<%} %>
-							<%if(amount!=0){ %>
 							<div class="mt mt-5">
-								<%if(LocalTime.now().getHour()<=23&&LocalTime.now().getHour()>=8){ %>
+							<%if(amount!=0){ %>
 								<form action="selected" method="post">
 									<input type="submit" class="button has-text-white is-rounded" name="reserva_para" style="background-color: #2E4053; " value="Reservar para hoy">	
 									<input type="submit" class="button has-text-white is-rounded" name="reserva_para" style="background-color: #4D5656 ;" value="Reservar para mañana">	
@@ -61,13 +60,12 @@
 								</div>
 								<%} %>
 							</div>
-							<%} %>
 						</div>
 				</div>
 			</div>
 		<%} %>
 		</div>
-		<div class="has-text-centered">			
+		<div class="has-text-centered mb-6">			
 			<a type="button" class="button is-warning is-rounded" href="../bookings.jsp">Volver al inicio</a>
 		</div>
 	</div>

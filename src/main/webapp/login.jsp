@@ -5,7 +5,7 @@
 <jsp:include page="includes/head.html"></jsp:include>
 <body>
 	<div class="container ">
-		<form class="box m-6 p-6 has-background-grey-lighter" action="login" method="post">
+		<form class="box m-6 p-6 has-background-grey-lighter" action="user/login" method="post">
 		<h1 class="title is-3">Iniciar sesion.</h1>
 		<h2 class="subtitle is-5">Complete los campos necesarios.</h2>
 		<p class="help is-danger">${error}</p>

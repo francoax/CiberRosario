@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import logic.ControladorUser;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import data.DataRoles;
 import data.DataUsuarios;
@@ -44,8 +46,20 @@ public class User extends HttpServlet {
 		String path = (String) request.getPathInfo().substring(1);
 		
 		switch(path) {
+		
+		case "signup" : {
+				Usuario newUser = build(request);
+				if(newUser!=null) {
+					this.ctrl.add(newUser);
+					request.setAttribute("msg", "Se ha registrado con exito");
+					request.getRequestDispatcher("/signup.jsp").include(request, response);
+				} else {
+					request.setAttribute("error", "El mail ya esta registrado.");
+					response.sendError(400);
+				}
+				break;
+		}
 		case "login" : {
-			try {
 				Usuario user = new Usuario();
 				String email = request.getParameter("email");
 				String password = request.getParameter("password");
@@ -54,21 +68,37 @@ public class User extends HttpServlet {
 				user.setPassword(password);
 				
 				user = this.ctrl.validate(user);
-				// Valido si existe el usuario. Si no es nulo, guardo session y redirijo.
 				if(user!=null) {
 					request.getSession(true).setAttribute("user", user);
-					//request.getSession().setMaxInactiveInterval(300);
-					response.sendRedirect("index.jsp");
+					response.sendRedirect(request.getContextPath()+"/index.jsp");
 				} else {
 					request.setAttribute("error", "Usuario y/o contraseña incorrectos.");
-					request.getRequestDispatcher("login.jsp").include(request, response);
+					response.sendError(400);
 				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+			break;
 		}
 		}
 		
+	}
+	
+	private Usuario build (HttpServletRequest request) {
+		
+		Usuario newUser = new Usuario();
+		String email = (String) request.getParameter("email");
+		newUser.setEmail(email);
+		if(this.ctrl.exist(newUser)) {
+			return null;
+		} else {
+			newUser.setNombre(request.getParameter("name"));
+			newUser.setApellido(request.getParameter("lastname"));
+			newUser.setDni(request.getParameter("dni"));
+			newUser.setFecha_nacimiento(LocalDate.parse(request.getParameter("fechanac")));
+			newUser.setTelefono(request.getParameter("tel"));
+			newUser.setUsername(request.getParameter("username"));
+			newUser.setPassword(request.getParameter("password"));
+			newUser.setRol(ctrl.getRol("user"));
+			return newUser;
+		}
 	}
 
 }

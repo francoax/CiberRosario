@@ -126,6 +126,7 @@ public class DataReservas {
 	public ReserveSpecification cancel(String code) {
 		
 		PreparedStatement stmt = null;
+		ReserveSpecification r = get(code);
 		try {
 			stmt = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM reservas WHERE cod_reserva = ?");
 			stmt.setString(1, code);
@@ -140,7 +141,7 @@ public class DataReservas {
 				e.printStackTrace();
 			}
 		}
-		return get(code);
+		return r;
 		
 	}
 }

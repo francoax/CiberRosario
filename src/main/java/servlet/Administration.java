@@ -5,12 +5,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import logic.ControladorReserva;
+import logic.ControladorUser;
 
 import java.io.IOException;
 
 import javax.management.ServiceNotFoundException;
 
+import data.DataRoles;
+import data.DataUsuarios;
 import dto.ReserveSpecification;
+import dto.UserModificated;
 import entities.Usuario;
 
 /**
@@ -110,6 +114,36 @@ public class Administration extends HttpServlet {
 					}
 				}
 				break;	
+			}
+			
+			case "modify" : {
+				
+				ControladorUser userctrl = new ControladorUser(new DataUsuarios(), new DataRoles());
+				String username = (String) request.getParameter("username");
+				String rol = (String) request.getParameter("rol");
+				
+				if(username.equals("")||rol.equals("Rol")) {
+					request.setAttribute("error", "Modificar Usuario: Por favor, especifique correctamente los campos");
+					response.sendError(400);
+				} else {
+					UserModificated user = userctrl.modify(username, rol);
+					if(user==null) {
+						request.setAttribute("error", "Usuario no encontrado o ya posee ese rol.");
+						response.sendError(404);
+					} else {
+						request.setAttribute("userModificated", user);
+						request.setAttribute("rol", rol);
+						request.getRequestDispatcher("/WEB-INF/Views/Administration/userModify.jsp").forward(request, response);
+					}
+				}
+			break;
+			}
+			
+			case "descount" : {
+				
+				LinkedList<Descuento> descuentos = 
+				
+				break;
 			}
 			default: {
 				break;
