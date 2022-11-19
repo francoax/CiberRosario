@@ -6,7 +6,7 @@
 <body>
 	<div class="notification">
 		<div class="content">
-			<p>Descuento actualizado con exito.</p>
+			<p>${success}</p>
 			<a class="button is-warning" href="/CiberRosario/admin">Regresar a administracion</a>
 		</div>
 	</div>

@@ -10,7 +10,7 @@
 		<h2 class="subtitle has-text-left is-size-6">${error}</h2>
 			<div class="tabs">
 				<ul>
-					<li><a class="navbar-item">Listar reservas</a></li>
+					<li><a href="#" class="navbar-item" onclick='divVisibility("listreserve");'>Listar reservas</a></li>
 					<li><a href="#" class="navbar-item" onclick='divVisibility("validate");'>Validar reserva</a></li>
 					<li><a href="#" class="navbar-item" onclick='divVisibility("doreserve");'>Realizar reserva</a></li>
 					<li><a href="#" class="navbar-item" onclick='divVisibility("cancel");'>Cancelar reserva</a></li>
@@ -24,6 +24,13 @@
 		</header>
 		
 		<div class="m-6">
+		
+			<div id="listreserve" class="is-hidden">
+				<div class="container">
+					<jsp:include page="/listreserve"></jsp:include>
+				</div>
+			</div>
+		
 			<div id="validate" class="is-hidden">
 				<div class="container " style="width: 500px; height: 300px;">	
 					<form action="admin/validate" method="post" class="box" autocomplete="off" id="form_validate" onsubmit="return validateFormValidate()">
@@ -177,7 +184,7 @@
 							<label class="label">Fecha de comienzo de vigencia</label>
 							<div class="select">
 								<select name="vigencia" onchange="show('calendar', this)">
-									<option>Vigencia</option>
+									<option selected>Vigencia</option>
 									<option value="hoy">Hoy</option>
 									<option value="definir" >Definir</option>
 								</select>
@@ -199,6 +206,56 @@
 				</div>
 			</div>
 			
+			<div id="addpc" class="is-hidden">
+				<div class="container" style="width: 700px; height: 650px; ">
+					<form action="admin/addpc" class="box" method="post">
+						<h3 class="title is-size-6">Registrar nueva PC</h3>
+						<div class="field">
+							<label class="label">Tipo de computadora</label>
+							<div class="select">
+								<select name="tipo">
+									<option selected>Tipo</option>
+									<option value="gamer">Gamer</option>
+									<option value="streamer">Streamer</option>
+									<option value="workstation">Workstation</option>
+								</select>
+							</div>
+						</div>
+						<div class="field">
+							<label class="label">Procesador</label>
+							<p class="control">
+								<input class="input" type="text" name="proce">
+							</p>
+						</div>
+						<div class="field">
+							<label class="label">Placa madre</label>
+							<p class="control">
+								<input class="input" type="text" name="mother">
+							</p>
+						</div>
+						<div class="field">
+							<label class="label">RAM</label>
+							<p class="control">
+								<input class="input" type="text" name="ram">
+							</p>
+						</div>
+						<div class="field">
+							<label class="label">Placa de video</label>
+							<p class="control">
+								<input class="input" type="text" name="grafica">
+							</p>
+						</div>
+						<div class="field">
+							<label class="label">Almacenamiento</label>
+							<p class="control">
+								<input class="input" type="text" name="storage">
+							</p>
+						</div>
+						<button class="button is-success" type="submit">Registrar</button>
+					</form>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 	
@@ -210,7 +267,7 @@
 	</script>
 	<script type="text/javascript">
 		
-		var divs = ["validate", "doreserve", "cancel", "updateuser", "updatediscount", "updateprice"];
+		var divs = ["listreserve", "validate", "doreserve", "cancel", "updateuser", "updatediscount", "updateprice", "addpc"];
 
 		var visibleDivId = null;
 		
@@ -227,7 +284,6 @@
 	      var i, divId, div;
 	      for(i = 0; i < divs.length; i++) {
 	        divId = divs[i];
-	        console.log(divId);
 	        div = document.getElementById(divId);
 	        if(visibleDivId === divId) {
 	        div.classList.remove("is-hidden");

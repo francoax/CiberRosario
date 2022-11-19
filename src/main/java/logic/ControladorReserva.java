@@ -11,6 +11,7 @@ import data.DataReservas;
 import data.DataTpc;
 import data.DataUsuarios;
 import dto.ComputersSpecification;
+import dto.ReserveList;
 import dto.ReserveSpecification;
 import entities.Descuento;
 import entities.Reserva;
@@ -40,6 +41,12 @@ public class ControladorReserva {
 		this.ddao = new DataDescuentos();
 		this.userdao = new DataUsuarios();
 	}
+	
+	public LinkedList<ReserveList> getAll() {
+		
+		return rdao.getAll();
+	}
+	
 	
 	public ReserveSpecification cancelarReserva(String code) {
 		

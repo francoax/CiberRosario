@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.LinkedList;
 import java.util.UUID;
 
+import dto.ReserveList;
 import dto.ReserveSpecification;
 import entities.Reserva;
 
@@ -143,5 +145,49 @@ public class DataReservas {
 		}
 		return r;
 		
+	}
+	
+	public LinkedList<ReserveList> getAll() {
+		
+		LinkedList<ReserveList> list = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar, r.horaDesde, r.horaHasta, r.idComputadora, u.nombre, u.apellido, u.dni "
+					+ "from reservas r "
+					+ "inner join usuarios u "
+					+ "on r.idUsuario = u.idUsuario "
+					+ "order by r.fecha_de_reserva;");
+			rs = stmt.executeQuery();
+			if(rs!=null) {
+				list = new LinkedList<ReserveList>();
+				while(rs.next()) {
+					ReserveList item = new ReserveList();
+					item.setCod_reserva(rs.getString("cod_reserva"));
+					item.setFecha_a_reservar(LocalDate.parse(rs.getString("fecha_a_reservar")));
+					item.setFecha_de_reserva(LocalDate.parse(rs.getString("fecha_de_reserva")));
+					item.setHoraDesde(rs.getString("horaDesde"));
+					item.setHoraHasta(rs.getString("horaHasta"));
+					item.setIdComputadora(rs.getInt("idComputadora"));
+					item.setUser_dni(rs.getString("dni"));
+					item.setUser_name(rs.getString("nombre"));
+					item.setUser_lastname(rs.getString("apellido"));
+					list.add(item);
+				}
+			System.out.println(list.toString());
+			return list;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 }

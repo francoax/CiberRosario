@@ -29,7 +29,7 @@ public class DataPc {
 				pc.setPlaca_madre(rs.getString("placa_madre"));
 				pc.setPlaca_de_video(rs.getString("placa_de_video"));
 				pc.setRam(rs.getString("ram"));
-				pc.setStorage(rs.getString("storage"));
+				pc.setStorage(rs.getString("almacenamiento"));
 				pc.setProcesador(rs.getString("procesador"));
 				pc.setEstado(rs.getString("estado"));
 				pc.setTipo(tdao.findType(pc));
@@ -88,7 +88,7 @@ public class DataPc {
 					+ "on pc.idTipoComputadora = tpc.idTipoComputadora "
 					+ "where pc.estado = 'disponible' "
 					+ "group by 1) "
-					+ "select distinct pc.placa_madre, pc.placa_de_video, pc.ram, pc.procesador, pc.storage, pc.idTipoComputadora, tp.descripcion, ifnull(pc_cant.cant, 0) cant "
+					+ "select distinct pc.placa_madre, pc.placa_de_video, pc.ram, pc.procesador, pc.almacenamiento, pc.idTipoComputadora, tp.descripcion, ifnull(pc_cant.cant, 0) cant "
 					+ "from computadoras pc "
 					+ "left join pc_cant "
 					+ "on pc.idTipoComputadora = pc_cant.idTipoComputadora "
@@ -104,7 +104,7 @@ public class DataPc {
 					pca.setVideocard(rs.getString("placa_de_video"));
 					pca.setRam(rs.getString("ram"));
 					pca.setCore(rs.getString("procesador"));
-					pca.setStorage(rs.getString("storage"));
+					pca.setStorage(rs.getString("almacenamiento"));
 					pca.setAmount(rs.getInt("cant"));
 					pca.setType(type);
 					pcs.add(pca);
@@ -145,5 +145,34 @@ public class DataPc {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void add(Computadora newPc, String tipo) {
+		
+		PreparedStatement stmt = null;
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("insert into computadoras (placa_madre, placa_de_video, ram, procesador, almacenamiento, estado, idTipoComputadora) "
+					+ "select ?,?,?,?,?,?, tpc.idTipoComputadora  "
+					+ "from tipo_computadora tpc "
+					+ "where tpc.descripcion = ?");
+			stmt.setString(1, newPc.getPlaca_madre());
+			stmt.setString(2, newPc.getPlaca_de_video());
+			stmt.setString(3, newPc.getRam());
+			stmt.setString(4, newPc.getProcesador());
+			stmt.setString(5, newPc.getStorage());
+			stmt.setString(6, "disponible");
+			stmt.setString(7, tipo);
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

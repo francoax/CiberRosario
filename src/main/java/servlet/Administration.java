@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import logic.ControladorDiscount;
+import logic.ControladorPc;
 import logic.ControladorPrecio;
 import logic.ControladorReserva;
 import logic.ControladorUser;
@@ -20,6 +21,7 @@ import data.DataRoles;
 import data.DataUsuarios;
 import dto.ReserveSpecification;
 import dto.UserModificated;
+import entities.Computadora;
 import entities.Descuento;
 import entities.Precio;
 import entities.Usuario;
@@ -178,7 +180,7 @@ public class Administration extends HttpServlet {
 				} else {
 					ControladorDiscount desctrl = new ControladorDiscount();
 					desctrl.update(range, Integer.parseInt(discount));
-					request.getRequestDispatcher("/WEB-INF/Views/Administration/discountSuccess.jsp").forward(request, response);
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
 				}
 				
 				break;
@@ -204,13 +206,28 @@ public class Administration extends HttpServlet {
 					precio.setIdTipoComputadora(type);
 					try {
 						ctrlpr.update(precio);
-						request.getRequestDispatcher("/WEB-INF/Views/Administration/priceSuccess.jsp").forward(request, response);
+						request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
 					} catch (SQLException e) {
 						request.setAttribute("error", "El precio ya fue actualizado hoy, espere hasta mañana.");
 						response.sendError(400);
 					}
 				}
 				
+				break;
+			}
+			
+			case "addpc" : {
+				
+				Computadora newPc = buildNewPc(request);
+				String tipo = (String) request.getParameter("tipo");
+				if(newPc!=null&&!tipo.equals("Tipo")) {
+					ControladorPc pctrl = new ControladorPc();
+					pctrl.add(newPc, tipo);
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
+				} else {
+					request.setAttribute("error", "Especifique los campos necesarios para registrar una nueva pc");
+					response.sendError(400);
+				}
 				break;
 			}
 			default: {
@@ -220,6 +237,28 @@ public class Administration extends HttpServlet {
 		} catch (IllegalStateException e) {
 			response.sendError(500);
 		}
+	}
+	
+	private Computadora buildNewPc(HttpServletRequest request) {
+		
+		Computadora newPc = new Computadora();
+		String proce = (String) request.getParameter("proce");
+		String mother = (String) request.getParameter("mother");
+		String grafica = (String) request.getParameter("grafica");
+		String ram = (String) request.getParameter("ram");
+		String storage = (String) request.getParameter("storage");
+		String[] datos = {proce, mother, grafica, ram, storage};
+		for (String dato : datos) {
+			if(dato.isEmpty()) {
+				return null;
+			}
+		}
+		newPc.setProcesador(proce);
+		newPc.setPlaca_madre(mother);
+		newPc.setPlaca_de_video(grafica);
+		newPc.setRam(ram);
+		newPc.setStorage(storage);
+		return newPc;
 	}
 
 }
