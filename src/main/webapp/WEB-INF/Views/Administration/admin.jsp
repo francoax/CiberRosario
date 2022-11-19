@@ -3,28 +3,240 @@
 <!DOCTYPE html>
 <html>
 	<jsp:include page="/includes/head.html"></jsp:include>
+<body>
+	<div class="container is-widescreen">
+		<header class="mt-6" style="border-bottom: 25px; border-bottom-color: black;">
+		<h1 class="title has-text-centered m-2"> <a href="admin">CiberRosario - Administración</a> </h1>
+		<h2 class="subtitle has-text-left is-size-6">${error}</h2>
+			<div class="tabs">
+				<ul>
+					<li><a class="navbar-item">Listar reservas</a></li>
+					<li><a href="#" class="navbar-item" onclick='divVisibility("validate");'>Validar reserva</a></li>
+					<li><a href="#" class="navbar-item" onclick='divVisibility("doreserve");'>Realizar reserva</a></li>
+					<li><a href="#" class="navbar-item" onclick='divVisibility("cancel");'>Cancelar reserva</a></li>
+					<li><a href="#" class="navbar-item" onclick='divVisibility("updateuser");'>Modificar rol usuario</a></li>
+					<li><a href="#" class="navbar-item" onclick='divVisibility("updatediscount");'>Actualizar descuentos</a></li>
+					<li><a href="#" class="navbar-item" onclick='divVisibility("updateprice");'>Actualizar precios</a></li>
+					<li><a href="#" class="navbar-item" onclick='divVisibility("addpc");'>Registrar nueva PC</a></li>
+					<li><a class="navbar-item" href="./index.jsp"> <strong class="is-danger">SALIR</strong> </a></li>
+				</ul>
+			</div>
+		</header>
+		
+		<div class="m-6">
+			<div id="validate" class="is-hidden">
+				<div class="container " style="width: 500px; height: 300px;">	
+					<form action="admin/validate" method="post" class="box" autocomplete="off" id="form_validate" onsubmit="return validateFormValidate()">
+					<div class="field">
+					<h3 class="title is-size-6">Validar reserva</h3>
+					<div id="msgcode" class="is-sr-only">
+						<p class="help is-danger">Por favor, especifique el codigo</p>
+					</div>
+						<label class="label">Código reserva</label>
+						<div class="control">
+							<input id="code" class="input" type="text" placeholder="Code" name="code" value="">
+						</div>
+					</div>
+					<button type="submit" class="button is-success">Validar</button>
+					</form>
+				</div>
+			</div>
+			
+			<div id="doreserve" class="is-hidden">
+				<div class="container" style="width: 700px; height: 800px">
+					<form action="admin/doreserve" method="post" class="box" autocomplete="off" id="form_reserve" onsubmit="return validateFormReserve()">
+						<h3 class="title is-size-6">Realizar reserva</h3>
+						<div class="field">
+							<div id="error_username" class="is-sr-only">
+								<p class="help is-danger">Especifique username.</p>
+							</div>
+							<label class="label">Username de cliente</label>
+							<div class="control">
+								<input id="username" class="input" type="text" placeholder="Username" name="username" value="">
+							</div>
+							<div id="error_tipo" class="is-sr-only">
+								<p class="help is-danger">Especifique tipo.</p>
+							</div>
+							<label class="label">Tipo de computadora</label>
+							<div class="select">
+								<select id="tipo" name="tipo">
+									<option selected>Tipo</option>
+									<option value="gamer">Gamer</option>
+									<option value="streamer">Streamer</option>
+									<option value="workstation">Workstation</option>
+								</select>
+							</div>
+							<div id="error_dia" class="is-sr-only">
+								<p class="help is-danger">Especifique dia.</p>
+							</div>
+							<label class="label">Dia de reserva</label>
+							<div class="select">
+								<select id="dia" name="reserva_para">
+									<option selected>Dia</option>
+									<option value="hoy">Hoy</option>
+									<option value="mañana">Mañana</option>
+								</select>
+							</div>
+						</div>
+					<button type="submit" class="button is-success">Iniciar reserva</button>
+					</form>
+				</div>
+			</div>
+			
+			<div id="cancel" class="is-hidden">
+				<div class="container" style="width: 500px; height: 400px;">
+					<form action="admin/cancel" method="post" class="box">
+						<h3 class="title is-size-6">Cancelar Reserva</h3>
+						<div class="field">
+							<div id="error_code" class="is-sr-only">
+								<p class="help is-danger">Especifique el codigo.</p>
+							</div>
+							<label class="label">Codigo de reserva</label>
+							<div class="control">
+								<input type="text" class="input" placeholder="Code" name="cancelcode" value="">
+							</div>
+							<button class="button is-danger mt-2" type="submit">Cancelar reserva</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<div id="updateuser" class="is-hidden">
+				<div class="container" style="width: 620px; height: 400px;">
+					<form action="admin/modify" method="post" class="box">
+						<h3 class="title is-size-6">Modificar rol usuario</h3>
+						<div class="field">
+							<div class="is-sr-only">
+								<p></p>
+							</div>
+							<label class="label">Username</label>
+							<p class="control">
+								<input class="input" type="text" name="username" placeholder="Username">
+							</p>
+						</div>
+						<div class="field">
+							<div></div>
+							<label class="label">Seleccione el rol</label>
+							<div class="select">
+								<select id="rol" name="rol">
+									<option selected>Rol</option>
+									<option value="admin">Admin</option>
+									<option value="user">Usuario</option>
+								</select>
+							</div>
+						</div>
+						<button type="submit" class="button is-success">Modificar</button>
+					</form>
+				</div>
+			</div>
+			
+			<div id="updatediscount" class="is-hidden">
+				<div class="container" style="width: 500px; height: 400px;">
+					<form action="admin/updatediscount" class="box" method="post">
+						<h3 class="title is-size-6">Actualizar Descuentos</h3>
+						<jsp:include page="/listdescount"></jsp:include>
+						<div class="field">
+							<label class="label">Seleccionar rango</label>
+							<div class="select">
+								<select name="range">
+									<option>Rango</option>
+									<option value="flex">2 a 4</option>
+									<option value="medium">4 a 6</option>
+									<option value="high">6 a 8</option>
+									<option value="ultra">8 a 16</option>
+								</select>
+							</div>
+						</div>
+						<div class="field">
+							<label class="label">Nuevo descuento(%)</label>
+							<p class="control">
+								<input name="discount" class="input" type="text">
+							</p>
+						</div>
+						<button class="button is-success" type="submit">Actualizar</button>
+					</form>
+				</div>
+			</div>
+			
+			<div id="updateprice" class="is-hidden">
+				<div class="container" style="width: 500px; height: 400px;">
+					<form action="admin/updateprice" class="box" method="post">
+						<h3 class="title is-size-6">Actualizar Precios</h3>
+						<div class="field">
+							<label class="label">Seleccione tipo computadora</label>
+							<div class="select">
+								<select name="type">
+									<option>Tipo</option>
+									<option value="gamer">Gamer</option>
+									<option value="streamer">Streamer</option>
+									<option value="workstation">Workstation</option>
+								</select>
+							</div>
+						</div>
+						<div class="field">
+							<label class="label">Fecha de comienzo de vigencia</label>
+							<div class="select">
+								<select name="vigencia" onchange="show('calendar', this)">
+									<option>Vigencia</option>
+									<option value="hoy">Hoy</option>
+									<option value="definir" >Definir</option>
+								</select>
+							</div>
+							<div style="display: inline-block;">
+								<p class="control" style="display: none;" id="calendar">
+										<input class="input" type="date" name="fechaprecio">								
+								</p>
+							</div>
+						</div>
+						<div class="field">
+							<label class="label">Nuevo precio($)</label>
+							<p class="control">
+								<input name="price" class="input" type="text">
+							</p>
+						</div>
+						<button class="button is-success" type="submit">Actualizar</button>
+					</form>
+				</div>
+			</div>
+			
+		</div>
+	</div>
 	
 	<script type="text/javascript">
-		
-		currentIdVisible = "";
-		const ids = ['vr', 'rr', 'cr', 'pc', 'uu', 'ad'];
-		const idstab = ['validate', 'list', 'do', 'cancel'];
-		
-		function showOption(id) {
-			var element = document.getElementById(id);
-			element.classList.remove("is-sr-only");
-			currentIdVisible = id;
-			isVisible();
+		function show(divId, element)
+		{
+		    document.getElementById(divId).style.display = element.value == "definir" ? 'block' : 'none';
 		}
+	</script>
+	<script type="text/javascript">
 		
-		function isVisible() {		
-			for (let id of ids) {
-				var element = document.getElementById(id);
-				if(!element.classList.contains("is-sr-only") && currentIdVisible != id) {
-					element.classList.toggle("is-sr-only");
-				}
-			}
-		}
+		var divs = ["validate", "doreserve", "cancel", "updateuser", "updatediscount", "updateprice"];
+
+		var visibleDivId = null;
+		
+	    function divVisibility(divId) {
+	      if(visibleDivId === divId) {
+	        visibleDivId = null;
+	      } else {
+	        visibleDivId = divId;
+	      }
+	      hideNonVisibleDivs();
+	    }
+	    
+	    function hideNonVisibleDivs() {
+	      var i, divId, div;
+	      for(i = 0; i < divs.length; i++) {
+	        divId = divs[i];
+	        console.log(divId);
+	        div = document.getElementById(divId);
+	        if(visibleDivId === divId) {
+	        div.classList.remove("is-hidden");
+	        } else {
+	        div.classList.add("is-hidden");
+	        }
+	      }
+	    }
+	    
 	</script>
 	
 	<script type="text/javascript">
@@ -80,134 +292,5 @@
 		}
 	
 	</script>
-	
-<body>
-	<div class="container is-widescreen">
-		<header class="mt-6" style="border-bottom: 25px; border-bottom-color: black;">
-		<h1 class="title has-text-centered m-2"> <a href="admin">CiberRosario - Administración</a> </h1>
-		<h2 class="subtitle has-text-left is-size-6">${error}</h2>
-			
-			<div class="tabs">
-				<ul>
-					<li><a class="navbar-item">Listar reservas</a></li>
-					<li id="validate" class=""><a class="navbar-item" onclick="showOption('vr')">Validar reserva</a></li>
-					<li id="do" class=""><a class="navbar-item" onclick="showOption('rr')">Realizar reserva</a></li>
-					<li id="cancel" class=""><a class="navbar-item" onclick="showOption('cr')">Cancelar reserva</a></li>
-					<li><a class="navbar-item" onclick="showOption('uu')">Modificar rol usuario</a></li>
-					<li><a class="navbar-item" onclick="showOption('ad')">Actualizar descuentos</a></li>
-					<li><a class="navbar-item">Actualizar precios</a></li>
-					<li><a class="navbar-item" onclick="showOption('pc')">Registrar nueva PC</a></li>
-					<li><a class="navbar-item" href="./index.jsp"> <strong class="is-danger">SALIR</strong> </a></li>
-				</ul>
-			</div>
-		</header>
-		<div class="m-6">
-			<div id="vr" class="is-sr-only">
-				<div class="container " style="width: 500px; height: 300px;">	
-					<form action="admin/validate" method="post" class="box" autocomplete="off" id="form_validate" onsubmit="return validateFormValidate()">
-					<div class="field">
-					<div id="msgcode" class="is-sr-only">
-						<p class="help is-danger">Por favor, especifique el codigo</p>
-					</div>
-						<label class="label">CÓDIGO reserva</label>
-						<div class="control">
-							<input id="code" class="input" type="text" placeholder="-----" name="code" value="">
-						</div>
-					</div>
-					<button type="submit" class="button is-success">Validar</button>
-					</form>
-				</div>
-			</div>
-			
-			<div id="rr" class="is-sr-only">
-				<div class="container" style="width: 700px; height: 800px">
-					<form action="reserve/selected" method="post" class="box" autocomplete="off" id="form_reserve" onsubmit="return validateFormReserve()">
-						<h3 class="title is-size-6">Realizar reserva</h3>
-						<div class="field">
-							<div id="error_username" class="is-sr-only">
-								<p class="help is-danger">Especifique username.</p>
-							</div>
-							<label class="label">Username de cliente</label>
-							<div class="control">
-								<input id="username" class="input" type="text" placeholder="Username" name="username" value="">
-							</div>
-							<div id="error_tipo" class="is-sr-only">
-								<p class="help is-danger">Especifique tipo.</p>
-							</div>
-							<label class="label">Tipo de computadora</label>
-							<div class="select">
-								<select id="tipo" name="tipo">
-									<option selected>Tipo</option>
-									<option value="gamer">Gamer</option>
-									<option value="streamer">Streamer</option>
-									<option value="workstation">Workstation</option>
-								</select>
-							</div>
-							<div id="error_dia" class="is-sr-only">
-								<p class="help is-danger">Especifique dia.</p>
-							</div>
-							<label class="label">Dia de reserva</label>
-							<div class="select">
-								<select id="dia" name="reserva_para">
-									<option selected>Dia</option>
-									<option value="hoy">Hoy</option>
-									<option value="mañana">Mañana</option>
-								</select>
-							</div>
-						</div>
-					<button type="submit" class="button is-success">Iniciar reserva</button>
-					</form>
-				</div>
-			</div>
-			
-			<div id="cr" class="is-sr-only">
-				<div class="container" style="width: 500px; height: 400px;">
-					<form action="admin/cancel" method="post" class="box">
-						<h3 class="title is-size-6">Cancelar Reserva</h3>
-						<div class="field">
-							<div id="error_code" class="is-sr-only">
-								<p class="help is-danger">Especifique el codigo.</p>
-							</div>
-							<label class="label">Codigo de reserva</label>
-							<div class="control">
-								<input type="text" class="input" placeholder="Code" name="cancelcode" value="">
-							</div>
-							<button class="button is-danger mt-2" type="submit">Cancelar reserva</button>
-						</div>
-					</form>
-				</div>
-			</div>
-			
-			<div id="uu" class="is-sr-only">
-				<div class="container" style="width: 620px; height: 400px;">
-					<form action="admin/modify" method="post" class="box">
-						<h3 class="title is-size-6">Modificar rol usuario</h3>
-						<div class="field">
-							<div class="is-sr-only">
-								<p></p>
-							</div>
-							<label class="label">Username</label>
-							<p class="control">
-								<input class="input" type="text" name="username" placeholder="Username">
-							</p>
-						</div>
-						<div class="field">
-							<div></div>
-							<label class="label">Seleccione el rol</label>
-							<div class="select">
-								<select id="rol" name="rol">
-									<option selected>Rol</option>
-									<option value="admin">Admin</option>
-									<option value="user">Usuario</option>
-								</select>
-							</div>
-						</div>
-						<button type="submit" class="button is-success">Modificar</button>
-					</form>
-				</div>
-			</div>
-			
-		</div>
-	</div>
 </body>
 </html>

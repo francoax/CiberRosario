@@ -11,7 +11,7 @@ public class DbConnector {
 	private String port="3306";
 	private String user="usuario";
 	private String password="zsedc123";
-	private String db="ciber_rosario";
+	private String db="ciberrosario";
 	private int conectados=0;
 	private Connection conn=null;
 	

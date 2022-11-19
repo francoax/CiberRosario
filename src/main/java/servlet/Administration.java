@@ -4,10 +4,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import logic.ControladorDiscount;
+import logic.ControladorPrecio;
 import logic.ControladorReserva;
 import logic.ControladorUser;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.LinkedList;
 
 import javax.management.ServiceNotFoundException;
 
@@ -15,6 +20,8 @@ import data.DataRoles;
 import data.DataUsuarios;
 import dto.ReserveSpecification;
 import dto.UserModificated;
+import entities.Descuento;
+import entities.Precio;
 import entities.Usuario;
 
 /**
@@ -94,6 +101,28 @@ public class Administration extends HttpServlet {
 				break;
 			}
 			
+			case "doreserve" : {
+				
+				String username = (String) request.getParameter("username");
+				String type = (String) request.getParameter("tipo");
+				String dia = (String) request.getParameter("reserva_para");
+				
+				if(username.isEmpty()||type.equals("Tipo")||dia.equals("Dia")) {
+					request.setAttribute("error", "Especifique los campos necesarios para realizar la reserva.");
+					response.sendError(400);
+				} else {
+					Usuario user = this.ctrl.getUserByUsername(username);
+					if(user!=null) {
+						request.getSession().setAttribute("forUser", user);
+						request.getRequestDispatcher("reserve/selected").forward(request, response);
+					} else {
+						request.setAttribute("error", "Username no encontrado.");
+						response.sendError(404);
+					}
+				}
+				break;
+			}
+			
 			case "cancel" : {
 				
 				String code = (String) request.getParameter("cancelcode");
@@ -122,7 +151,7 @@ public class Administration extends HttpServlet {
 				String username = (String) request.getParameter("username");
 				String rol = (String) request.getParameter("rol");
 				
-				if(username.equals("")||rol.equals("Rol")) {
+				if(username.isEmpty()||rol.equals("Rol")) {
 					request.setAttribute("error", "Modificar Usuario: Por favor, especifique correctamente los campos");
 					response.sendError(400);
 				} else {
@@ -139,9 +168,48 @@ public class Administration extends HttpServlet {
 			break;
 			}
 			
-			case "descount" : {
+			case "updatediscount" : {
 				
-				LinkedList<Descuento> descuentos = 
+				String range = (String) request.getParameter("range");
+				String discount = (String) request.getParameter("discount");
+				if(range.equals("Rango")||discount.isEmpty()) {
+					request.setAttribute("error", "Especifique los campos necesarios para actualizar un descuento.");
+					response.sendError(400);
+				} else {
+					ControladorDiscount desctrl = new ControladorDiscount();
+					desctrl.update(range, Integer.parseInt(discount));
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/discountSuccess.jsp").forward(request, response);
+				}
+				
+				break;
+			}
+			
+			case "updateprice" : {
+				
+				String type = (String) request.getParameter("type");
+				String price = (String) request.getParameter("price");
+				String fecha = (String) request.getParameter("vigencia");
+				if(type.equals("Tipo")||price.isEmpty()||fecha.equals("Vigencia")) {
+					request.setAttribute("error", "Especifique los campos necesarios para actualizar un precio.");
+					response.sendError(400);
+				} else {
+					ControladorPrecio ctrlpr = new ControladorPrecio();
+					Precio precio = new Precio();
+					if(fecha.equals("hoy")) {
+						precio.setFecha_precio(LocalDate.now());
+					} else {
+						precio.setFecha_precio(LocalDate.parse(request.getParameter("fechaprecio")));
+					}
+					precio.setPrecio(Integer.parseInt(price));
+					precio.setIdTipoComputadora(type);
+					try {
+						ctrlpr.update(precio);
+						request.getRequestDispatcher("/WEB-INF/Views/Administration/priceSuccess.jsp").forward(request, response);
+					} catch (SQLException e) {
+						request.setAttribute("error", "El precio ya fue actualizado hoy, espere hasta mañana.");
+						response.sendError(400);
+					}
+				}
 				
 				break;
 			}

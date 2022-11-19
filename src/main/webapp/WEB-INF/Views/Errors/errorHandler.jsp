@@ -19,6 +19,5 @@
 			<%}%>
 		</div>
 	</div>
-	<p><%=pageContext.getErrorData().getRequestURI() %></p>
 </body>
 </html>

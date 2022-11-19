@@ -91,12 +91,9 @@ public class Reserve extends HttpServlet {
 					
 					reserve.setIdComputadora(idpc);
 					
-					String forUser = (String) request.getParameter("username");
-					if(forUser != null) {
-						Usuario userfor = this.ctrl.getUserByUsername(forUser);
-						System.out.println(userfor.getNombre());
-						request.getSession().setAttribute("forUser", userfor);
-						reserve.setIdUsuario(userfor.getId());
+					Usuario forUser = (Usuario) request.getSession().getAttribute("forUser");
+					if(forUser!=null) {
+						reserve.setIdUsuario(forUser.getId());
 					} else {
 						reserve.setIdUsuario(user.getId());
 					}
@@ -149,9 +146,11 @@ public class Reserve extends HttpServlet {
 					try {
 						if(request.getSession().getAttribute("forUser")!=null) {
 							Usuario forUser = (Usuario) request.getSession().getAttribute("forUser");
+							request.getSession().removeAttribute("forUser");
 							this.ctrl.sendMail(forUser, reserve, (String)request.getSession().getAttribute("pc"));
+						} else {
+							this.ctrl.sendMail(user, reserve, (String)request.getSession().getAttribute("pc"));
 						}
-						this.ctrl.sendMail(user, reserve, (String)request.getSession().getAttribute("pc"));
 					} catch (AddressException e) {
 						System.out.println("address exception");
 						e.printStackTrace();
