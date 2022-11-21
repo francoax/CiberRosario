@@ -4,9 +4,6 @@
     pageEncoding="ISO-8859-1"%>
     
     	<%LinkedList<ReserveList> list = (LinkedList<ReserveList>) request.getAttribute("reservelist"); %>
-<!DOCTYPE html>
-<html>
-<body>
 	<div class="box">
 		<h3 class="title is-size-6">Lista de reservas</h3>
 		<table class="table is-centered">
@@ -34,5 +31,3 @@
 			</tbody>
 		</table>
 	</div>
-</body>
-</html>

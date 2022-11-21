@@ -1,8 +1,11 @@
 package logic;
 
+import java.util.LinkedList;
+
 import data.DataRoles;
 import data.DataUsuarios;
 import dto.UserModificated;
+import dto.UserReserves;
 import entities.Rol;
 import entities.Usuario;
 
@@ -16,6 +19,12 @@ public class ControladorUser {
 		this.udao = udao;
 		this.rdao = rdao;
 	}
+	
+	public LinkedList<UserReserves> getReserves(Usuario user) {
+		
+		return udao.getReservesByUser(user);
+	}
+	
 	
 	public Usuario add(Usuario u) {
 		

@@ -20,11 +20,14 @@ public class Reserva {
 	private String descripcion_work;
 	private int idComputadora;
 	private int importe;
+	private String estado;
 	
-	public Reserva() {
-		
+	public String getEstado() {
+		return estado;
 	}
-	
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 	public String getCod_reserva() {
 		return cod_reserva;
 	}

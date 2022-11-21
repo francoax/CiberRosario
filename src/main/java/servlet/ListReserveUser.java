@@ -5,23 +5,26 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logic.ControladorDiscount;
+import logic.ControladorUser;
 
 import java.io.IOException;
 import java.util.LinkedList;
 
-import entities.Descuento;
+import data.DataRoles;
+import data.DataUsuarios;
+import dto.UserReserves;
+import entities.Usuario;
 
 /**
- * Servlet implementation class tester
+ * Servlet implementation class ListReserveUser
  */
-public class ListaDescuentos extends HttpServlet {
+public class ListReserveUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListaDescuentos() {
+    public ListReserveUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,18 +34,11 @@ public class ListaDescuentos extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ControladorDiscount desctrl = new ControladorDiscount();
-		LinkedList<Descuento> descounts = desctrl.getAll();
-		request.setAttribute("listDescount", descounts);
-		request.getRequestDispatcher("/WEB-INF/Views/Administration/listdescount.jsp").include(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		ControladorUser ctrl = new ControladorUser(new DataUsuarios(), new DataRoles());
+		Usuario user = (Usuario) request.getSession().getAttribute("user");
+		LinkedList<UserReserves> list = ctrl.getReserves(user);
+		request.setAttribute("userreserve", list);
+		request.getRequestDispatcher("/WEB-INF/Views/User/reservesByUser.jsp").include(request, response);
 	}
 
 }

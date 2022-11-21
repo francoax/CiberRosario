@@ -13,16 +13,12 @@ import logic.ControladorUser;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.LinkedList;
-
-import javax.management.ServiceNotFoundException;
 
 import data.DataRoles;
 import data.DataUsuarios;
 import dto.ReserveSpecification;
 import dto.UserModificated;
 import entities.Computadora;
-import entities.Descuento;
 import entities.Precio;
 import entities.Usuario;
 
@@ -128,7 +124,6 @@ public class Administration extends HttpServlet {
 			case "cancel" : {
 				
 				String code = (String) request.getParameter("cancelcode");
-				System.out.println(code);
 				
 				if(code.equals("")){
 					request.setAttribute("error", "Especifique el codigo de reserva a cancelar");
@@ -137,7 +132,7 @@ public class Administration extends HttpServlet {
 					ReserveSpecification reserve = this.ctrl.cancelarReserva(code);
 					if(reserve == null) {
 						request.setAttribute("error", "Reserva no encontrada");
-						response.sendError(400);
+						response.sendError(404);
 					} else {
 						this.ctrl.changeState(reserve.getIdPc(), "disponible");
 						request.setAttribute("reserveCanceled", reserve);
@@ -145,6 +140,22 @@ public class Administration extends HttpServlet {
 					}
 				}
 				break;	
+			}
+			
+			case "finish" : {
+				
+				String code = (String) request.getParameter("code");
+				
+				if(code.isEmpty()) {
+					request.setAttribute("error", "Especifique el codigo para concretar reserva");
+					response.sendError(400);
+				} else {
+					this.ctrl.finish(code);
+					request.setAttribute("success", "Reserva concretada con exito. Computadora utilizada ya disponible");
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
+				}
+				
+				break;
 			}
 			
 			case "modify" : {

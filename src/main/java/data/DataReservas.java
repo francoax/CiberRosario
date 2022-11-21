@@ -10,15 +10,18 @@ import java.util.UUID;
 
 import dto.ReserveList;
 import dto.ReserveSpecification;
+import dto.Streamers;
 import entities.Reserva;
 
 public class DataReservas {
+	
+	private DataPc pcdata;
 	
 	public Reserva save(Reserva r ) {
 		
 		PreparedStatement stmt = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO reservas (cod_reserva, fecha_de_reserva, fecha_a_reservar, horaDesde, horaHasta, idUsuario, idComputadora, importe, plataforma_stream, name_stream, link_stream, rubro_work, empresa_work, descripcion_work) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO reservas (cod_reserva, fecha_de_reserva, fecha_a_reservar, horaDesde, horaHasta, idUsuario, idComputadora, importe, plataforma_stream, name_stream, link_stream, rubro_work, empresa_work, descripcion_work, estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			UUID uuid = UUID.randomUUID();
 	        String cod = uuid.toString().substring(0, 5);
 	        r.setCod_reserva(cod);
@@ -30,6 +33,7 @@ public class DataReservas {
 			stmt.setInt(6, r.getIdUsuario());
 			stmt.setInt(7, r.getIdComputadora());
 			stmt.setInt(8, r.getImporte());
+			stmt.setString(15, r.getEstado());
 			if((r.getPlataforma_stream()!=null)&&(r.getName_stream()!=null)&&(r.getLink_stream()!=null)) {
 				stmt.setString(9, r.getPlataforma_stream());
 				stmt.setString(10, r.getName_stream());
@@ -106,17 +110,19 @@ public class DataReservas {
 	
 	public void confirm(String code) {
 		
-		PreparedStatement stmt = null;
+		PreparedStatement reserveupdate = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("update computadoras pc inner join reservas r on pc.idComputadora = r.idComputadora set pc.estado = ? where r.cod_reserva = ?");
-			stmt.setString(1, "ocupada");
-			stmt.setString(2, code);
-			stmt.executeUpdate();
+			reserveupdate = DbConnector.getInstancia().getConn().prepareStatement("update reservas r set r.estado = ? where r.cod_reserva = ?");
+			reserveupdate.setString(1, "confirmada");
+			reserveupdate.setString(2, code);
+			pcdata = new DataPc();
+			pcdata.setEstado(code, "ocupada");
+			reserveupdate.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(stmt!=null) {stmt.close();}
+				if(reserveupdate!=null) {reserveupdate.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -125,19 +131,45 @@ public class DataReservas {
 		
 	}
 	
+	public void finish(String code) {
+		
+		PreparedStatement reserveupdate = null;
+		
+		try {
+			reserveupdate = DbConnector.getInstancia().getConn().prepareStatement("UPDATE reservas r set r.estado = ? where r.cod_reserva = ?;");
+			reserveupdate.setString(1, "finalizada");
+			reserveupdate.setString(2, code);
+			pcdata = new DataPc();
+			pcdata.setEstado(code, "disponible");
+			reserveupdate.executeUpdate();
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(reserveupdate!=null) {reserveupdate.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public ReserveSpecification cancel(String code) {
 		
-		PreparedStatement stmt = null;
+		PreparedStatement reserveupdate = null;
 		ReserveSpecification r = get(code);
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM reservas WHERE cod_reserva = ?");
-			stmt.setString(1, code);
-			stmt.executeUpdate();
+			reserveupdate = DbConnector.getInstancia().getConn().prepareStatement("UPDATE reservas r set r.estado = ? where r.cod_reserva = ?;");
+			reserveupdate.setString(1, "cancelada");
+			reserveupdate.setString(2, code);
+			pcdata = new DataPc();
+			pcdata.setEstado(code, "disponible");
+			reserveupdate.executeUpdate();
 		}  catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(stmt!=null) {stmt.close();}
+				if(reserveupdate!=null) {reserveupdate.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -157,7 +189,7 @@ public class DataReservas {
 					+ "from reservas r "
 					+ "inner join usuarios u "
 					+ "on r.idUsuario = u.idUsuario "
-					+ "order by r.fecha_de_reserva;");
+					+ "order by r.fecha_de_reserva desc;");
 			rs = stmt.executeQuery();
 			if(rs!=null) {
 				list = new LinkedList<ReserveList>();
@@ -174,7 +206,6 @@ public class DataReservas {
 					item.setUser_lastname(rs.getString("apellido"));
 					list.add(item);
 				}
-			System.out.println(list.toString());
 			return list;
 			}
 		} catch (Exception e) {
@@ -189,5 +220,41 @@ public class DataReservas {
 			}
 		}
 		return list;
+	}
+	
+	public LinkedList<Streamers> getStreamersList() {
+		
+		LinkedList<Streamers> list = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.name_stream, r.plataforma_stream, r.link_stream from reservas r inner join computadoras pc on r.idComputadora = pc.idComputadora where r.plataforma_stream is not null and r.name_stream is not null and r.link_stream is not null and r.estado = 'confirmada'");
+			rs = stmt.executeQuery();
+			if(rs!=null) {
+				list = new LinkedList<Streamers>();
+				while(rs.next()) {
+					Streamers s = new Streamers();
+					s.setName(rs.getString("name_stream"));
+					s.setPlataform(rs.getString("plataforma_stream"));
+					s.setLink(rs.getString("link_stream"));
+					list.add(s);
+				}
+			return list;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+		
 	}
 }

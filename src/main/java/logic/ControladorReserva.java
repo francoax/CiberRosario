@@ -8,11 +8,11 @@ import data.DataDescuentos;
 import data.DataPc;
 import data.DataPrecios;
 import data.DataReservas;
-import data.DataTpc;
 import data.DataUsuarios;
 import dto.ComputersSpecification;
 import dto.ReserveList;
 import dto.ReserveSpecification;
+import dto.Streamers;
 import entities.Descuento;
 import entities.Reserva;
 import entities.Usuario;
@@ -40,6 +40,17 @@ public class ControladorReserva {
 		this.pdao = new DataPrecios();
 		this.ddao = new DataDescuentos();
 		this.userdao = new DataUsuarios();
+	}
+	
+	public void finish(String code) {
+		
+		rdao.finish(code);
+		
+	}
+	
+	public LinkedList<Streamers> getStreamersList() {
+		
+		return rdao.getStreamersList();
 	}
 	
 	public LinkedList<ReserveList> getAll() {

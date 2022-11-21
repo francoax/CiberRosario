@@ -4,7 +4,6 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,8 +13,6 @@ import entities.Precio;
 
 public class DataPrecios {
 	
-	private String dateFormat="dd/MM/yyyy";
-	private DateTimeFormatter format = DateTimeFormatter.ofPattern(dateFormat);
 
 	public LinkedList<Precio> getAll() {
 		
@@ -23,21 +20,21 @@ public class DataPrecios {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT tpc.descripcion, p.fecha_precio, p.precio FROM precios p inner join tipo_computadora tpc on p.idTipoComputadora = tpc.idTipoComputadora;");
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("with maxfecha_precio as (select p.idTipoComputadora, max(p.fecha_precio) fecha from precios p group by 1) select tpc.descripcion, cte.fecha, pre.precio from tipo_computadora tpc inner join maxfecha_precio cte on tpc.idTipoComputadora = cte.idTipoComputadora inner join precios pre on pre.idTipoComputadora = cte.idTipoComputadora where pre.fecha_precio = cte.fecha;");
 			rs = stmt.executeQuery();
 			if(rs!=null) {
 				precios = new LinkedList<Precio>();
 				while(rs.next()) {
 					Precio p = new Precio();
 					p.setIdTipoComputadora(rs.getString("descripcion"));
-					p.setFecha_precio(LocalDate.parse(rs.getString("fecha_precio"), format));
+					p.setFecha_precio(rs.getObject("fecha", LocalDate.class));
 					p.setPrecio(rs.getInt("precio"));
 					precios.add(p);
 				}
 				return precios;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			try {
 				if(rs!=null) {rs.close();}

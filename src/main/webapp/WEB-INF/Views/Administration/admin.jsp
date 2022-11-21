@@ -4,30 +4,55 @@
 <html>
 	<jsp:include page="/includes/head.html"></jsp:include>
 <body>
-	<div class="container is-widescreen">
-		<header class="mt-6" style="border-bottom: 25px; border-bottom-color: black;">
+	<div class="container is-fluid">
+		<header class="mt-6" style="border-bottom: 50px; border-bottom-color: black;">
 		<h1 class="title has-text-centered m-2"> <a href="admin">CiberRosario - Administración</a> </h1>
-		<h2 class="subtitle has-text-left is-size-6">${error}</h2>
-			<div class="tabs">
-				<ul>
-					<li><a href="#" class="navbar-item" onclick='divVisibility("listreserve");'>Listar reservas</a></li>
-					<li><a href="#" class="navbar-item" onclick='divVisibility("validate");'>Validar reserva</a></li>
-					<li><a href="#" class="navbar-item" onclick='divVisibility("doreserve");'>Realizar reserva</a></li>
-					<li><a href="#" class="navbar-item" onclick='divVisibility("cancel");'>Cancelar reserva</a></li>
-					<li><a href="#" class="navbar-item" onclick='divVisibility("updateuser");'>Modificar rol usuario</a></li>
-					<li><a href="#" class="navbar-item" onclick='divVisibility("updatediscount");'>Actualizar descuentos</a></li>
-					<li><a href="#" class="navbar-item" onclick='divVisibility("updateprice");'>Actualizar precios</a></li>
-					<li><a href="#" class="navbar-item" onclick='divVisibility("addpc");'>Registrar nueva PC</a></li>
-					<li><a class="navbar-item" href="./index.jsp"> <strong class="is-danger">SALIR</strong> </a></li>
-				</ul>
-			</div>
 		</header>
 		
-		<div class="m-6">
+		<div>
+			<aside class="menu" style="width: 250px; height: 650px; position: relative;">
+			  <p class="menu-label">
+			    Reservas
+			  </p>
+			  <ul class="menu-list">
+			    <li><a href="#" class="navbar-item" onclick='divVisibility("listreserve");'>Listar reservas</a></li>
+			    <li><a href="#" class="navbar-item" onclick='divVisibility("validate");'>Validar reserva</a></li>
+			    <li><a href="#" class="navbar-item" onclick='divVisibility("cancel");'>Cancelar reserva</a></li>
+			    <li><a href="#" class="navbar-item" onclick='divVisibility("finish");'>Concretar reserva</a></li>
+			  </ul>
+			  <p class="menu-label">
+			    Usuario
+			  </p>
+			  <ul class="menu-list">
+			    <li><a href="#" class="navbar-item" onclick='divVisibility("updateuser");'>Modificar rol usuario</a></li>
+			  </ul>
+			  <p class="menu-label">
+			    Precios
+			  </p>
+			  <ul class="menu-list">
+			    <li><a href="#" class="navbar-item" onclick='divVisibility("updatediscount");'>Actualizar descuentos</a></li>
+				<li><a href="#" class="navbar-item" onclick='divVisibility("updateprice");'>Actualizar precios</a></li>
+			  </ul>
+			  <p class="menu-label">
+			  	Computadoras
+			  </p>
+			  <ul class="menu-list">
+			  	<li><a href="#" class="navbar-item" onclick='divVisibility("addpc");'>Registrar nueva PC</a></li>
+			  </ul>
+			  <p class="menu-label">
+			  	Sesion
+			  </p>
+			  <ul class="menu-list">
+			  	<li><a class="navbar-item" href="./index.jsp"> <strong class="is-danger">SALIR</strong> </a></li>
+			  </ul>
+			</aside>
+		</div>	
 		
-			<div id="listreserve" class="is-hidden">
+		<div class="container ml-6" style="display: inline-block;">
+		
+			<div id="listreserve" class="is-hidden" style="width: 1000px;">
 				<div class="container">
-					<jsp:include page="/listreserve"></jsp:include>
+					<jsp:include page="/reserves"></jsp:include>
 				</div>
 			</div>
 		
@@ -49,47 +74,6 @@
 				</div>
 			</div>
 			
-			<div id="doreserve" class="is-hidden">
-				<div class="container" style="width: 700px; height: 800px">
-					<form action="admin/doreserve" method="post" class="box" autocomplete="off" id="form_reserve" onsubmit="return validateFormReserve()">
-						<h3 class="title is-size-6">Realizar reserva</h3>
-						<div class="field">
-							<div id="error_username" class="is-sr-only">
-								<p class="help is-danger">Especifique username.</p>
-							</div>
-							<label class="label">Username de cliente</label>
-							<div class="control">
-								<input id="username" class="input" type="text" placeholder="Username" name="username" value="">
-							</div>
-							<div id="error_tipo" class="is-sr-only">
-								<p class="help is-danger">Especifique tipo.</p>
-							</div>
-							<label class="label">Tipo de computadora</label>
-							<div class="select">
-								<select id="tipo" name="tipo">
-									<option selected>Tipo</option>
-									<option value="gamer">Gamer</option>
-									<option value="streamer">Streamer</option>
-									<option value="workstation">Workstation</option>
-								</select>
-							</div>
-							<div id="error_dia" class="is-sr-only">
-								<p class="help is-danger">Especifique dia.</p>
-							</div>
-							<label class="label">Dia de reserva</label>
-							<div class="select">
-								<select id="dia" name="reserva_para">
-									<option selected>Dia</option>
-									<option value="hoy">Hoy</option>
-									<option value="mañana">Mañana</option>
-								</select>
-							</div>
-						</div>
-					<button type="submit" class="button is-success">Iniciar reserva</button>
-					</form>
-				</div>
-			</div>
-			
 			<div id="cancel" class="is-hidden">
 				<div class="container" style="width: 500px; height: 400px;">
 					<form action="admin/cancel" method="post" class="box">
@@ -103,6 +87,21 @@
 								<input type="text" class="input" placeholder="Code" name="cancelcode" value="">
 							</div>
 							<button class="button is-danger mt-2" type="submit">Cancelar reserva</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<div id="finish" class="is-hidden" style="width: 500px; height: 400px;">
+				<div class="container">
+					<form action="admin/finish" method="post" class="box">
+						<h3 class="title is-size-6">Concretar reserva</h3>
+						<div class="field">
+							<label class="label">Codigo de reserva</label>
+							<p class="control">
+								<input class="input" type="text" name="code">
+							</p>
+							<button class="button is-warning mt-2">Finalizar</button>
 						</div>
 					</form>
 				</div>
@@ -141,16 +140,16 @@
 				<div class="container" style="width: 500px; height: 400px;">
 					<form action="admin/updatediscount" class="box" method="post">
 						<h3 class="title is-size-6">Actualizar Descuentos</h3>
-						<jsp:include page="/listdescount"></jsp:include>
+						<jsp:include page="/discounts"></jsp:include>
 						<div class="field">
-							<label class="label">Seleccionar rango</label>
+							<label class="label">Seleccionar horas minimas</label>
 							<div class="select">
 								<select name="range">
-									<option>Rango</option>
-									<option value="flex">2 a 4</option>
-									<option value="medium">4 a 6</option>
-									<option value="high">6 a 8</option>
-									<option value="ultra">8 a 16</option>
+									<option>Horas</option>
+									<option value="flex">4</option>
+									<option value="medium">6</option>
+									<option value="high">8</option>
+									<option value="ultra">15</option>
 								</select>
 							</div>
 						</div>
@@ -169,6 +168,7 @@
 				<div class="container" style="width: 500px; height: 400px;">
 					<form action="admin/updateprice" class="box" method="post">
 						<h3 class="title is-size-6">Actualizar Precios</h3>
+						<jsp:include page="/prices"></jsp:include>
 						<div class="field">
 							<label class="label">Seleccione tipo computadora</label>
 							<div class="select">
@@ -267,7 +267,7 @@
 	</script>
 	<script type="text/javascript">
 		
-		var divs = ["listreserve", "validate", "doreserve", "cancel", "updateuser", "updatediscount", "updateprice", "addpc"];
+		var divs = ["listreserve", "validate", "cancel", "finish", "updateuser", "updatediscount", "updateprice", "addpc"];
 
 		var visibleDivId = null;
 		

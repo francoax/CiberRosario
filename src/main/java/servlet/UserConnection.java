@@ -4,11 +4,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import logic.ControladorUser;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 import data.DataRoles;
 import data.DataUsuarios;
@@ -17,26 +17,24 @@ import entities.Usuario;
 /**
  * Servlet implementation class User
  */
-public class User extends HttpServlet {
+public class UserConnection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final ControladorUser ctrl = new ControladorUser(new DataUsuarios(), new DataRoles());
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public User() {
+    public UserConnection() {
         super();
         // TODO Auto-generated constructor stub
     }
-
-	/**
+    
+    /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -75,6 +73,14 @@ public class User extends HttpServlet {
 					request.setAttribute("error", "Usuario y/o contraseña incorrectos.");
 					response.sendError(400);
 				}
+			break;
+		}
+		
+		case "logout" : {
+				HttpSession session = request.getSession(); 
+				session.removeAttribute("user");
+				session.invalidate();
+				response.sendRedirect("../index.jsp");
 			break;
 		}
 		}

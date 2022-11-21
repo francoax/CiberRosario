@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import dto.UserModificated;
+import dto.UserReserves;
 import entities.Usuario;
+import java.util.LinkedList;
 public class DataUsuarios {
 	
 	private DataRoles rd = new DataRoles();
@@ -178,5 +180,45 @@ public class DataUsuarios {
 			}
 		}
 		return user;
+	}
+	
+	public LinkedList<UserReserves> getReservesByUser(Usuario user){
+		
+		LinkedList<UserReserves> list = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar, r.horaDesde, r.horaHasta, hour(r.horaHasta) - hour(r.HoraDesde) cantHoras, r.estado, tpc.descripcion, r.importe from reservas r inner join usuarios u on r.idUsuario = u.idUsuario inner join computadoras pc on r.idComputadora = pc.idComputadora inner join tipo_computadora tpc on pc.idTipoComputadora = tpc.idTipoComputadora where u.idUsuario = ? order by r.fecha_de_reserva desc;");
+			stmt.setInt(1, user.getId());
+			rs = stmt.executeQuery();
+			if(rs!=null) {
+				list = new LinkedList<UserReserves>();
+				while(rs.next()) {
+					UserReserves item = new UserReserves();
+					item.setCod_reserva(rs.getString("cod_reserva"));
+					item.setFecha_de_reserva(rs.getString("fecha_de_reserva"));
+					item.setFecha_reservada(rs.getString("fecha_a_reservar"));
+					item.setHoraDesde(rs.getString("horaDesde"));
+					item.setHorasHasta(rs.getString("horaHasta"));
+					item.setEstado(rs.getString("estado"));
+					item.setDescripcion_pc(rs.getString("descripcion"));
+					item.setImporte(rs.getString("importe"));
+					item.setCant_horas(rs.getInt("cantHoras"));
+					list.add(item);
+				}
+			return list;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 }

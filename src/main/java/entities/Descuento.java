@@ -2,22 +2,14 @@ package entities;
 
 public class Descuento {
 	
-	private int horaMin;
-	private int horaMax;
+	private int horas_minimas;
 	private double porcentaje;
 	
-	
-	public int getHoraMin() {
-		return horaMin;
+	public int getHoras_minimas() {
+		return horas_minimas;
 	}
-	public void setHoraMin(int horaMin) {
-		this.horaMin = horaMin;
-	}
-	public int getHoraMax() {
-		return horaMax;
-	}
-	public void setHoraMax(int horaMax) {
-		this.horaMax = horaMax;
+	public void setHoras_minimas(int horas_minimas) {
+		this.horas_minimas = horas_minimas;
 	}
 	public double getPorcentaje() {
 		return porcentaje;

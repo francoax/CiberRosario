@@ -85,18 +85,11 @@ public class Reserve extends HttpServlet {
 					Reserva reserve = new Reserva();
 					String dia = (String) request.getParameter("reserva_para");
 					String type = (String) request.getParameter("tipo");
-					System.out.println(dia);
 					
 					int idpc = this.ctrl.selectToReserve(type);
 					
 					reserve.setIdComputadora(idpc);
-					
-					Usuario forUser = (Usuario) request.getSession().getAttribute("forUser");
-					if(forUser!=null) {
-						reserve.setIdUsuario(forUser.getId());
-					} else {
-						reserve.setIdUsuario(user.getId());
-					}
+					reserve.setIdUsuario(user.getId());
 					
 					reserve.setFecha_de_reserva(LocalDate.now());
 					if(dia.contains("mañana")&&LocalTime.now().getHour()!=0) {
@@ -116,31 +109,35 @@ public class Reserve extends HttpServlet {
 					String hdesde = (String) request.getParameter("horadesde");
 					String hhasta = (String) request.getParameter("horahasta");
 					
-					
-					if(hdesde.equals("Desde") || hhasta.equals("Hasta")) {
-						request.setAttribute("error", "Por favor, especifique las horas");
+					if(hdesde.equals("Desde") || hhasta.equals("Hasta") || LocalTime.parse(hdesde).getHour()>LocalTime.parse(hhasta).getHour()) {
+						request.setAttribute("error", "Por favor, especifique correctamente las horas");
 						request.getRequestDispatcher("/WEB-INF/Views/Reserve/saving.jsp").include(request, response);
+					} else {
+					
+						Reserva reserve = (Reserva) request.getSession().getAttribute("reserva");
+						
+						reserve.setHoraDesde(LocalTime.parse(hdesde));
+						reserve.setHoraHasta(LocalTime.parse(hhasta));
+						
+						int price = this.ctrl.obtenerPrecioAlDia((String)request.getSession().getAttribute("pc"));
+						request.setAttribute("precio", price);
+						
+						int monto = this.ctrl.calcularMonto(reserve.getHoraDesde(), reserve.getHoraHasta(), price);
+						reserve.setImporte(monto);
+						
+						if(completeReserveByType(request, reserve)==null) {
+							request.getRequestDispatcher("/WEB-INF/Views/Reserve/saving.jsp").include(request, response);
+						} else { 
+						
+							request.getRequestDispatcher("/WEB-INF/Views/Reserve/resume.jsp").forward(request, response);
+						}
 					}
-					
-					Reserva reserve = (Reserva) request.getSession().getAttribute("reserva");
-					
-					reserve.setHoraDesde(LocalTime.parse(hdesde));
-					reserve.setHoraHasta(LocalTime.parse(hhasta));
-					
-					int price = this.ctrl.obtenerPrecioAlDia((String)request.getSession().getAttribute("pc"));
-					request.setAttribute("precio", price);
-					
-					int monto = this.ctrl.calcularMonto(reserve.getHoraDesde(), reserve.getHoraHasta(), price);
-					reserve.setImporte(monto);
-					
-					completeReserveByType(request, reserve);
-					
-					request.getRequestDispatcher("/WEB-INF/Views/Reserve/resume.jsp").forward(request, response);
 					break;
 				}
 				case "save" : {
 					
 					Reserva reserve = (Reserva) request.getSession().getAttribute("reserva");
+					reserve.setEstado("solicitada");
 					this.ctrl.save(reserve);
 					
 					try {
@@ -178,9 +175,16 @@ public class Reserve extends HttpServlet {
 		switch ((String)request.getSession().getAttribute("pc")) {
 		case "streamer" : {
 			
-			reserve.setPlataforma_stream((String)request.getParameter("platform"));
-			reserve.setName_stream((String)request.getParameter("sname"));
-			reserve.setLink_stream((String)request.getParameter("links"));
+			String link = (String)request.getParameter("links");
+			String platform = (String)request.getParameter("platform");
+			if(link.contains(platform.toLowerCase())) {
+				reserve.setPlataforma_stream(platform);
+				reserve.setLink_stream(link);
+				reserve.setName_stream((String)request.getParameter("sname"));
+			} else {
+				request.setAttribute("msglink", "Especifique correctamente la plataforma y el link");
+				return null;
+			}
 			
 			break;
 		}

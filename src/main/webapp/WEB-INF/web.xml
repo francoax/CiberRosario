@@ -57,42 +57,72 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>User</display-name>
-    <servlet-name>User</servlet-name>
-    <servlet-class>servlet.User</servlet-class>
+    <display-name>UserConnection</display-name>
+    <servlet-name>UserConnection</servlet-name>
+    <servlet-class>servlet.UserConnection</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>User</servlet-name>
+    <servlet-name>UserConnection</servlet-name>
     <url-pattern>/user/*</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ListaDescuentos</display-name>
-    <servlet-name>ListaDescuentos</servlet-name>
-    <servlet-class>servlet.ListaDescuentos</servlet-class>
+    <display-name>ListDiscount</display-name>
+    <servlet-name>ListDiscount</servlet-name>
+    <servlet-class>servlet.ListDiscount</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ListaDescuentos</servlet-name>
-    <url-pattern>/listdescount</url-pattern>
+    <servlet-name>ListDiscount</servlet-name>
+    <url-pattern>/discounts</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ListaPrecios</display-name>
-    <servlet-name>ListaPrecios</servlet-name>
-    <servlet-class>servlet.ListaPrecios</servlet-class>
+    <display-name>ListPrice</display-name>
+    <servlet-name>ListPrice</servlet-name>
+    <servlet-class>servlet.ListPrice</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ListaPrecios</servlet-name>
-    <url-pattern>/listprice</url-pattern>
+    <servlet-name>ListPrice</servlet-name>
+    <url-pattern>/prices</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ListaReservas</display-name>
-    <servlet-name>ListaReservas</servlet-name>
-    <servlet-class>servlet.ListaReservas</servlet-class>
+    <display-name>ListReserve</display-name>
+    <servlet-name>ListReserve</servlet-name>
+    <servlet-class>servlet.ListReserve</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ListaReservas</servlet-name>
-    <url-pattern>/listreserve</url-pattern>
+    <servlet-name>ListReserve</servlet-name>
+    <url-pattern>/reserves</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListStream</display-name>
+    <servlet-name>ListStream</servlet-name>
+    <servlet-class>servlet.ListStream</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListStream</servlet-name>
+    <url-pattern>/streams</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListReserveUser</display-name>
+    <servlet-name>ListReserveUser</servlet-name>
+    <servlet-class>servlet.ListReserveUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListReserveUser</servlet-name>
+    <url-pattern>/reservesuser</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserProfile</display-name>
+    <servlet-name>UserProfile</servlet-name>
+    <servlet-class>servlet.UserProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserProfile</servlet-name>
+    <url-pattern>/profile</url-pattern>
   </servlet-mapping>
 </web-app>

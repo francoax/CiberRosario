@@ -3,8 +3,6 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 import entities.Descuento;
@@ -16,15 +14,25 @@ public class DataDescuentos {
 		Descuento desc = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		String query;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM descuentos WHERE horaMin<= ? AND horaMax> ?;");
-			stmt.setInt(1, cantHoras);
-			stmt.setInt(2, cantHoras);
+			if(cantHoras < 6) {
+				query = "SELECT * FROM descuentos WHERE horas_minimas <= ?";
+				stmt = DbConnector.getInstancia().getConn().prepareStatement(query);
+				stmt.setInt(1, cantHoras);
+			} else {
+				query = "with hora as (select max(horas_minimas) horamax from descuentos where horas_minimas <= ?) "
+						+ "select d.horas_minimas, d.porcentaje "
+						+ "from descuentos d "
+						+ "inner join hora h "
+						+ "on h.horamax = d.horas_minimas ";
+				stmt = DbConnector.getInstancia().getConn().prepareStatement(query);
+				stmt.setInt(1, cantHoras);
+			}
 			rs = stmt.executeQuery();
 			if(rs!=null&&rs.next()) {
 				desc = new Descuento();
-				desc.setHoraMax(rs.getInt("horaMax"));
-				desc.setHoraMin(rs.getInt("horaMin"));
+				desc.setHoras_minimas(rs.getInt("horas_minimas"));
 				desc.setPorcentaje(rs.getDouble("porcentaje"));
 			}
 		} catch (Exception e) {
@@ -55,8 +63,7 @@ public class DataDescuentos {
 				descounts = new LinkedList<Descuento>();
 				while(rs.next()) {
 					Descuento d = new Descuento();
-					d.setHoraMax(rs.getInt("horaMax"));
-					d.setHoraMin(rs.getInt("horaMin"));
+					d.setHoras_minimas(rs.getInt("horas_minimas"));
 					d.setPorcentaje(rs.getDouble("porcentaje"));
 					descounts.add(d);
 				}
@@ -76,14 +83,13 @@ public class DataDescuentos {
 		return descounts;
 	}
 	
-	public void update(int[] rango, double discount) {
+	public void update(int rango, double discount) {
 		
 		PreparedStatement stmt = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("UPDATE descuentos set porcentaje = ? where horaMin = ? and horaMax = ?");
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("UPDATE descuentos set porcentaje = ? where horas_minimas = ?;");
 			stmt.setDouble(1, discount/100);
-			stmt.setInt(2, rango[0]);
-			stmt.setInt(3, rango[1]);
+			stmt.setInt(2, rango);
 			stmt.executeUpdate();
 		}catch (Exception e) {
 			// TODO: handle exception

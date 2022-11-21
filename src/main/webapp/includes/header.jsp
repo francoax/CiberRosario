@@ -30,21 +30,24 @@
 					<div class="navbar-item">
 					<%if(user!=null&&user.getRol().getIdRol()==1) { %>
 						<div class="buttons">
-							<a class="button is-warning" href="">
+							<a class="button is-warning" href="user/profile">
 								<strong>Mi perfil</strong>
 							</a>
-							<a class="button" href="logout">
-								Cerrar sesion
-							</a>
+							<form action="user/logout" method="post">
+								<button class="button" >Cerrar Sesion</button>
+							</form>
 						</div>
 					<%} else if(user!=null&&user.getRol().getIdRol()==2){ %>
 						<div class="buttons">
+							<a class="button is-warning" href="profile">
+								<strong>Mi perfil</strong>
+							</a>
 							<a class="button is-warning" href="admin">
 								<strong>Panel de Control</strong>
 							</a>
-							<a class="button" href="logout">
-								Cerrar sesion
-							</a>
+							<form action="user/logout" method="post">
+								<button class="button" >Cerrar Sesion</button>
+							</form>
 						</div>
 					<%} else {%>
 						<div class="buttons">
