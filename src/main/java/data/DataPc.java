@@ -147,26 +147,26 @@ public class DataPc {
 		}
 	}
 	
-	public void setEstado(String code, String estado) {
-		
-		PreparedStatement stmt = null;
-		try {
-			
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("UPDATE computadoras pc inner join reservas r on pc.idComputadora = r.idComputadora set pc.estado = ? where r.cod_reserva = ?;");
-			stmt.setString(1, estado);
-			stmt.setString(2, code);
-			stmt.executeUpdate();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}finally {
-			try {
-				if(stmt!=null) {stmt.close();}
-				DbConnector.getInstancia().releaseConn();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public void setEstado(String code, String estado) {
+//		
+//		PreparedStatement stmt = null;
+//		try {
+//			
+//			stmt = DbConnector.getInstancia().getConn().prepareStatement("UPDATE computadoras pc inner join reservas r on pc.idComputadora = r.idComputadora set pc.estado = ? where r.cod_reserva = ?;");
+//			stmt.setString(1, estado);
+//			stmt.setString(2, code);
+//			stmt.executeUpdate();
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}finally {
+//			try {
+//				if(stmt!=null) {stmt.close();}
+//				DbConnector.getInstancia().releaseConn();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 	
 	public void add(Computadora newPc, String tipo) {
 		

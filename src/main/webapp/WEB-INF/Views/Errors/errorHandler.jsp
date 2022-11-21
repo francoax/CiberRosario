@@ -16,6 +16,9 @@
 			<%}
 			if(requested.contains("user/login")){%>
 				<a href="<%=request.getContextPath()+"/login.jsp"%>">Reintentar</a>
+			<%}
+			if(requested.contains("reserve")){%>
+				<a href="<%=request.getContextPath()+"/bookings.jsp"%>">Regresar</a>
 			<%}%>
 		</div>
 	</div>

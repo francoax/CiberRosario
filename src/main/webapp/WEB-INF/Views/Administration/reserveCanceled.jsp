@@ -40,6 +40,9 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="buttons is-centered">
+				<a class="button is-warning" href="../admin">Volver a administracion</a>
+			</div>
 		</div>
 	<%} else {%>
 		<p>${error}</p>

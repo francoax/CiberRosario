@@ -80,7 +80,7 @@ public class Administration extends HttpServlet {
 				} else {
 					ReserveSpecification rs = this.ctrl.validate(code);
 					if(rs==null) {
-						request.setAttribute("error", "Reserva no encontrada");
+						request.setAttribute("error", "Reserva no encontrada o ya fue confirmada.");
 						response.sendError(400);
 					} else {
 						request.getSession().setAttribute("reservespec", rs);						
@@ -92,10 +92,15 @@ public class Administration extends HttpServlet {
 			case "confirm" : {
 				
 				ReserveSpecification rs = (ReserveSpecification) request.getSession().getAttribute("reservespec");
-				this.ctrl.confirm(rs.getCode());
-				request.getSession().removeAttribute("reservespec");
-				request.setAttribute("reservespec", rs);	
-				request.getRequestDispatcher("/WEB-INF/Views/Administration/confirmed.jsp").forward(request, response);
+				String condition = this.ctrl.confirm(rs.getCode());
+				if(condition.isEmpty()) {
+					request.setAttribute("error", "La reserva ya fue confirmada");
+					response.sendError(400);
+				} else { 
+					request.getSession().removeAttribute("reservespec");
+					request.setAttribute("reservespec", rs);	
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/confirmed.jsp").forward(request, response);
+				}
 				break;
 			}
 			
@@ -131,7 +136,7 @@ public class Administration extends HttpServlet {
 				} else { 
 					ReserveSpecification reserve = this.ctrl.cancelarReserva(code);
 					if(reserve == null) {
-						request.setAttribute("error", "Reserva no encontrada");
+						request.setAttribute("error", "Reserva no encontrada o ya fue cancelada.");
 						response.sendError(404);
 					} else {
 						this.ctrl.changeState(reserve.getIdPc(), "disponible");
@@ -150,9 +155,14 @@ public class Administration extends HttpServlet {
 					request.setAttribute("error", "Especifique el codigo para concretar reserva");
 					response.sendError(400);
 				} else {
-					this.ctrl.finish(code);
-					request.setAttribute("success", "Reserva concretada con exito. Computadora utilizada ya disponible");
-					request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
+					String condition = this.ctrl.finish(code);
+					if(condition.isEmpty()) {
+						request.setAttribute("error", "La reserva no puede ser finalizada o ya lo esta.");
+					} else {
+						request.setAttribute("success", "Reserva concretada con exito. Computadora utilizada ya disponible");
+						request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
+					}
+					
 				}
 				
 				break;
@@ -217,6 +227,7 @@ public class Administration extends HttpServlet {
 					precio.setIdTipoComputadora(type);
 					try {
 						ctrlpr.update(precio);
+						request.setAttribute("success", "Precio actualizado con exito.");
 						request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
 					} catch (SQLException e) {
 						request.setAttribute("error", "El precio ya fue actualizado hoy, espere hasta mañana.");

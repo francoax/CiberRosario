@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import logic.ControladorReserva;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedList;
@@ -141,13 +142,7 @@ public class Reserve extends HttpServlet {
 					this.ctrl.save(reserve);
 					
 					try {
-						if(request.getSession().getAttribute("forUser")!=null) {
-							Usuario forUser = (Usuario) request.getSession().getAttribute("forUser");
-							request.getSession().removeAttribute("forUser");
-							this.ctrl.sendMail(forUser, reserve, (String)request.getSession().getAttribute("pc"));
-						} else {
-							this.ctrl.sendMail(user, reserve, (String)request.getSession().getAttribute("pc"));
-						}
+						this.ctrl.sendMail(user, reserve, (String)request.getSession().getAttribute("pc"));
 					} catch (AddressException e) {
 						System.out.println("address exception");
 						e.printStackTrace();
@@ -163,6 +158,9 @@ public class Reserve extends HttpServlet {
 				}
 			} catch (IllegalStateException e) {
 				response.sendRedirect("../login.jsp");
+			} catch (SQLIntegrityConstraintViolationException e1) {
+				request.setAttribute("error", "Ya realizo una reserva.");
+				response.sendError(400);
 			}
 		} else {
 			response.sendRedirect("../login.jsp");

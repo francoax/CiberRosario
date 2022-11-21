@@ -1,20 +1,31 @@
 package dto;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class UserReserves {
 	
 	private String cod_reserva;
-	private String fecha_de_reserva;
-	private String fecha_reservada;
+	private LocalDate fecha_de_reserva;
+	private LocalDate fecha_reservada;
 	private String horaDesde;
 	private String horasHasta;
 	private int cant_horas;
 	private String estado;
 	private String descripcion_pc;
 	private String importe;
+	private int idpc;
 	
+	private String dateFormat="dd/MM/yyyy";
+	private DateTimeFormatter format = DateTimeFormatter.ofPattern(dateFormat);
+	
+	public int getIdpc() {
+		return idpc;
+	}
+	public void setIdpc(int idpc) {
+		this.idpc = idpc;
+	}
 	public String getCod_reserva() {
 		return cod_reserva;
 	}
@@ -22,15 +33,15 @@ public class UserReserves {
 		this.cod_reserva = cod_reserva;
 	}
 	public String getFecha_de_reserva() {
-		return fecha_de_reserva;
+		return fecha_de_reserva.format(format);
 	}
-	public void setFecha_de_reserva(String fecha_de_reserva) {
+	public void setFecha_de_reserva(LocalDate fecha_de_reserva) {
 		this.fecha_de_reserva = fecha_de_reserva;
 	}
 	public String getFecha_reservada() {
-		return fecha_reservada;
+		return fecha_reservada.format(format);
 	}
-	public void setFecha_reservada(String fecha_reservada) {
+	public void setFecha_reservada(LocalDate fecha_reservada) {
 		this.fecha_reservada = fecha_reservada;
 	}
 	public String getHoraDesde() {

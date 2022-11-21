@@ -10,6 +10,7 @@ import logic.ControladorPrecio;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import dto.PriceSpecification;
 import entities.Precio;
 
 /**
@@ -32,7 +33,7 @@ public class ListPrice extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		ControladorPrecio desctrl = new ControladorPrecio();
-		LinkedList<Precio> precios = desctrl.getAll();
+		LinkedList<PriceSpecification> precios = desctrl.getAll();
 		request.setAttribute("precioslist", precios);
 		request.getRequestDispatcher("/WEB-INF/Views/Administration/listPrice.jsp").include(request, response);
 	}

@@ -6,29 +6,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
+import dto.PriceSpecification;
 import entities.Precio;
+import entities.TypePc;
 
 public class DataPrecios {
 	
 
-	public LinkedList<Precio> getAll() {
+	public LinkedList<PriceSpecification> getAll() {
 		
-		LinkedList<Precio> precios = null;
-		PreparedStatement stmt = null;
+		LinkedList<PriceSpecification> precios = null;
+		CallableStatement cstmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("with maxfecha_precio as (select p.idTipoComputadora, max(p.fecha_precio) fecha from precios p group by 1) select tpc.descripcion, cte.fecha, pre.precio from tipo_computadora tpc inner join maxfecha_precio cte on tpc.idTipoComputadora = cte.idTipoComputadora inner join precios pre on pre.idTipoComputadora = cte.idTipoComputadora where pre.fecha_precio = cte.fecha;");
-			rs = stmt.executeQuery();
+			cstmt = DbConnector.getInstancia().getConn().prepareCall("{CALL actual_last_price_for_pc()}");
+			rs = cstmt.executeQuery();
 			if(rs!=null) {
-				precios = new LinkedList<Precio>();
+				precios = new LinkedList<PriceSpecification>();
 				while(rs.next()) {
-					Precio p = new Precio();
-					p.setIdTipoComputadora(rs.getString("descripcion"));
-					p.setFecha_precio(rs.getObject("fecha", LocalDate.class));
-					p.setPrecio(rs.getInt("precio"));
+					PriceSpecification p = new PriceSpecification();
+					p.setPc_descripcion(rs.getString("descripcion"));
+					p.setFechaPrecioActual(rs.getObject("fechaActual", LocalDate.class));
+					p.setFechaPrecioProxima(rs.getObject("fechaProxima", LocalDate.class));
+					p.setPrecioActual(rs.getInt("precioActual"));
+					p.setPrecioProximo(rs.getInt("precioProximo"));
 					precios.add(p);
 				}
 				return precios;
@@ -38,7 +41,7 @@ public class DataPrecios {
 		} finally {
 			try {
 				if(rs!=null) {rs.close();}
-				if(stmt!=null) {stmt.close();}
+				if(cstmt!=null) {cstmt.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -77,10 +80,12 @@ public class DataPrecios {
 		
 		PreparedStatement stmt = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO precios (idTipoComputadora, fecha_precio, precio) SELECT distinct tpc.idTipoComputadora, ?, ? from tipo_computadora tpc inner join precios p where tpc.descripcion = ?");
-			stmt.setObject(1, precio.getFecha_precio());
-			stmt.setInt(2, precio.getPrecio());
-			stmt.setString(3, precio.getIdTipoComputadora());
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO precios (idTipoComputadora, fecha_precio, precio) VALUES(?,?,?);");
+			DataTpc datatpc = new DataTpc();
+			TypePc type = datatpc.getByDesc(precio.getIdTipoComputadora());
+			stmt.setString(1, type.getIdTipoComputadora());
+			stmt.setObject(2, precio.getFecha_precio());
+			stmt.setInt(3, precio.getPrecio());
 			stmt.executeUpdate();
 		}catch (SQLException e) {
 			e.printStackTrace();

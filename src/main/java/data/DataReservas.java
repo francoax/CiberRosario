@@ -3,6 +3,7 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ public class DataReservas {
 	
 	private DataPc pcdata;
 	
-	public Reserva save(Reserva r ) {
+	public Reserva save(Reserva r ) throws SQLIntegrityConstraintViolationException {
 		
 		PreparedStatement stmt = null;
 		try {
@@ -53,8 +54,8 @@ public class DataReservas {
 				stmt.setString(14, null);
 			}
 			stmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new SQLIntegrityConstraintViolationException();
 		} finally {
 			try {
 				if(stmt!=null) {stmt.close();}
@@ -73,7 +74,7 @@ public class DataReservas {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar , r.horaDesde, r.horaHasta, r.idComputadora, r.importe, u.dni, u.nombre, u.apellido "
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar , r.horaDesde, r.horaHasta, r.idComputadora, r.importe, u.dni, u.nombre, u.apellido, r.estado "
 					+ "from reservas r "
 					+ "inner join usuarios u "
 					+ "on r.idUsuario = u.idUsuario "
@@ -81,6 +82,9 @@ public class DataReservas {
 			stmt.setString(1, code);
 			rs = stmt.executeQuery();
 			if(rs!=null&&rs.next()) {
+				if(rs.getString("estado").equals("confirmada")||rs.getString("estado").equals("finalizada")||rs.getString("estado").equals("cancelada")) {
+					return null;
+				}
 				r = new ReserveSpecification();
 				r.setCode(rs.getString("cod_reserva"));
 				r.setFecha_de_reserva(rs.getObject("fecha_de_reserva", LocalDate.class));
@@ -108,62 +112,100 @@ public class DataReservas {
 		return r;
 	}
 	
-	public void confirm(String code) {
+	public String confirm(String code) {
 		
-		PreparedStatement reserveupdate = null;
+		PreparedStatement validate = null;
+		PreparedStatement confirm = null;
+		ResultSet rs = null;
+		String condition = "";
+		String update = "update reservas r set r.estado = ? where r.cod_reserva = ?";
+		String query = "select r.estado, r.idComputadora from reservas r where r.cod_reserva = ?";
 		try {
-			reserveupdate = DbConnector.getInstancia().getConn().prepareStatement("update reservas r set r.estado = ? where r.cod_reserva = ?");
-			reserveupdate.setString(1, "confirmada");
-			reserveupdate.setString(2, code);
-			pcdata = new DataPc();
-			pcdata.setEstado(code, "ocupada");
-			reserveupdate.executeUpdate();
+			validate = DbConnector.getInstancia().getConn().prepareStatement(query);
+			validate.setString(1, code);
+			rs = validate.executeQuery();
+			if(rs!=null&&rs.next()) {
+				if(rs.getString("estado").equals("confirmada")||rs.getString("estado").equals("finalizada")||rs.getString("estado").equals("cancelada")) {
+					return condition;
+				} else { 
+				confirm = DbConnector.getInstancia().getConn().prepareStatement(update);
+				confirm.setString(1, "confirmada");
+				confirm.setString(2, code);
+				pcdata = new DataPc();
+				pcdata.setEstado(rs.getInt("idComputadora"), "ocupada");
+				confirm.executeUpdate();
+				return "succes";
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(reserveupdate!=null) {reserveupdate.close();}
+				if(rs!=null) {rs.close();}
+				if(validate!=null) {validate.close();}
+				if(confirm!=null) {confirm.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+		return condition;
 	}
 	
-	public void finish(String code) {
+	public String finish(String code) {
 		
-		PreparedStatement reserveupdate = null;
+		PreparedStatement validate = null;
+		PreparedStatement confirm = null;
+		ResultSet rs = null;
+		String condition = "";
+		String update = "update reservas r set r.estado = ? where r.cod_reserva = ?";
+		String query = "select r.estado, r.idComputadora from reservas r where r.cod_reserva = ?";
 		
 		try {
-			reserveupdate = DbConnector.getInstancia().getConn().prepareStatement("UPDATE reservas r set r.estado = ? where r.cod_reserva = ?;");
-			reserveupdate.setString(1, "finalizada");
-			reserveupdate.setString(2, code);
-			pcdata = new DataPc();
-			pcdata.setEstado(code, "disponible");
-			reserveupdate.executeUpdate();
+			validate = DbConnector.getInstancia().getConn().prepareStatement(query);
+			validate.setString(1, code);
+			rs = validate.executeQuery();
+			if(rs!=null&&rs.next()) {
+				if(rs.getString("estado").equals("solicitada")||rs.getString("estado").equals("finalizada")||rs.getString("estado").equals("cancelada")) {
+					return condition;
+				} else { 
+				confirm = DbConnector.getInstancia().getConn().prepareStatement(update);
+				confirm.setString(1, "finalizada");
+				confirm.setString(2, code);
+				pcdata = new DataPc();
+				pcdata.setEstado(rs.getInt("idComputadora"), "disponible");
+				confirm.executeUpdate();
+				return "succes";
+				}
+			}
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			try {
-				if(reserveupdate!=null) {reserveupdate.close();}
+				if(rs!=null) {rs.close();}
+				if(validate!=null) {validate.close();}
+				if(confirm!=null) {confirm.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		
+		return condition;
 	}
 	
 	public ReserveSpecification cancel(String code) {
 		
 		PreparedStatement reserveupdate = null;
 		ReserveSpecification r = get(code);
+		if(r==null) {
+			return null;
+		}
 		try {
-			reserveupdate = DbConnector.getInstancia().getConn().prepareStatement("UPDATE reservas r set r.estado = ? where r.cod_reserva = ?;");
-			reserveupdate.setString(1, "cancelada");
-			reserveupdate.setString(2, code);
+			reserveupdate = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM reservas r where r.cod_reserva = ?;");
+			reserveupdate.setString(1, code);
 			pcdata = new DataPc();
-			pcdata.setEstado(code, "disponible");
+			pcdata.setEstado(r.getIdPc(), "disponible");
 			reserveupdate.executeUpdate();
 		}  catch (Exception e) {
 			e.printStackTrace();
@@ -185,10 +227,14 @@ public class DataReservas {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar, r.horaDesde, r.horaHasta, r.idComputadora, u.nombre, u.apellido, u.dni "
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar, r.horaDesde, r.horaHasta, r.idComputadora, u.nombre, u.apellido, u.username, r.estado, tpc.descripcion "
 					+ "from reservas r "
 					+ "inner join usuarios u "
 					+ "on r.idUsuario = u.idUsuario "
+					+ "inner join computadoras pc "
+					+ "on pc.idComputadora = r.idComputadora "
+					+ "inner join tipo_computadora tpc "
+					+ "on pc.idTipoComputadora = tpc.idTipoComputadora "
 					+ "order by r.fecha_de_reserva desc;");
 			rs = stmt.executeQuery();
 			if(rs!=null) {
@@ -201,9 +247,11 @@ public class DataReservas {
 					item.setHoraDesde(rs.getString("horaDesde"));
 					item.setHoraHasta(rs.getString("horaHasta"));
 					item.setIdComputadora(rs.getInt("idComputadora"));
-					item.setUser_dni(rs.getString("dni"));
+					item.setUsername(rs.getString("username"));
 					item.setUser_name(rs.getString("nombre"));
 					item.setUser_lastname(rs.getString("apellido"));
+					item.setDescripcion_pc(rs.getString("descripcion"));
+					item.setEstado_reserva(rs.getString("estado"));
 					list.add(item);
 				}
 			return list;

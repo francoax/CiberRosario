@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import data.DataPrecios;
+import dto.PriceSpecification;
 import entities.Precio;
 
 public class ControladorPrecio {
@@ -14,7 +15,7 @@ public class ControladorPrecio {
 		data = new DataPrecios();
 	}
 	
-	public LinkedList<Precio> getAll(){
+	public LinkedList<PriceSpecification> getAll(){
 		
 		return data.getAll();
 	}

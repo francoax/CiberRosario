@@ -3,64 +3,65 @@
 <!DOCTYPE html>
 <html>
 	<jsp:include page="/includes/head.html"></jsp:include>
-<body>
-	<div class="container is-fluid">
-		<header class="mt-6" style="border-bottom: 50px; border-bottom-color: black;">
-		<h1 class="title has-text-centered m-2"> <a href="admin">CiberRosario - Administración</a> </h1>
+	<link rel="stylesheet" href="style/style.css">
+<body class="has-background-white-ter">
+		<header class="">
+		<h1 class="title has-text-left m-2"> <a href="admin">CiberRosario - Administración</a> </h1>
 		</header>
 		
-		<div>
-			<aside class="menu" style="width: 250px; height: 650px; position: relative;">
-			  <p class="menu-label">
-			    Reservas
-			  </p>
-			  <ul class="menu-list">
-			    <li><a href="#" class="navbar-item" onclick='divVisibility("listreserve");'>Listar reservas</a></li>
-			    <li><a href="#" class="navbar-item" onclick='divVisibility("validate");'>Validar reserva</a></li>
-			    <li><a href="#" class="navbar-item" onclick='divVisibility("cancel");'>Cancelar reserva</a></li>
-			    <li><a href="#" class="navbar-item" onclick='divVisibility("finish");'>Concretar reserva</a></li>
-			  </ul>
-			  <p class="menu-label">
-			    Usuario
-			  </p>
-			  <ul class="menu-list">
-			    <li><a href="#" class="navbar-item" onclick='divVisibility("updateuser");'>Modificar rol usuario</a></li>
-			  </ul>
-			  <p class="menu-label">
-			    Precios
-			  </p>
-			  <ul class="menu-list">
-			    <li><a href="#" class="navbar-item" onclick='divVisibility("updatediscount");'>Actualizar descuentos</a></li>
-				<li><a href="#" class="navbar-item" onclick='divVisibility("updateprice");'>Actualizar precios</a></li>
-			  </ul>
-			  <p class="menu-label">
-			  	Computadoras
-			  </p>
-			  <ul class="menu-list">
-			  	<li><a href="#" class="navbar-item" onclick='divVisibility("addpc");'>Registrar nueva PC</a></li>
-			  </ul>
-			  <p class="menu-label">
-			  	Sesion
-			  </p>
-			  <ul class="menu-list">
-			  	<li><a class="navbar-item" href="./index.jsp"> <strong class="is-danger">SALIR</strong> </a></li>
-			  </ul>
-			</aside>
-		</div>	
-		
-		<div class="container ml-6" style="display: inline-block;">
-		
-			<div id="listreserve" class="is-hidden" style="width: 1000px;">
-				<div class="container">
-					<jsp:include page="/reserves"></jsp:include>
-				</div>
-			</div>
-		
-			<div id="validate" class="is-hidden">
-				<div class="container " style="width: 500px; height: 300px;">	
-					<form action="admin/validate" method="post" class="box" autocomplete="off" id="form_validate" onsubmit="return validateFormValidate()">
+<div id="app">
+	<section class="main-content columns is-fullheight">
+	  
+	  <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
+	    <p class="menu-label">Reservas</p>
+	    <ul class="menu-list">
+		    <li><a href="#" class="navbar-item" onclick='divVisibility("listreserve");'>Listar reservas</a></li>
+		    <li><a href="#" class="navbar-item" onclick='divVisibility("validate");'>Validar reserva</a></li>
+		    <li><a href="#" class="navbar-item" onclick='divVisibility("cancel");'>Cancelar reserva</a></li>
+		    <li><a href="#" class="navbar-item" onclick='divVisibility("finish");'>Concretar reserva</a></li>
+		</ul>
+	    <p class="menu-label">Usuario</p>
+		<ul class="menu-list">
+			<li>
+			<a href="#" class="navbar-item" onclick='divVisibility("updateuser");'>
+			Modificar rol usuario
+			</a>
+			</li>
+		</ul>
+		  <p class="menu-label">
+		    Precios
+		  </p>
+		  <ul class="menu-list">
+		    <li><a href="#" class="navbar-item" onclick='divVisibility("updatediscount");'>Actualizar descuentos</a></li>
+			<li><a href="#" class="navbar-item" onclick='divVisibility("updateprice");'>Actualizar precios</a></li>
+		  </ul>
+		  <p class="menu-label">
+		  	Computadoras
+		  </p>
+		  <ul class="menu-list">
+		  	<li><a href="#" class="navbar-item" onclick='divVisibility("addpc");'>Registrar nueva PC</a></li>
+		  </ul>
+		  <p class="menu-label">
+		  	Sesion
+		  </p>
+		  <ul class="menu-list">
+		  	<li><a class="navbar-item" href="./index.jsp"> <strong class="is-danger">SALIR</strong> </a></li>
+		  </ul>
+	  </aside>
+	
+	  <div class="container column is-10">
+	    <div class="section">
+	
+	      <div id="listreserve" class="card is-hidden" >
+	        <div class="card-header"><p class="card-header-title">Lista de reservas</p></div>
+	        <div class="card-content"><div class="content"><jsp:include page="/reserves"></jsp:include> </div></div>
+	      </div>
+	      
+	      <div id="validate" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Validar reserva</p></div>
+	        <div class="card-content"><div class="content">
+	        	<form action="admin/validate" method="post" class="box" autocomplete="off" id="form_validate" onsubmit="return validateFormValidate()">
 					<div class="field">
-					<h3 class="title is-size-6">Validar reserva</h3>
 					<div id="msgcode" class="is-sr-only">
 						<p class="help is-danger">Por favor, especifique el codigo</p>
 					</div>
@@ -71,13 +72,13 @@
 					</div>
 					<button type="submit" class="button is-success">Validar</button>
 					</form>
-				</div>
-			</div>
-			
-			<div id="cancel" class="is-hidden">
-				<div class="container" style="width: 500px; height: 400px;">
-					<form action="admin/cancel" method="post" class="box">
-						<h3 class="title is-size-6">Cancelar Reserva</h3>
+	        </div></div>
+	      </div>
+	      
+	      <div id="cancel" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Cancelar reserva</p></div>
+	        <div class="card-content"><div class="content">
+	        <form action="admin/cancel" method="post" class="box">
 						<div class="field">
 							<div id="error_code" class="is-sr-only">
 								<p class="help is-danger">Especifique el codigo.</p>
@@ -89,28 +90,28 @@
 							<button class="button is-danger mt-2" type="submit">Cancelar reserva</button>
 						</div>
 					</form>
-				</div>
-			</div>
-			
-			<div id="finish" class="is-hidden" style="width: 500px; height: 400px;">
-				<div class="container">
-					<form action="admin/finish" method="post" class="box">
-						<h3 class="title is-size-6">Concretar reserva</h3>
+	        </div></div>
+	      </div>
+	      
+	      <div id="finish" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Concretar reserva</p></div>
+	        <div class="card-content"><div class="content">
+	        	<form action="admin/finish" method="post" class="box">
 						<div class="field">
 							<label class="label">Codigo de reserva</label>
 							<p class="control">
-								<input class="input" type="text" name="code">
+								<input class="input" type="text" name="code" placeholder="Code">
 							</p>
 							<button class="button is-warning mt-2">Finalizar</button>
 						</div>
 					</form>
-				</div>
-			</div>
-			
-			<div id="updateuser" class="is-hidden">
-				<div class="container" style="width: 620px; height: 400px;">
-					<form action="admin/modify" method="post" class="box">
-						<h3 class="title is-size-6">Modificar rol usuario</h3>
+	        </div></div>
+	      </div>
+	      
+	      <div id="updateuser" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Modificar rol de usuario</p></div>
+	        <div class="card-content"><div class="content">
+	        	<form action="admin/modify" method="post" class="box">
 						<div class="field">
 							<div class="is-sr-only">
 								<p></p>
@@ -133,13 +134,13 @@
 						</div>
 						<button type="submit" class="button is-success">Modificar</button>
 					</form>
-				</div>
-			</div>
-			
-			<div id="updatediscount" class="is-hidden">
-				<div class="container" style="width: 500px; height: 400px;">
-					<form action="admin/updatediscount" class="box" method="post">
-						<h3 class="title is-size-6">Actualizar Descuentos</h3>
+	        </div></div>
+	      </div>
+	      
+	      <div id="updatediscount" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Actualizar descuentos</p></div>
+	        <div class="card-content"><div class="content">
+	        	<form action="admin/updatediscount" class="box" method="post">
 						<jsp:include page="/discounts"></jsp:include>
 						<div class="field">
 							<label class="label">Seleccionar horas minimas</label>
@@ -161,13 +162,13 @@
 						</div>
 						<button class="button is-success" type="submit">Actualizar</button>
 					</form>
-				</div>
-			</div>
-			
-			<div id="updateprice" class="is-hidden">
-				<div class="container" style="width: 500px; height: 400px;">
-					<form action="admin/updateprice" class="box" method="post">
-						<h3 class="title is-size-6">Actualizar Precios</h3>
+	        </div></div>
+	      </div>
+	      
+	      <div id="updateprice" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Actualizar precios</p></div>
+	        <div class="card-content"><div class="content">
+	        	<form action="admin/updateprice" class="box" method="post">
 						<jsp:include page="/prices"></jsp:include>
 						<div class="field">
 							<label class="label">Seleccione tipo computadora</label>
@@ -203,13 +204,13 @@
 						</div>
 						<button class="button is-success" type="submit">Actualizar</button>
 					</form>
-				</div>
-			</div>
-			
-			<div id="addpc" class="is-hidden">
-				<div class="container" style="width: 700px; height: 650px; ">
-					<form action="admin/addpc" class="box" method="post">
-						<h3 class="title is-size-6">Registrar nueva PC</h3>
+	        </div></div>
+	      </div>
+	      
+	      <div id="addpc" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Registrar nueva PC</p></div>
+	        <div class="card-content"><div class="content">
+	        	<form action="admin/addpc" class="box" method="post">
 						<div class="field">
 							<label class="label">Tipo de computadora</label>
 							<div class="select">
@@ -253,12 +254,15 @@
 						</div>
 						<button class="button is-success" type="submit">Registrar</button>
 					</form>
-				</div>
-			</div>
-			
-		</div>
-	</div>
-	
+	        </div></div>
+	      </div>
+	      
+	    </div>
+	  </div>
+	  
+	</section>
+</div>	
+	<jsp:include page="/includes/footer.html"></jsp:include>
 	<script type="text/javascript">
 		function show(divId, element)
 		{

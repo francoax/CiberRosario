@@ -3,7 +3,7 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 
-	<%Usuario user = (Usuario) request.getSession().getAttribute("user"); %>
+	<%Usuario user = (Usuario) session.getAttribute("user"); %>
 
 <html>
 	<jsp:include page="/includes/head.html"></jsp:include>
@@ -29,6 +29,12 @@
 				<div>
 					<p class="heading">Email registrado</p>
 					<p class="title is-size-4"><%=user.getEmail()%></p>
+				</div>
+			</div>
+			<div class="level-item has-text-centered">
+				<div>
+					<p class="heading">Horas viciadas</p>
+					<p id="horasviciadas" class="title is-size-4"></p>
 				</div>
 			</div>
 		</nav>

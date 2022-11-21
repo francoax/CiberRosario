@@ -30,7 +30,7 @@
 					<div class="navbar-item">
 					<%if(user!=null&&user.getRol().getIdRol()==1) { %>
 						<div class="buttons">
-							<a class="button is-warning" href="user/profile">
+							<a class="button is-warning" href="profile">
 								<strong>Mi perfil</strong>
 							</a>
 							<form action="user/logout" method="post">

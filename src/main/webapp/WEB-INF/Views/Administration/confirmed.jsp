@@ -8,7 +8,12 @@
 <html>
 	<jsp:include page="/includes/head.html"></jsp:include>
 <body>
-	<h1>Reserva confirmada. Informe al cliente que la computadora con ID: <%=reserve.getIdPc() %> esta habilitada.</h1>
-	<a class="button is-warning" href="../admin">Volver a administracion</a>
+	<div class="notification is-success">
+		<h1 class="title">Reserva confirmada con éxito!</h1>
+		<p class="subtitle">Informe al cliente que la computadora <%=reserve.getIdPc() %> fue habilitada.</p>
+		<br>
+
+		<a class="button is-warning" href="../admin">Volver a administracion</a>
+	</div>
 </body>
 </html>

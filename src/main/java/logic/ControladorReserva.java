@@ -1,5 +1,6 @@
 package logic;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.Properties;
@@ -42,9 +43,9 @@ public class ControladorReserva {
 		this.userdao = new DataUsuarios();
 	}
 	
-	public void finish(String code) {
+	public String finish(String code) {
 		
-		rdao.finish(code);
+		return rdao.finish(code);
 		
 	}
 	
@@ -116,9 +117,10 @@ public class ControladorReserva {
 		return monto;
 	}
 	
-	public Reserva save(Reserva r) {
+	public Reserva save(Reserva r) throws SQLIntegrityConstraintViolationException {
 		
 		return rdao.save(r);
+
 	}
 	
 	public ReserveSpecification validate(String code) {
@@ -126,9 +128,9 @@ public class ControladorReserva {
 		return rdao.get(code);
 	}
 	
-	public void confirm(String code) {
+	public String confirm(String code) {
 		
-		rdao.confirm(code);
+		return rdao.confirm(code);
 	}
 	
 	public void sendMail(Usuario u, Reserva r, String pc) throws AddressException, MessagingException {
