@@ -45,32 +45,6 @@
 			
 			<div class="field is-horizontal">
 				<div class="field-label is-normal">
-					<label class="label">DNI</label>
-				</div>
-				<div class="field-body">
-					<div class="field">
-						<p class="control" style="width: 200px;">
-							<input class="input" required type="text" placeholder="xx.xxx.xxx" name="dni">
-						</p>
-					</div>
-				</div>
-			</div>
-			
-			<div class="field is-horizontal">
-				<div class="field-label is-normal">
-					<label class="label">Fecha de nacimiento</label>
-				</div>
-				<div class="field-body">
-					<div class="field">
-						<p class="control" style="width: 200px;">
-							<input class="input" required type="date" name="fechanac">
-						</p>
-					</div>
-				</div>
-			</div>
-			
-			<div class="field is-horizontal">
-				<div class="field-label is-normal">
 					<label class="label">Teléfono</label>
 				</div>
 				<div class="field-body">
@@ -90,7 +64,7 @@
 					<div class="field">
 						<p class="control has-icons-right" style="width: 200px;">
 							<input class="input" required type="text" name="username">
-							<p class="help">(Identificacion dentro del negocio)</p>
+							<p class="help">(Con este username será identificado dentro del negocio)</p>
 						</p>
 					</div>
 				</div>

@@ -6,8 +6,6 @@ import java.time.LocalDate;
 public class Usuario {
 	
 	private int id;
-	private LocalDate fecha_nacimiento;
-	private String dni;
 	private String nombre;
 	private String apellido;
 	private String email;
@@ -21,18 +19,6 @@ public class Usuario {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public LocalDate getFecha_nacimiento() {
-		return fecha_nacimiento;
-	}
-	public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
-	}
-	public String getDni() {
-		return dni;
-	}
-	public void setDni(String dni) {
-		this.dni = dni;
 	}
 	public String getNombre() {
 		return nombre;

@@ -11,11 +11,10 @@
 			<div class="notification">
 				<p>La reserva de codigo <strong><%=reserve.getCode().toUpperCase() %></strong> fue cancelada con exito.</p>
 				<h3 class="">Informacion detallada</h3>
-				<table>
+				<table class="table is-centered">
 					<thead>
 						<tr>
 							<th>Codigo de Reserva</th>
-							<th>DNI</th>
 							<th>Nombre Completo cliente</th>
 							<th>Fecha de reserva</th>
 							<th>Fecha reservada</th>

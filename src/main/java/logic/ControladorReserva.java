@@ -43,7 +43,7 @@ public class ControladorReserva {
 		this.userdao = new DataUsuarios();
 	}
 	
-	public String finish(String code) {
+	public boolean finish(String code) {
 		
 		return rdao.finish(code);
 		

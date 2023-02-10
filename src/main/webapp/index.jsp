@@ -12,19 +12,7 @@
 			<h2 class="has-background-info-light">Queres <strong>jugar</strong> con buenos fps? Queres <strong>stremear</strong> con calidad? Necesitas una buena computadora para poder realizar tu <strong>trabajo</strong> como desarrollador? CiberRosario te brinda la posibilidad de cumplir todas tus necesidades.
 			Con nuestros equipos vas a poder cumplir lo que deseas. Acercate a nuestro local y pedi la computadora o tambien podes hacerlo desde la pagina y reclamarla en el local. </h2>
 		</section>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+
 	</div>
 	<jsp:include page="includes/footer.html"></jsp:include>
 </body>

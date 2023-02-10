@@ -19,7 +19,7 @@
 				<td><%=item.getPlataform() %></td>
 				<td> <a href="<%=item.getLink()%>" target="_blank" ><%=item.getLink() %></a> </td>
 			</tr>
-			<%}} %>
+			<%}}%>
 		</tbody>
 	</table>
 </div>

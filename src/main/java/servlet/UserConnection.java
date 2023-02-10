@@ -97,8 +97,6 @@ public class UserConnection extends HttpServlet {
 		} else {
 			newUser.setNombre(request.getParameter("name"));
 			newUser.setApellido(request.getParameter("lastname"));
-			newUser.setDni(request.getParameter("dni"));
-			newUser.setFecha_nacimiento(LocalDate.parse(request.getParameter("fechanac")));
 			newUser.setTelefono(request.getParameter("tel"));
 			newUser.setUsername(request.getParameter("username"));
 			newUser.setPassword(request.getParameter("password"));

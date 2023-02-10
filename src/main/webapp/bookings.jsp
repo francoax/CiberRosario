@@ -34,11 +34,26 @@
 			</form>
 			<%} else { %>
 			<a id="btnRout" class="button is-success is-medium">Reservar</a>
-			<div id="msgRout"></div>
+			<div class="msgReserve"></div>
 			<%}%>
 		</div>
 		</section>
 	</div>
+	<script type="text/javascript">
+	
+	const btn = document.getElementById('btnRout');
+	const msg = document.querySelector('.msgReserve');
+	btn.addEventListener('click', ()=> {
+	    if(<%=user%> == null) {
+	    	msg.textContent = 'Debe iniciar sesion.';
+	    	msg.style = 'color: red';
+	    };
+	    setTimeout(() => {
+	        msg.textContent = '';
+	    }, 3000);
+	})
+		
+	</script>
 	<jsp:include page="includes/footer.html"></jsp:include>
 </body>
 </html>

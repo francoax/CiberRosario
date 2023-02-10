@@ -5,14 +5,11 @@
 	<jsp:include page="/includes/head.html"></jsp:include>
 	<link rel="stylesheet" href="style/style.css">
 <body class="has-background-white-ter">
-		<header class="">
-		<h1 class="title has-text-left m-2"> <a href="admin">CiberRosario - Administración</a> </h1>
-		</header>
-		
+	<h1 class="title has-text-left m-2"><a href="admin"  style="">CiberRosario<br>Administración</a></h1>
 <div id="app">
 	<section class="main-content columns is-fullheight">
-	  
-	  <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile">
+	  <aside class="column is-2 is-narrow-mobile is-fullheight section is-hidden-mobile" style="border-right: 3px solid #ccc; ">
+	  	
 	    <p class="menu-label">Reservas</p>
 	    <ul class="menu-list">
 		    <li><a href="#" class="navbar-item" onclick='divVisibility("listreserve");'>Listar reservas</a></li>

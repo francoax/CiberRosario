@@ -154,10 +154,10 @@ public class Administration extends HttpServlet {
 				if(code.isEmpty()) {
 					request.setAttribute("error", "Especifique el codigo para concretar reserva");
 					response.sendError(400);
-				} else {
-					String condition = this.ctrl.finish(code);
-					if(condition.isEmpty()) {
-						request.setAttribute("error", "La reserva no puede ser finalizada o ya lo esta.");
+				} else {	
+					if(!this.ctrl.finish(code)) {
+						request.setAttribute("error", "La reserva no pudo ser finalizada o ya lo esta.");
+						response.sendError(404);
 					} else {
 						request.setAttribute("success", "Reserva concretada con exito. Computadora utilizada ya disponible");
 						request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);

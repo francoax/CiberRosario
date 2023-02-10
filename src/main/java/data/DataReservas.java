@@ -74,7 +74,7 @@ public class DataReservas {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar , r.horaDesde, r.horaHasta, r.idComputadora, r.importe, u.dni, u.nombre, u.apellido, r.estado "
+			stmt = DbConnector.getInstancia().getConn().prepareStatement("select r.cod_reserva, r.fecha_de_reserva, r.fecha_a_reservar , r.horaDesde, r.horaHasta, r.idComputadora, r.importe, u.nombre, u.apellido, r.estado "
 					+ "from reservas r "
 					+ "inner join usuarios u "
 					+ "on r.idUsuario = u.idUsuario "
@@ -93,7 +93,6 @@ public class DataReservas {
 				r.setHoraHasta(rs.getObject("horaHasta", LocalTime.class));
 				r.setIdPc(rs.getInt("idComputadora"));
 				r.setImporte(rs.getInt("importe"));
-				r.setUser_dni(rs.getString("dni"));
 				r.setUser_nombre(rs.getString("nombre"));
 				r.setUser_apellido(rs.getString("apellido"));
 				
@@ -152,12 +151,12 @@ public class DataReservas {
 		return condition;
 	}
 	
-	public String finish(String code) {
+	public boolean finish(String code) {
 		
 		PreparedStatement validate = null;
 		PreparedStatement confirm = null;
 		ResultSet rs = null;
-		String condition = "";
+		boolean condition = false;
 		String update = "update reservas r set r.estado = ? where r.cod_reserva = ?";
 		String query = "select r.estado, r.idComputadora from reservas r where r.cod_reserva = ?";
 		
@@ -166,7 +165,7 @@ public class DataReservas {
 			validate.setString(1, code);
 			rs = validate.executeQuery();
 			if(rs!=null&&rs.next()) {
-				if(rs.getString("estado").equals("solicitada")||rs.getString("estado").equals("finalizada")||rs.getString("estado").equals("cancelada")) {
+				if(rs.getString("estado").equals("solicitada")|| rs.getString("estado").equals("finalizada")|| rs.getString("estado").equals("cancelada")) {
 					return condition;
 				} else { 
 				confirm = DbConnector.getInstancia().getConn().prepareStatement(update);
@@ -175,7 +174,7 @@ public class DataReservas {
 				pcdata = new DataPc();
 				pcdata.setEstado(rs.getInt("idComputadora"), "disponible");
 				confirm.executeUpdate();
-				return "succes";
+				return true;
 				}
 			}
 		}  catch (Exception e) {
