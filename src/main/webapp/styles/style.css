@@ -7,3 +7,17 @@ footer {
     bottom: 0;
     left: 0;
 }
+
+.correct {
+	
+	border : 2px solid green;
+	
+}
+
+.wrong {
+	
+	border : 2px solid red;
+	
+}
+
+
