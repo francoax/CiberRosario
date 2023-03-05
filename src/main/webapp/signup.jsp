@@ -10,7 +10,7 @@
 		<h1 class="title has-text-centered">Registro</h1>
 		<h2 class="subtitle has-text-centered">Complete los campos necesarios.</h2>
 		<h2 class="subittle is-size-5 has-text-centered" style="background-color: green; color: white;">${msg}</h2>
-		<form id="signupForm" action="user/signup" method="post" class="box" >
+		<form id="signupForm" action="user/signup" autocomplete="off" method="post" class="box" >
 		
 			<div class="field is-horizontal formGroup">
             <div class="field-label is-normal">
