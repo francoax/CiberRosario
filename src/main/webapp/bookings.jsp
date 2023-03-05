@@ -1,7 +1,6 @@
 <%@page import="entities.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
     <%
     	Usuario user = (Usuario) session.getAttribute("user");
     %>
@@ -23,10 +22,9 @@
 			<h1 class="title is-5">Por cuantas horas puedo reservar una computadora?</h1>
 			<p class="pb pb-5">Podes reservarla la cantidad de horas que quieras, dentro de nuestros horarios de atencion.</p>
 			<h1 class="title is-5">Hay descuentos por reservar varias horas? </h1>
-			<p class="pb pb-5">Si. Si reservas entre 2 a 4 horas, recibis un 5% de descuento sobre el total. Si reservas de 4 a 6 horas, un 10% de descuento. De 6 a 8 horas, un 15% de descuento
-			y de 8 a 15 horas un 25% de descuento.</p>
+			<p class="pb pb-5">Si. Los descuentos aplican a reservas mayores a 2 horas en adelante.</p>
 			<h1 class="title is-5">Entre que horarios puedo reservar?</h1>
-			<p class="pb pb-5">Podes reservar de 8:00am a 23:00pm de lunes a viernes.</p>
+			<p class="pb pb-5">Podes reservar de 8:00 de la mañana a 23:00 de la noche de lunes a viernes.</p>
 			<div class="buttons">
 			<%if(user!=null) {%>
 			<form action="reserve/start" method="get">

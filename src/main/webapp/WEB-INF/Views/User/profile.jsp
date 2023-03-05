@@ -42,6 +42,7 @@
 	
 	<jsp:include page="/reservesuser"></jsp:include>
 	
+	<jsp:include page="/includes/footer.html"></jsp:include>
 	
 </body>
 </html>

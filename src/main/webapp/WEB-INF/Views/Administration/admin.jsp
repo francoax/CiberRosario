@@ -49,7 +49,7 @@
 	  <div class="container column is-10">
 	    <div class="section">
 	
-	      <div id="listreserve" class="card is-hidden" >
+	      <div id="listreserve" class="card is-visible" >
 	        <div class="card-header"><p class="card-header-title">Lista de reservas</p></div>
 	        <div class="card-content"><div class="content"><jsp:include page="/reserves"></jsp:include> </div></div>
 	      </div>
