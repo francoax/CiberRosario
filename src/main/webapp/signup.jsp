@@ -6,7 +6,7 @@
 <html>
 <jsp:include page="includes/head.html"></jsp:include>
 <body>
-	<div class="container is-max-desktop mt-6">
+	<div class="container is-fluid mt-6">
 		<h1 class="title has-text-centered">Registro</h1>
 		<h2 class="subtitle has-text-centered">Complete los campos necesarios.</h2>
 		<h2 class="subittle is-size-5 has-text-centered" style="background-color: green; color: white;">${msg}</h2>
@@ -168,6 +168,6 @@
 		</form>
 	</div>
 	<script type="text/javascript" src="js/formValidation.js"></script>
-	<jsp:include page="/includes/footer.html"></jsp:include>
+	<jsp:include page="/includes/footer.jsp"></jsp:include>
 </body>
 </html>

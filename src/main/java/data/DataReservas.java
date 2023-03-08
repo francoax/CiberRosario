@@ -55,6 +55,7 @@ public class DataReservas {
 			}
 			stmt.executeUpdate();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SQLIntegrityConstraintViolationException();
 		} finally {
 			try {

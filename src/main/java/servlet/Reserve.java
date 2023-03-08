@@ -79,7 +79,6 @@ public class Reserve extends HttpServlet {
 		
 		Usuario user = (Usuario) request.getSession().getAttribute("user");
 		if(user!=null) {
-			try {
 				switch (path) {
 				case "selected": {
 					
@@ -136,32 +135,29 @@ public class Reserve extends HttpServlet {
 					break;
 				}
 				case "save" : {
-					
 					Reserva reserve = (Reserva) request.getSession().getAttribute("reserva");
 					reserve.setEstado("solicitada");
-					this.ctrl.save(reserve);
-					
 					try {
+						this.ctrl.save(reserve);
 						this.ctrl.sendMail(user, reserve, (String)request.getSession().getAttribute("pc"));
+						request.getRequestDispatcher("/WEB-INF/Views/Reserve/success.jsp").forward(request, response);
 					} catch (AddressException e) {
 						System.out.println("address exception");
 						e.printStackTrace();
 					} catch (MessagingException e) {
 						System.out.println("messaging excepction");
 						e.printStackTrace();
+					} catch (SQLIntegrityConstraintViolationException e1) {
+						e1.printStackTrace();
+						request.setAttribute("error", "Ya realizo una reserva.");
+						this.ctrl.changeState(reserve.getIdComputadora(), "disponible");
+						response.sendError(400);
 					}
-					request.getRequestDispatcher("/WEB-INF/Views/Reserve/success.jsp").forward(request, response);
 					break;
 				}
 				default: {
 				}
 				}
-			} catch (IllegalStateException e) {
-				response.sendRedirect("../login.jsp");
-			} catch (SQLIntegrityConstraintViolationException e1) {
-				request.setAttribute("error", "Ya realizo una reserva.");
-				response.sendError(400);
-			}
 		} else {
 			response.sendRedirect("../login.jsp");
 		}

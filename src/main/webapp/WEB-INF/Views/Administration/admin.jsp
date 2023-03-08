@@ -15,7 +15,7 @@
 		    <li><a href="#" class="navbar-item" onclick='divVisibility("listreserve");'>Listar reservas</a></li>
 		    <li><a href="#" class="navbar-item" onclick='divVisibility("validate");'>Validar reserva</a></li>
 		    <li><a href="#" class="navbar-item" onclick='divVisibility("cancel");'>Cancelar reserva</a></li>
-		    <li><a href="#" class="navbar-item" onclick='divVisibility("finish");'>Concretar reserva</a></li>
+		    <li><a href="#" class="navbar-item" onclick='divVisibility("finish");'>Finalizar reserva</a></li>
 		</ul>
 	    <p class="menu-label">Usuario</p>
 		<ul class="menu-list">
@@ -259,7 +259,7 @@
 	  
 	</section>
 </div>	
-	<jsp:include page="/includes/footer.html"></jsp:include>
+	<jsp:include page="/includes/footer.jsp"></jsp:include>
 	<script type="text/javascript">
 		function show(divId, element)
 		{

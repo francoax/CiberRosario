@@ -24,7 +24,7 @@
 			<tbody>
 				<%for (PriceSpecification price : precios){ %>
 				<tr>
-					<td><%=price.getPc_descripcion() %></td>
+					<td><%=price.getPc_descripcion().toUpperCase() %></td>
 					<td><%=price.getFechaPrecioActual() %></td>
 					<td><%=price.getPrecioActual() %></td>
 					<td><%=price.getFechaPrecioProxima() %></td>

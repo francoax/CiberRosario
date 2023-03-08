@@ -69,7 +69,7 @@
 			<a type="button" class="button is-warning is-rounded" href="../bookings.jsp">Volver al inicio</a>
 		</div>
 	</div>
-	<jsp:include page="/includes/footer.html"></jsp:include>
+	<jsp:include page="/includes/footer.jsp"></jsp:include>
 </body>
 </html>
 <%}%>

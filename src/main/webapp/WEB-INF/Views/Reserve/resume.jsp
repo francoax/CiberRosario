@@ -83,10 +83,17 @@
 		<form action="save" method="post">
 			<div class="buttons is-centered">
 				<a class="button is-danger" href="cancel">Cancelar</a>
-				<button class="button is-success" >Confirmar</button>
+				<button id="btn-confirm" type="submit" class="button is-success" >Confirmar</button>
 			</div>
 		</form>
 	</div>
+	<script type="text/javascript">
+		document.getElementById('btn-confirm').addEventListener('click', ()=>{
+			setTimeout(() => {
+				document.getElementById('btn-confirm').disabled = true;
+			}, 700);
+		})
+	</script>
 </body>
 </html>
 <%}%>
