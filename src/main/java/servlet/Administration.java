@@ -245,6 +245,7 @@ public class Administration extends HttpServlet {
 				if(newPc!=null&&!tipo.equals("Tipo")) {
 					ControladorPc pctrl = new ControladorPc();
 					pctrl.add(newPc, tipo);
+					request.setAttribute("success", "Computadora añadida");
 					request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
 				} else {
 					request.setAttribute("error", "Especifique los campos necesarios para registrar una nueva pc");
@@ -252,6 +253,34 @@ public class Administration extends HttpServlet {
 				}
 				break;
 			}
+			
+			case "offpc" : {
+				
+				String id = (String) request.getParameter("idpc");
+				if(!id.isEmpty()) {
+					this.ctrl.changeState(Integer.parseInt(id), "inhabilitada");
+					request.setAttribute("success", "Computadora inhabilitada");
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
+				} else {
+					request.setAttribute("error", "Especifique el ID de la computadora");
+					response.sendError(400);
+				}
+				break;
+			}
+			
+			case "onpc" : {
+				String id = (String) request.getParameter("idpc");
+				if(!id.isEmpty()) {
+					this.ctrl.changeState(Integer.parseInt(id), "disponible");
+					request.setAttribute("success", "Computadora habilitada");
+					request.getRequestDispatcher("/WEB-INF/Views/Administration/optionSuccess.jsp").forward(request, response);
+				} else {
+					request.setAttribute("error", "Especifique el ID de la computadora");
+					response.sendError(400);
+				}
+				break;
+			}
+			
 			default: {
 				break;
 			}

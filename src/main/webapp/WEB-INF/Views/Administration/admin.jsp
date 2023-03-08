@@ -37,6 +37,8 @@
 		  </p>
 		  <ul class="menu-list">
 		  	<li><a href="#" class="navbar-item" onclick='divVisibility("addpc");'>Registrar nueva PC</a></li>
+			<li><a href="#" class="navbar-item" onclick='divVisibility("onpc");'>Habilitar PC</a></li>
+			<li><a href="#" class="navbar-item" onclick='divVisibility("offpc");'>Inhabilitar PC</a></li>
 		  </ul>
 		  <p class="menu-label">
 		  	Sesion
@@ -254,6 +256,42 @@
 	        </div></div>
 	      </div>
 	      
+	      <div id="onpc" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Habilitar PC</p></div>
+	        <div class="card-content"><div class="content">
+	        <form action="admin/onpc" method="post" class="box">
+						<div class="field">
+							<div id="error_code" class="is-sr-only">
+								<p class="help is-danger">Especifique el ID de la computadora.</p>
+							</div>
+							<label class="label">ID computadora</label>
+							<div class="control">
+								<input type="text" class="input" placeholder="Code" name="idpc" value="">
+							</div>
+							<button class="button is-success mt-2" type="submit">Habilitar</button>
+						</div>
+					</form>
+	        </div></div>
+	      </div>
+	      
+	      <div id="offpc" class="card is-hidden">
+	        <div class="card-header"><p class="card-header-title">Inhabilitar PC</p></div>
+	        <div class="card-content"><div class="content">
+	        <form action="admin/offpc" method="post" class="box">
+						<div class="field">
+							<div id="error_code" class="is-sr-only">
+								<p class="help is-danger">Especifique el ID de la computadora.</p>
+							</div>
+							<label class="label">ID computadora</label>
+							<div class="control">
+								<input type="text" class="input" placeholder="Code" name="idpc" value="">
+							</div>
+							<button class="button is-danger mt-2" type="submit">Inhabilitar</button>
+						</div>
+					</form>
+	        </div></div>
+	      </div>
+	      
 	    </div>
 	  </div>
 	  
@@ -268,7 +306,7 @@
 	</script>
 	<script type="text/javascript">
 		
-		var divs = ["listreserve", "validate", "cancel", "finish", "updateuser", "updatediscount", "updateprice", "addpc"];
+		var divs = ["listreserve", "validate", "cancel", "finish", "updateuser", "updatediscount", "updateprice", "addpc", "offpc", "onpc"];
 
 		var visibleDivId = null;
 		
